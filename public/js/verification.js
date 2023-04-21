@@ -21,6 +21,12 @@ const exportedMethods = {
     return strVal;
   },
 
+  checkOnlyWordsString(strVal, varName) {
+    strVal = this.checkString(strVal, varName);
+    if(strVal.match(/^[a-zA-Z ]+$/) === null) throw `Error: ${varName} must only contain letters and spaces`;
+    return strVal;
+  },
+
   checkName(strVal, varName) {
     strVal = this.checkString(strVal, varName);
     if (strVal.length > 26 || strVal.length < 2) throw `Error: ${varName} must be between 2 to 25 characters long`;
