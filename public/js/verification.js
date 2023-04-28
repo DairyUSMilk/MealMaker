@@ -21,9 +21,9 @@ const exportedMethods = {
     return strVal;
   },
 
-  checkOnlyWordsString(strVal, varName) {
+  checkOnlyWordsString(strVal, varName) { //allows strings with only letters, spaces, and hyphens
     strVal = this.checkString(strVal, varName);
-    if(strVal.match(/^[a-zA-Z ]+$/) === null) throw `Error: ${varName} must only contain letters and spaces`;
+    if(strVal.match(/^[a-zA-Z -]+$/) === null) throw `Error: ${varName} must only contain letters and spaces`;
     return strVal;
   },
 
@@ -66,6 +66,16 @@ const exportedMethods = {
       arr[i] = arr[i].trim();
     }
 
+    return arr;
+  },
+
+  checkOnlyWordsStringArray(arr, varName) {
+    arr = this.checkStringArray(arr, varName);
+    for (let i in arr) {
+      if (arr[i].match(/^[a-zA-Z -]+$/) === null) {
+        throw `One or more elements in ${varName} array must only contain letters and spaces`;
+      }
+    }
     return arr;
   },
 
