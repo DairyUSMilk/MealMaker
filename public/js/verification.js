@@ -84,6 +84,15 @@ const exportedMethods = {
     if (typeof num !== 'number') throw `Error:${varName} must be a number`;
     if (isNaN(num)) throw `Error: ${varName} must be a number`;
     return num;
+  },
+
+  checkUsername(username, varName) {
+    username = this.checkString(username, varName);
+    if (username.length > 26 || username.length < 2) throw `Error: ${varName} must be between 2 to 25 characters long`;
+    if (username.contains(' ')) throw `Error: ${varName} cannot contain spaces`;
+    if (username.match(/^(?=.*[A-Za-z])[A-Za-z0-9_.-]{1,31}[A-Za-z0-9_]$/) === null) 
+      throw `Error: ${varName} can only contain letters, numbers, underscores, periods, and hyphens, and must contain at least one letter!`;
+    return username;
   }
 };
 
