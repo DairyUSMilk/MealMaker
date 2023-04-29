@@ -68,36 +68,6 @@ export const recipeMethods = {
         return recipeList;
     },
 
-    //might try to figure out a more efficient way to do search by ingredient.
-    //technically doesn't matter but -- for my own enrichment
-    async getRecipesByIngredient(ingredient){
-        ingredient = verification.checkOnlyWordsString(ingredient, 'ingredient');
-        const recipeCollection = await recipes();
-        const recipeList = await recipeCollection.find({ingredients : {$in : [ingredient]}}).toArray();
-        return recipeList;
-    },
-
-    async getRecipesByFlavor(flavor){
-        flavor = verification.checkOnlyWordsString(flavor, 'flavor');
-        const recipeCollection = await recipes();
-        const recipeList = await recipeCollection.find({flavors : {$in : [flavor]}}).toArray();
-        return recipeList;
-    },
-
-    async getRecipesByTitle(title){
-        title = verification.checkOnlyWordsString(title, 'title');
-        const recipeCollection = await recipes();
-        const recipeList = await recipeCollection.find({title : {$regex : title, $options : 'i'}}).toArray();
-        return recipeList;
-    },
-
-    async getRecipesByUser(userId){
-        userId = verification.checkId(userId, 'userId');
-        const recipeCollection = await recipes();
-        const recipeList = await recipeCollection.find({userId : userId}).toArray();
-        return recipeList;
-    },
-
     async updateRecipe(id, updatedRecipe){
         id = verification.checkId(id, 'id');
         updatedRecipe = verification.checkObject(updatedRecipe, 'updatedRecipe');
@@ -192,50 +162,54 @@ export const recipeMethods = {
         return await this.getRecipeById(recipeId);
     },
 
-    // async getRecipeByFilter(filter){
-    //     let title = '';
-    //     let flavors = [];
-    //     let ingredients = [];
-    //     let readyInMinutes = 0;
-    //     let likes = 0;
-    //     let minMatchPercentage = .7;
+    async getRecipeByFilter(filter){
+        let title, userId, flavors, ingredients, readyInMinutes, likes, minMatchPercentage, totalScore;
 
 
-    //     if(filter.title) title = verification.checkOnlyWordsString(filter.title, 'title');
-    //     if(filter.flavors){
-    //         flavors = verification.checkStringArray(filter.flavors, 'flavors');
-    //         flavors.forEach(flavor => {
-    //             verification.checkOnlyWordsString(flavor, 'flavor');
-    //         });
-    //     }
-    //     if(filter.ingredients){
-    //         ingredients = verification.checkStringArray(filter.ingredients, 'ingredients');
-    //         ingredients.forEach(ingredient => {
-    //             verification.checkOnlyWordsString(ingredient, 'ingredient');
-    //         });
-    //     }
-    //     if(filter.readyInMinutes) readyInMinutes = verification.checkNumber(filter.readyInMinutes, 'readyInMinutes');
-    //     if(filter.likes) likes = verification.checkNumber(filter.likes, 'likes');
-    //     if(filter.dislikes) dislikes = verification.checkNumber(filter.dislikes, 'dislikes');
-    //     if(filter.minMatchPercentage) minMatchPercentage = verification.checkNumber(filter.minMatchPercentage, 'minMatchPercentage');
+        if(filter.title) title = verification.checkOnlyWordsString(filter.title, 'title');
+        if(filter.userId) userId = verification.checkId(filter.userId, 'userId');
+        if(filter.flavors){
+            flavors = verification.checkStringArray(filter.flavors, 'flavors');
+            flavors.forEach(flavor => {
+                verification.checkOnlyWordsString(flavor, 'flavor');
+            });
+        }
+        if(filter.ingredients){
+            ingredients = verification.checkStringArray(filter.ingredients, 'ingredients');
+            ingredients.forEach(ingredient => {
+                verification.checkOnlyWordsString(ingredient, 'ingredient');
+            });
+        }
+        if(filter.readyInMinutes) readyInMinutes = verification.checkNumber(filter.readyInMinutes, 'readyInMinutes');
+        if(filter.likes) likes = verification.checkNumber(filter.likes, 'likes');
+        if(filter.totalScore) totalScore = verification.checkNumber(filter.totalScore, 'totalScore');
+        if(filter.minMatchPercentage) minMatchPercentage = verification.checkNumber(filter.minMatchPercentage, 'minMatchPercentage');
+        if(minMatchPercentage > 1 || minMatchPercentage <= 0) throw 'Must be 0 < minMatchPercentage <= 1';
 
-    //     let query = {
-    //         $and : [
-    //             {title : {$regex : title, $options : 'i'}},
-    //             {flavors : {$all : flavors}},
-    //             {ingredients : {$gte: [{ $divide: [ { $size: { $setIntersection: [ "$ingredients", ingredients ] } }, { $size: "$ingredients" } ] }, minMatchPercentage]}},
-    //             {readyInMinutes : {$lte : readyInMinutes}},
-    //             {likes : {$gte : likes}},
-    //             //NEED TO FIGURE OUT DISLIKES AND TOTALSCORE
-    //         ]
-    //     }
+        let queryV2 = {
+            $and : [
+                {title : {if : title, then : {$regex : title, $options : 'i'}, else : {$exists : true}}},
+                {userId : {if : userId, then : userId, else : {$exists : true}}},
+                {flavors : {if : flavors, then : {$all : flavors}, else : {$exists : true}}},
+                {ingredients : 
+                    {if : ingredients, 
+                        then : {$gte: [{ $divide: [ { $size: { $setIntersection: [ "$ingredients", ingredients ] } }, { $size: "$ingredients" } ] }, minMatchPercentage]}, 
+                        else : {$gte: [{ $divide: [ { $size: { $setIntersection: [ "$ingredients", ingredients ] } }, { $size: "$ingredients" } ] }, .7]}
+                    }
+                },
+                {readyInMinutes : {if : readyInMinutes, then : {$lte : readyInMinutes}, else : {$exists : true}}},
+                {likes : {if : likes, then : {$gte : likes}, else : {$exists : true}}},
+                {dislikes : {if : totalScore, then : {$lte : likes - totalScore}, else : {$exists : true}}}
+            ]
+        }
 
-    //     const recipeCollection = await recipes();
-    //     const recipeList = await recipeCollection.find(query).toArray();
+        const recipeCollection = await recipes();
+        const recipeList = await recipeCollection.find(queryV2).toArray();
+
+        return recipeList;
+    },
 
 
-
-    // }
 
 }
 
