@@ -165,6 +165,9 @@ export const recipeMethods = {
     async getRecipeByFilter(filter){
         let title, userId, flavors, ingredients, readyInMinutes, likes, minMatchPercentage, totalScore;
 
+        if(!filter){
+            return this.getAllRecipes();
+        }
 
         if(filter.title) title = verification.checkOnlyWordsString(filter.title, 'title');
         if(filter.userId) userId = verification.checkId(filter.userId, 'userId');
