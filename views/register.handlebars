@@ -7,23 +7,26 @@ registration handelbars
 <div>
   <form id="registration-form" action="/register" method="POST">
     <label for="firstNameInput">First Name:</label>
-    <input type="text" name="firstNameInput" id="firstNameInput" />
+    <input type="text" name="firstNameInput" id="firstNameInput">
 
     <label for="lastNameInput">Last Name:</label>
-    <input type="text" name="lastNameInput" id="lastNameInput" />
+    <input type="text" name="lastNameInput" id="lastNameInput">
+
+    <label for="usernameInput">Username:</label>
+    <input type="text" name="usernameInput" id="usernameInput">
 
     <label for="emailAddressInput">Email Address:</label>
-    <input type="email" name="emailAddressInput" id="emailAddressInput" />
+    <input type="email" name="emailAddressInput" id="emailAddressInput">
 
     <label for="passwordInput">Password:</label>
-    <input type="password" name="passwordInput" id="passwordInput" />
+    <input type="password" name="passwordInput" id="passwordInput">
 
     <label for="confirmPasswordInput">Confirm Password:</label>
-    <input
-      type="password"
-      name="confirmPasswordInput"
-      id="confirmPasswordInput"
-    />
+    <input type="password" name="confirmPasswordInput" id="confirmPasswordInput">
+
+    <label for="showUsernameInput">Display Username?</label>
+    <input type="checkbox" name="showUsernameInput" id="showUsernameInput">
+
     <button type="submit">Submit</button>
   </form>
   <div id="errors">
@@ -33,8 +36,5 @@ registration handelbars
       {{/if}}
     </div>
   </div>
-  <a
-    href="/login/"
-    title="Already have an account? Click here to log-in"
-  >Already have an account? Click here to log-in</a>
+  <a href="/login" title="Already have an account? Click here to log-in">Already have an account? Click here to log-in</a>
 </div>
