@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {    //change to render page
     try {
         const ingredient = await ingredientsData.get(req.params.id);
         res.json(ingredient);
