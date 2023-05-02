@@ -16,20 +16,19 @@ export const recipeMethods = {
         userId = verification.checkId(userId, 'userId');
         title = verification.checkOnlyWordsString(title, 'title');
         flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
-        flavors.forEach
-        imageURL = verification.checkString(imageURL, 'imageURL');
-        // ingredients = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
+        imageURL = verification.checkURL(imageURL, 'imageURL');
+        ingredients = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
         // ingredients.forEach(ingredient => {
         //     verification.checkOnlyWordsString(ingredient, 'ingredient');
         // });
 
         //need a check for ingredients in their database
 
-        instructions = verification.checkString(instructions, 'instructions');
+        instructions = verification.checkStringArray(instructions, 'instructions');
         servings = verification.checkNumber(servings, 'servings');
         readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
-        sourceUrl = verification.checkString(sourceUrl, 'sourceUrl');
-        //need to add a check for the url
+        if(sourceUrl) sourceUrl = verification.checkURL(sourceUrl, 'sourceUrl');
+        //need to add a check for the url, as it could be blank
         
         const recipe = {
             userId : userId,
@@ -82,13 +81,8 @@ export const recipeMethods = {
             });
         }
         if (updatedRecipe.imageURL) updatedRecipeData.imageURL = verification.checkString(updatedRecipe.imageURL, 'imageURL');
-        if (updatedRecipe.ingredients){
-            updatedRecipeData.ingredients = verification.checkStringArray(updatedRecipe.ingredients, 'ingredients');
-            updatedRecipeData.ingredients.forEach(ingredient => {
-                verification.checkOnlyWordsString(ingredient, 'ingredient');
-            });
-        }
-        if (updatedRecipe.instructions) updatedRecipeData.instructions = verification.checkString(updatedRecipe.instructions, 'instructions');
+        if (updatedRecipe.ingredients) updatedRecipeData.ingredients = verification.checkOnlyWordStringArray(updatedRecipe.ingredients, 'ingredients');
+        if (updatedRecipe.instructions) updatedRecipeData.instructions = verification.checkStringArray(updatedRecipe.instructions, 'instructions');
         if (updatedRecipe.servings) updatedRecipeData.servings = verification.checkNumber(updatedRecipe.servings, 'servings');
         if (updatedRecipe.readyInMinutes) updatedRecipeData.readyInMinutes = verification.checkNumber(updatedRecipe.readyInMinutes, 'readyInMinutes');
         if (updatedRecipe.sourceUrl) updatedRecipeData.sourceUrl = verification.checkString(updatedRecipe.sourceUrl, 'sourceUrl');
@@ -171,18 +165,8 @@ export const recipeMethods = {
 
         if(filter.title) title = verification.checkOnlyWordsString(filter.title, 'title');
         if(filter.userId) userId = verification.checkId(filter.userId, 'userId');
-        if(filter.flavors){
-            flavors = verification.checkStringArray(filter.flavors, 'flavors');
-            flavors.forEach(flavor => {
-                verification.checkOnlyWordsString(flavor, 'flavor');
-            });
-        }
-        if(filter.ingredients){
-            ingredients = verification.checkStringArray(filter.ingredients, 'ingredients');
-            ingredients.forEach(ingredient => {
-                verification.checkOnlyWordsString(ingredient, 'ingredient');
-            });
-        }
+        if(filter.flavors)flavors = verification.checkOnlyWordsStringArray(filter.flavors, 'flavors');
+        if(filter.ingredients) ingredients = verification.checkOnlyWordsStringArray(filter.ingredients, 'ingredients');
         if(filter.readyInMinutes) readyInMinutes = verification.checkNumber(filter.readyInMinutes, 'readyInMinutes');
         if(filter.likes) likes = verification.checkNumber(filter.likes, 'likes');
         if(filter.totalScore) totalScore = verification.checkNumber(filter.totalScore, 'totalScore');

@@ -54,6 +54,11 @@ const exportedMethods = {
     return password;
   },
 
+  checkURL(url, varName) {  //just an interface rn
+    url = this.checkString(url, varName); //INCOMPLETE
+    return url;
+  },
+
   checkStringArray(arr, varName) {
     //We will allow an empty array for this,
     //if it's not empty, we will make sure all tags are strings

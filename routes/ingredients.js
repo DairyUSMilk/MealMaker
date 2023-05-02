@@ -1,5 +1,6 @@
 import express from 'express';
 import {ingredientsData} from '../data/index.js';
+import verification from '../public/js/verification.js';
 
 const router = express.router();
 
