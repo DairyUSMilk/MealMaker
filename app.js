@@ -27,9 +27,18 @@ app.use(session({
     secret: 'secret',
     resave: false,
     saveUninitialized: false
-}))
+}));
 
-/* { Use Middleware Here } */
+app.use((req, res, next) => {
+    let userAuth = "(Non-Authenticated User)";
+    if(req.session.user){
+      userAuth = "(Authenticated User)"
+    }
+    console.log("" + new Date().toUTCString() +": " +  req.method + " " + req.originalUrl + " " + userAuth);
+    next();
+});
+
+req.session.ingredients = [];
 
 configRoutesFunction(app);
 

@@ -3,10 +3,10 @@ import recipesRoutes from "./recipes.js";
 import usersRoutes from "./users.js";
 import loginRoutes from "./login.js";
 import registerRoutes from "./register.js";
-import express from "express";
+import userMiddleware from "./middleware/userMiddlewares.js"
 
 const constructorMethod = (app) => {
-  // TODO
+  
   app.get("/", (req, res) => {
     /*
       home should look different for each type of user
@@ -17,16 +17,14 @@ const constructorMethod = (app) => {
   });
 
   app.use("/ingredients", ingredientsRoutes);
-  //if logged in, uses the ingredients stored in the user document in database
-  //if not logged in, uses the ingredients stored in the session
 
   app.use("/recipes", recipesRoutes);
+  //if logged in, uses the ingredients stored in the user document in database
+  //if not logged in, uses the ingredients stored in the session
+  //if no ingredients stored in session, show all recipes
 
-  app.use("/user", usersRoutes);
-  /*
-    this shouldn't be accessible to non-users,
-    so we need middleware to check if user is logged in
-    */
+  app.use("/user", userMiddleware, usersRoutes);
+  //redirects to /login if not logged in
 
   app.use("/register", registerRoutes);
   //middleware here to check if user is logged in

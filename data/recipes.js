@@ -157,7 +157,7 @@ export const recipeMethods = {
         return await this.getRecipeById(recipeId);
     },
 
-    async getRecipeByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage){
+    async getRecipeByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified){
         let query = {};
 
         if(userId) query.userId = verification.checkId(userId, 'userId');
@@ -167,6 +167,7 @@ export const recipeMethods = {
         if(readyInMinutes) query.readyInMinutes = {$lte : verification.checkNumber(readyInMinutes, 'readyInMinutes')};
         if(likes) query.likes = {$gte : verification.checkNumber(likes, 'likes')};
         if(totalScore) query.dislikes = {$lte : verification.checkNumber(likes - totalScore, 'totalScore')};
+        if(certified === true) query.certified = true;
 
         const recipeCollection = await recipes();
         const recipeList = await recipeCollection.find(query).toArray();

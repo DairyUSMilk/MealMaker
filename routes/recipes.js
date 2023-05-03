@@ -7,8 +7,9 @@ const router = express.Router();
 router
   .get("/", async (req, res) => {
     try {
-      const recipes = await recipesData.getRecipeByFilter(req.body.filter);
-      return res.render("recipes");
+      let recipes = await recipesData.getAllRecipes();
+      if(req.body.filter) recipes = await recipesData.getRecipeByFilter(req.body.filter.userId, req.body.filter.title, req.body.filter.flavors, req.body.filter.ingredients, req.body.filter.readyInMinutes, req.body.filter.likes, req.body.filter.totalScore, req.body.filter.minMatchPercentage, req.body.filter.certified);
+      return res.render("recipes", { title: "Recipes", recipes: recipes });
     } catch (e) {
       res.status(500).send();
     }
