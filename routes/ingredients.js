@@ -23,20 +23,14 @@ router.get('/:id', async (req, res) => {    //change to render page
 });
 
 router.post('/', async (req, res) => {
-    const ingredientInfo = req.body;
-    if (!ingredientInfo) {
-        res.status(400).json({ error: 'You must provide data to create an ingredient' });
-        return;
-    }
-    if (!ingredientInfo.name) {
-        res.status(400).json({ error: 'You must provide a name for the ingredient' });
-        return;
-    }
-    if (!ingredientInfo.type) {
-        res.status(400).json({ error: 'You must provide a type for the ingredient' });
-        return;
-    }
     try {
+        const ingredientInfo = req.body;
+        if (!ingredientInfo) throw 'You must provide data to create an ingredient';
+        ingredientInfo.name = verification.checkOnlyWordsString(ingredientInfo.name);
+        ingredientInfo.flavors = verification.checkOnlyWordsStringArray(ingredientInfo.flavors);
+        ingredientInfo.quantity = verification.checkNumber(ingredientInfo.quantity);
+        ingredientInfo.measurement = verification.checkOnlyWordsString(ingredientInfo.measurement);
+        
         const newIngredient = await ingredientsData.create(ingredientInfo.name, ingredientInfo.type);
         res.json(newIngredient);
     } catch (e) {
@@ -44,28 +38,18 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
-    const ingredientInfo = req.body;
-    if (!ingredientInfo) {
-        res.status(400).json({ error: 'You must provide data to update an ingredient' });
-        return;
-    }
-    if (!ingredientInfo.name) {
-        res.status(400).json({ error: 'You must provide a name for the ingredient' });
-        return;
-    }
-    if (!ingredientInfo.type) {
-        res.status(400).json({ error: 'You must provide a type for the ingredient' });
-        return;
-    }
+router.post('/:id', async (req, res) => {
     try {
-        await ingredientsData.get(req.params.id);
-    } catch (e) {
-        res.status(404).json({ error: 'Ingredient not found' });
-        return;
-    }
-    try {
-        const updatedIngredient = await ingredientsData.update(req.params.id, ingredientInfo.name, ingredientInfo.type);
+        const ingredientInfo = req.body;
+        if (!ingredientInfo) throw 'You must provide data to create an ingredient';
+        ingredientInfo.name = verification.checkOnlyWordsString(ingredientInfo.name);
+        ingredientInfo.flavors = verification.checkOnlyWordsStringArray(ingredientInfo.flavors);
+        ingredientInfo.quantity = verification.checkNumber(ingredientInfo.quantity);
+        ingredientInfo.measurement = verification.checkOnlyWordsString(ingredientInfo.measurement);
+        
+        req.params.id = verification.checkId(req.params.id);
+
+        const updatedIngredient = await ingredientsData.updateIngredient(req.params.id, ingredientInfo.name, ingredientInfo.flavors, ingredientInfo.quantity, ingredientInfo.measurement);
         res.json(updatedIngredient);
     } catch (e) {
         res.status(500).json({ error: e });

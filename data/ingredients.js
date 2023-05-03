@@ -11,7 +11,7 @@ export const ingredientMethods = {
         name = verification.checkOnlyWordsString(name, 'name');
         flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
         quantity = verification.checkNumber(quantity, 'quantity');
-        measurement = verification.checkString(measurement, 'measurement');
+        measurement = verification.checkOnlyWordsString(measurement, 'measurement');
         //need to check if measurement is a valid measurement but we'll do that later
         
         const ingredient = {
@@ -60,7 +60,7 @@ export const ingredientMethods = {
         name = verification.checkOnlyWordsString(name, 'name');
         flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
         quantity = verification.checkNumber(quantity, 'quantity');
-        measurement = verification.checkString(measurement, 'measurement');
+        measurement = verification.checkOnlyWordsString(measurement, 'measurement');
         //need to check if measurement is a valid measurement but we'll do that later
 
         //need to add a check for the url
