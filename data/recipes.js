@@ -67,25 +67,25 @@ export const recipeMethods = {
         return recipeList;
     },
 
-    async updateRecipe(id, updatedRecipe){
+    async updateRecipe(id, userId, title, flavors, imageURL, ingredients, instructions, servings, readyInMinutes, sourceUrl){
         id = verification.checkId(id, 'id');
-        updatedRecipe = verification.checkObject(updatedRecipe, 'updatedRecipe');
         const recipeCollection = await recipes();
-        const updatedRecipeData = {};
+        const currentRecipe = await this.getRecipeById(id);
+        
+        let updatedRecipeData = currentRecipe;
 
-        if (updatedRecipe.title) updatedRecipeData.title = verification.checkString(updatedRecipe.title, 'title');
-        if (updatedRecipe.flavors){
-            updatedRecipeData.flavors = verification.checkStringArray(updatedRecipe.flavors, 'flavors');
-            updatedRecipeData.flavors.forEach(flavor => {
-                verification.checkOnlyWordsString(flavor, 'flavor');
-            });
-        }
-        if (updatedRecipe.imageURL) updatedRecipeData.imageURL = verification.checkString(updatedRecipe.imageURL, 'imageURL');
-        if (updatedRecipe.ingredients) updatedRecipeData.ingredients = verification.checkOnlyWordStringArray(updatedRecipe.ingredients, 'ingredients');
-        if (updatedRecipe.instructions) updatedRecipeData.instructions = verification.checkStringArray(updatedRecipe.instructions, 'instructions');
-        if (updatedRecipe.servings) updatedRecipeData.servings = verification.checkNumber(updatedRecipe.servings, 'servings');
-        if (updatedRecipe.readyInMinutes) updatedRecipeData.readyInMinutes = verification.checkNumber(updatedRecipe.readyInMinutes, 'readyInMinutes');
-        if (updatedRecipe.sourceUrl) updatedRecipeData.sourceUrl = verification.checkString(updatedRecipe.sourceUrl, 'sourceUrl');
+        //basically, if the field is not null, then we update it
+        if(userId) updatedRecipeData.userId = verification.checkId(userId, 'userId');
+        if (title) updatedRecipeData.title = verification.checkOnlyWordsString(title, 'title');
+        if (flavors) updatedRecipeData.flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
+        if (imageURL) updatedRecipeData.imageURL = verification.checkURL(imageURL, 'imageURL');
+        if (ingredients) updatedRecipeData.ingredients = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
+        if (instructions) updatedRecipeData.instructions = verification.checkOnlyWordsStringArray(instructions, 'instructions');
+        if (servings) updatedRecipeData.servings = verification.checkNumber(servings, 'servings');
+        if (readyInMinutes) updatedRecipeData.readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
+        if (sourceUrl) updatedRecipeData.sourceUrl = verification.checkURL(sourceUrl, 'sourceUrl');
+
+
 
         let query = {_id : id};
         let updateCommand = {$set : updatedRecipeData};
@@ -126,7 +126,7 @@ export const recipeMethods = {
         commentId = verification.checkId(commentId, 'commentId');
         let recipe = await this.getRecipeById(recipeId);
         let recipeCollection = await recipes();
-        let newComments = recipe.comments.filter(comment => comment._id !== commentId);
+        let newComments = recipe.comments.filter(comment => comment._id == commentId);
         recipe.comments = newComments;
         let query = {_id : recipeId};
         let updateCommand = {$set : recipe};
@@ -156,46 +156,56 @@ export const recipeMethods = {
         return await this.getRecipeById(recipeId);
     },
 
-    async getRecipeByFilter(filter){
-        let title, userId, flavors, ingredients, readyInMinutes, likes, minMatchPercentage, totalScore;
+    async getRecipeByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage){
+        let query = {};
 
-        if(!filter){
-            return this.getAllRecipes();
-        }
-
-        if(filter.title) title = verification.checkOnlyWordsString(filter.title, 'title');
-        if(filter.userId) userId = verification.checkId(filter.userId, 'userId');
-        if(filter.flavors)flavors = verification.checkOnlyWordsStringArray(filter.flavors, 'flavors');
-        if(filter.ingredients) ingredients = verification.checkOnlyWordsStringArray(filter.ingredients, 'ingredients');
-        if(filter.readyInMinutes) readyInMinutes = verification.checkNumber(filter.readyInMinutes, 'readyInMinutes');
-        if(filter.likes) likes = verification.checkNumber(filter.likes, 'likes');
-        if(filter.totalScore) totalScore = verification.checkNumber(filter.totalScore, 'totalScore');
-        if(filter.minMatchPercentage) minMatchPercentage = verification.checkNumber(filter.minMatchPercentage, 'minMatchPercentage');
-        if(minMatchPercentage > 1 || minMatchPercentage <= 0) throw 'Must be 0 < minMatchPercentage <= 1';
-
-        let queryV2 = {
-            $and : [
-                {title : {if : title, then : {$regex : title, $options : 'i'}, else : {$exists : true}}},
-                {userId : {if : userId, then : userId, else : {$exists : true}}},
-                {flavors : {if : flavors, then : {$all : flavors}, else : {$exists : true}}},
-                {ingredients : 
-                    {if : ingredients, 
-                        then : {$gte: [{ $divide: [ { $size: { $setIntersection: [ "$ingredients", ingredients ] } }, { $size: "$ingredients" } ] }, minMatchPercentage]}, 
-                        else : {$gte: [{ $divide: [ { $size: { $setIntersection: [ "$ingredients", ingredients ] } }, { $size: "$ingredients" } ] }, .7]}
-                    }
-                },
-                {readyInMinutes : {if : readyInMinutes, then : {$lte : readyInMinutes}, else : {$exists : true}}},
-                {likes : {if : likes, then : {$gte : likes}, else : {$exists : true}}},
-                {dislikes : {if : totalScore, then : {$lte : likes - totalScore}, else : {$exists : true}}}
-            ]
-        }
+        if(userId) query.userId = verification.checkId(userId, 'userId');
+        if(title) query.title = {$regex : verification.checkOnlyWordsString(title, 'title'), $options : 'i'};
+        if(flavors) query.flavors = {$all : verification.checkOnlyWordsStringArray(flavors, 'flavors')};
+        if(ingredients) query.ingredients = {$gte: [{ $divide: [ { $size: { $setIntersection: [ "$ingredients", verification.checkOnlyWordsStringArray(ingredients, 'ingredients') ] } }, { $size: "$ingredients" } ] }, verification.checkNumber(minMatchPercentage, 'minMatchPercentage')]};
+        if(readyInMinutes) query.readyInMinutes = {$lte : verification.checkNumber(readyInMinutes, 'readyInMinutes')};
+        if(likes) query.likes = {$gte : verification.checkNumber(likes, 'likes')};
+        if(totalScore) query.dislikes = {$lte : verification.checkNumber(likes - totalScore, 'totalScore')};
 
         const recipeCollection = await recipes();
-        const recipeList = await recipeCollection.find(queryV2).toArray();
+        const recipeList = await recipeCollection.find(query).toArray();
 
         return recipeList;
-    },
+    }
 
+    //PROTOTYPE:
+    // async getRecipeByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage){
+        
+    //     let query_userId, query_title, query_flavors, query_ingredients, query_readyInMinutes, query_likes, query_totalScore, query_minMatchPercentage;
+        
+    //     if(userId) query_userId = verification.checkId(userId, 'userId');
+    //     if(title) query_title = verification.checkOnlyWordsString(title, 'title');
+    //     if(flavors) query_flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
+    //     if(ingredients) query_ingredients = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
+    //     if(readyInMinutes) query_readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
+    //     if(likes) query_likes = verification.checkNumber(likes, 'likes');
+    //     if(totalScore) query_totalScore = verification.checkNumber(totalScore, 'totalScore');
+    //     if(minMatchPercentage && (minMatchPercentage > 1 || minMatchPercentage <= 0)){
+    //         query_minMatchPercentage = verification.checkNumber(minMatchPercentage, 'minMatchPercentage');
+    //     }
+        
+    //     let queryV2 = {
+    //         $and : [
+    //             {title : {$regex : query_title, $options : 'i'}},
+    //             {userId : query_userId},
+    //             {flavors : {$all : query_flavors}},
+    //             {ingredients : {$gte: [{ $divide: [ { $size: { $setIntersection: [ "$ingredients", query_ingredients ] } }, { $size: "$ingredients" } ] }, query_minMatchPercentage]}},
+    //             {readyInMinutes : {$lte : query_readyInMinutes}},
+    //             {likes : {$gte : query_likes}},
+    //             {dislikes : {$lte : query_likes - query_totalScore}}
+    //         ]
+    //     }
+
+    //     const recipeCollection = await recipes();
+    //     const recipeList = await recipeCollection.find(queryV2).toArray();
+
+    //     return recipeList;
+    // }
 
 
 }

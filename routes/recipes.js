@@ -47,31 +47,24 @@ router.get("/:id", async (req, res) => {
 }).post("/:id", async (req, res) => {
     const recipeInfo = req.body;
     if (!recipeInfo) {
-        res.status(400).json({ error: "You must provide data to update a recipe" });
-        return;
-    }
-    if (!recipeInfo.title) {
-        res.status(400).json({ error: "You must provide a title for the recipe" });
-        return;
-    }
-    if (!recipeInfo.ingredients) {
-        res.status(400).json({ error: "You must provide ingredients for the recipe" });
-        return;
-    }
-    if (!recipeInfo.steps) {
-        res.status(400).json({ error: "You must provide steps for the recipe" });
+        res.status(400).json({ error: "You must provide data to create a recipe" });
         return;
     }
     try {
-        await recipesData.get(req.params.id);
-    } catch (e) {
-        res.status(404).json({ error: "Recipe not found" });
-        return;
-    }
-    try {
-        const updatedRecipe = await recipesData.update(req.params.id, recipeInfo.title, recipeInfo.ingredients, recipeInfo.steps);
-        res.json(updatedRecipe);
+        recipeInfo.title = verification.checkOnlyWordsString(recipeInfo.title);
+        recipeInfo.userId = verification.checkId(recipeInfo.userId);
+        recipeInfo.flavors = verification.checkOnlyWordsStringArray(recipeInfo.flavors);
+        recipeInfo.servings = verification.checkNumber(recipeInfo.servings);
+        
+        if(recipeInfo.imageURL) recipeInfo = verification.checkURL(recipeInfo.imageURL);
+        recipeInfo.ingredients = verification.checkStringArray(recipeInfo.ingredients);
+        recipeInfo.instructions = verification.checkOnlyWordsStringArray(recipeInfo.instructions);
+        recipeInfo.readyInMinutes = verification.checkNumber(recipeInfo.readyInMinutes);
+        if(recipeInfo.sourceURL) recipeInfo.sourceURL = verification.checkURL(recipeInfo.sourceURL);
+
+        const newRecipe = await recipesData.createRecipe(recipeInfo.userId, recipeInfo.title, recipeInfo.flavors, recipeInfo.imageURL, recipeInfo.ingredients, recipeInfo.instructions, recipeInfo.servings, recipeInfo.readyInMinutes, recipeInfo.sourceURL);
+        res.json(newRecipe);
     } catch (e) {
         res.status(500).json({ error: e });
     }
-}
+});
