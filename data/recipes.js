@@ -1,4 +1,4 @@
-import {recipes, users, ingredients} from './mongoCollections.js';
+import {recipes, users, ingredients} from '../config/mongoCollections.js';
 import verification from '../public/js/verification.js';
 
 export const recipeMethods = {

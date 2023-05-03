@@ -2,7 +2,7 @@ import express from 'express';
 import {ingredientsData} from '../data/index.js';
 import verification from '../public/js/verification.js';
 
-const router = express.router();
+const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {

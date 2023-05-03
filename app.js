@@ -23,7 +23,8 @@ app.set('view engine', 'handlebars');
 
 app.use(session({
     name: 'MealMakerAuthCookie',
-    secret: randomBytes(160, 36),
+    // secret: randomBytes(160, 36),
+    secret: 'secret',
     resave: false,
     saveUninitialized: false
 }))

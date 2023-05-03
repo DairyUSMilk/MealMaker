@@ -1,4 +1,4 @@
-import {ingredients} from './mongoCollections.js'
+import {ingredients} from '../config/mongoCollections.js'
 import verification from '../public/js/verification.js';
 
 export const ingredientMethods = {
@@ -89,3 +89,5 @@ export const ingredientMethods = {
     }
 
 }
+
+export default ingredientMethods;

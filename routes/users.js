@@ -9,6 +9,10 @@ router.get('/ingredients', async (req, res) => {
   //TODO -- render display of user's ingredients
 });
 
+//profile
+//delete recipe -- based on role
+//unlike recipe
+
 
 
 //moved login to different js folder, moved logout to index.js

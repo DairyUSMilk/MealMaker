@@ -1,6 +1,6 @@
-import ingredientsMethods from './ingredients';
-import recipesMethods from './recipes';
-import usersMethods from './users';
+import ingredientsMethods from './ingredients.js';
+import recipesMethods from './recipes.js';
+import usersMethods from './users.js';
 
 export const ingredientsData = ingredientsMethods;
 export const recipesData = recipesMethods;

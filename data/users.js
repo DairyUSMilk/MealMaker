@@ -81,4 +81,4 @@ export const userMethods = {
 
 }
 
-
+export default userMethods;

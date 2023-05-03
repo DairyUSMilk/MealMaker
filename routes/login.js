@@ -2,7 +2,7 @@ import { usersData } from '../data/index.js';
 import express from 'express';
 import verification from '../public/js/verification.js';
 
-router = express.Router();
+const router = express.Router();
 
 router.get('/', async (req, res) => {
     res.render('login');

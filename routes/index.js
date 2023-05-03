@@ -3,6 +3,7 @@ import recipesRoutes from './recipes.js';
 import usersRoutes from './users.js';
 import loginRoutes from './login.js';
 import registerRoutes from './register.js';
+import express from 'express';
 
 const constructorMethod = (app) => {
     // TODO
