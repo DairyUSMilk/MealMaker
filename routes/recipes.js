@@ -28,8 +28,9 @@ router.get("/", async (req, res) => {
         recipeInfo.instructions = verification.checkOnlyWordsStringArray(recipeInfo.instructions);
         recipeInfo.readyInMinutes = verification.checkNumber(recipeInfo.readyInMinutes);
         if(recipeInfo.sourceURL) recipeInfo.sourceURL = verification.checkURL(recipeInfo.sourceURL);
+        if(recipeInfo.certified !== true) recipeInfo.certified = false;
 
-        const newRecipe = await recipesData.createRecipe(recipeInfo.userId, recipeInfo.title, recipeInfo.flavors, recipeInfo.imageURL, recipeInfo.ingredients, recipeInfo.instructions, recipeInfo.servings, recipeInfo.readyInMinutes, recipeInfo.sourceURL);
+        const newRecipe = await recipesData.createRecipe(recipeInfo.userId, recipeInfo.title, recipeInfo.flavors, recipeInfo.imageURL, recipeInfo.ingredients, recipeInfo.instructions, recipeInfo.servings, recipeInfo.readyInMinutes, recipeInfo.sourceURL, recipeInfo.certified);
         res.json(newRecipe);
     } catch (e) {
         res.status(500).json({ error: e });

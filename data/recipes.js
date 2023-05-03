@@ -11,7 +11,8 @@ export const recipeMethods = {
         instructions,
         servings,
         readyInMinutes,
-        sourceUrl
+        sourceUrl,
+        certified
     ){
         userId = verification.checkId(userId, 'userId');
         title = verification.checkOnlyWordsString(title, 'title');
@@ -28,6 +29,7 @@ export const recipeMethods = {
         servings = verification.checkNumber(servings, 'servings');
         readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
         if(sourceUrl) sourceUrl = verification.checkURL(sourceUrl, 'sourceUrl');
+        if(certified !== true && certified !== false) throw 'certified must be a boolean';
         //need to add a check for the url, as it could be blank
         
         const recipe = {
@@ -42,7 +44,8 @@ export const recipeMethods = {
             sourceUrl : sourceUrl,
             comments : [],
             likes : 0,
-            dislikes : 0
+            dislikes : 0,
+            certified : certified
         };
 
         let recipeCollection = await recipes();
@@ -84,8 +87,6 @@ export const recipeMethods = {
         if (servings) updatedRecipeData.servings = verification.checkNumber(servings, 'servings');
         if (readyInMinutes) updatedRecipeData.readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
         if (sourceUrl) updatedRecipeData.sourceUrl = verification.checkURL(sourceUrl, 'sourceUrl');
-
-
 
         let query = {_id : id};
         let updateCommand = {$set : updatedRecipeData};
