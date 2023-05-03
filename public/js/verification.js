@@ -54,6 +54,20 @@ const exportedMethods = {
     return password;
   },
 
+  checkPasswordMatch(password, confirmPassword) {
+    if (password !== confirmPassword) throw `Error: Password and Confirm Password inputs must match`;
+  },
+
+  checkRole(role) {
+    if(role !== 'admin' || role !== 'community') throw 'Error: role must be either admin or community';
+  },
+
+  isEmail(email) {
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email.match(emailRegex) !== null) return true;
+    return false;
+  },
+
   checkURL(url, varName) {  //just an interface rn
     url = this.checkString(url, varName); //INCOMPLETE
     return url;

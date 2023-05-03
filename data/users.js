@@ -12,8 +12,8 @@ export const userMethods = {
     username = verification.checkUsername(username, 'username');
     email = verification.checkEmail(email, 'email');
     password = verification.checkPassword(password, 'password');
+    role = verification.checkRole(role);
     let hashPassword = await bcrypt.hash(password, 16);
-    if(role !== 'admin' || role !== 'community') throw 'Error: role must be either admin or community';
 
     const newUser = {
       firstName: firstName,
@@ -37,9 +37,9 @@ export const userMethods = {
   
   async checkUser (emailOrUser, password) {
     if(typeof(emailOrUser) !== 'string') throw 'Error: email or user must be a string!';
-    if(emailOrUser.includes('@')) return await checkUserByEmail(emailOrUser, password);
+    if(verification.isEmail(emailOrUser)) return await checkUserByEmail(emailOrUser, password);
     else return await checkUserByUsername(emailOrUser, password);
-    },
+  },
 
   async checkUserByEmail (email, password) {
     email = verification.checkEmail(email, 'email');
@@ -51,7 +51,7 @@ export const userMethods = {
     let user = userCollection.findOne({email: email});
     if(!user) throw 'Error: no user with that email address';
     if(!await bcrypt.compare(password, user.hashedPassword)) throw 'Error: incorrect password';
-    return {firstName: user.firstName, lastName: user.lastName, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role};
+    return {firstName: user.firstName, lastName: user.lastName, username: user.username, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role, showUsername: user.showUsername};
   },
 
   async checkUserByUsername (username, password) {
@@ -64,7 +64,7 @@ export const userMethods = {
     let user = userCollection.findOne({username: username});
     if(!user) throw 'Error: no user with that username';
     if(!await bcrypt.compare(password, user.hashedPassword)) throw 'Error: incorrect password';
-    return {firstName: user.firstName, lastName: user.lastName, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role};
+    return {firstName: user.firstName, lastName: user.lastName, username: user.username, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role, showUsername: user.showUsername};
   },
 
 
