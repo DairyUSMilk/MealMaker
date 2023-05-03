@@ -68,3 +68,13 @@ router.get("/:id", async (req, res) => {
         res.status(500).json({ error: e });
     }
 });
+
+router.get("/filter" , async (req, res) => {
+    try {
+        const recipes = await recipesData.getRecipesByFilter(req.body.filter);
+        return res.json(recipes);
+    } catch (e) {
+        res.status(500).send();
+    }
+}
+);
