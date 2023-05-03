@@ -4,7 +4,7 @@ import verification from '../public/js/verification.js';
 
 const router = express.Router();
 
-router.get('/register', async (req, res) => {
+router.get('/', async (req, res) => {
     res.render('register', { title: 'Register' });
 }).post(async (req, res) => {
     const { firstNameInput, lastNameInput, usernameInput, emailAddressInput, passwordInput, confirmPasswordInput, showUsernameInput } = req.body;

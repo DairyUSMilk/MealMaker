@@ -69,6 +69,7 @@ router.get("/:id", async (req, res) => {
         res.status(500).json({ error: e });
     }
 });
+//TODO -- DELETE
 
 router.get("/filter" , async (req, res) => {
     try {
