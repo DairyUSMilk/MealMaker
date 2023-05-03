@@ -27,11 +27,11 @@ router.get('/register', async (req, res) => {
     confirmPasswordInput = confirmPasswordInput.trim();
   
     try {
-        verification.checkName(firstNameInput);
-        verification.checkName(lastNameInput);
-        verification.checkUsername(usernameInput);
-        verification.checkEmail(emailAddressInput);
-        verification.checkPassword(passwordInput);
+        verification.checkName(firstNameInput, 'first name');
+        verification.checkName(lastNameInput, 'last name');
+        verification.checkUsername(usernameInput, 'username');
+        verification.checkEmail(emailAddressInput, 'email');
+        verification.checkPassword(passwordInput, 'password');
         verification.checkPasswordMatch(passwordInput, confirmPasswordInput);
     } catch (e) {
         res.status(400).render('register', { title: 'Register', error: e });
