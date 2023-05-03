@@ -2,6 +2,7 @@ import ingredientsRoutes from './ingredients.js';
 import recipesRoutes from './recipes.js';
 import usersRoutes from './users.js';
 import loginRoutes from './login.js';
+import registerRoutes from './register.js';
 
 const constructorMethod = (app) => {
     // TODO
@@ -20,11 +21,15 @@ const constructorMethod = (app) => {
     
     app.use('/recipes', recipesRoutes);
 
-    app.use('/users', usersRoutes);
+    app.use('/user', usersRoutes);
     /*
     this shouldn't be accessible to non-users,
     so we need middleware to check if user is logged in
     */
+
+    app.use('/register', registerRoutes);
+    //middleware here to check if user is logged in
+    //if so, redirect to home page
 
     app.use('/login', loginRoutes);
     //might want to have /login be login, not /users/login
