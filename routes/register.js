@@ -53,12 +53,4 @@ router.get('/register', async (req, res) => {
     }
 });
 
-router.get('/ingredients', async (req, res) => {
-  req.session.
-  //TODO -- render display of user's ingredients
-}).post(async (req, res) => {
-
-
-//moved login to different js folder, moved logout to index.js
-
 export default router;

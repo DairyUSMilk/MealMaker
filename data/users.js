@@ -51,7 +51,7 @@ export const userMethods = {
     let user = userCollection.findOne({email: email});
     if(!user) throw 'Error: no user with that email address';
     if(!await bcrypt.compare(password, user.hashedPassword)) throw 'Error: incorrect password';
-    return {firstName: user.firstName, lastName: user.lastName, username: user.username, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role, showUsername: user.showUsername};
+    return {_id : user._id, firstName: user.firstName, lastName: user.lastName, username: user.username, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role, showUsername: user.showUsername};
   },
 
   async checkUserByUsername (username, password) {
@@ -64,7 +64,7 @@ export const userMethods = {
     let user = userCollection.findOne({username: username});
     if(!user) throw 'Error: no user with that username';
     if(!await bcrypt.compare(password, user.hashedPassword)) throw 'Error: incorrect password';
-    return {firstName: user.firstName, lastName: user.lastName, username: user.username, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role, showUsername: user.showUsername};
+    return {_id : user._id, firstName: user.firstName, lastName: user.lastName, username: user.username, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role, showUsername: user.showUsername};
   },
 
 

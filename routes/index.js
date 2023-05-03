@@ -6,19 +6,35 @@ import loginRoutes from './login.js';
 const constructorMethod = (app) => {
     // TODO
     app.get('/', (req, res) => {
+      /*
+      home should look different for each type of user
+      we can either make multiple home pages, or have one 
+      home page that renders differently based on user type
+      */
       res.render('home', { title: 'Home' });
     });
 
     app.use('/ingredients', ingredientsRoutes);
+    //if logged in, uses the ingredients stored in the user document in database
+    //if not logged in, uses the ingredients stored in the session
+    
     app.use('/recipes', recipesRoutes);
+
     app.use('/users', usersRoutes);
+    /*
+    this shouldn't be accessible to non-users,
+    so we need middleware to check if user is logged in
+    */
+
     app.use('/login', loginRoutes);
+    //might want to have /login be login, not /users/login
+
     app.get('/logout', (req, res) => {
       req.session.destroy();
       res.render('logout', { title: 'Logout' })
     });
-    // app.use('/users', usersRoutes);
-    //might want to have /login be login, not /users/login
+    
+    
 
     app.use('*', (req, res) => {
       res.status(404).json({ error: 'Route Not found' });
