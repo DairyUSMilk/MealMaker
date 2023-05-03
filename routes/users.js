@@ -50,45 +50,6 @@ router.get('/register', async (req, res) => {
     }
 });
 
-router.get('/login', async (req, res) => {
-    res.render('login');
-}).post(async (req, res) => {
-    const { emailOrUserInput, passwordInput } = req.body;
-
-    if (!emailOrUserInput || !passwordInput) {
-      return res.status(400).render('login', { title: 'Login', error: 'Both email address or username, and a password are required' });
-    }
-
-    emailOrUserInput = emailOrUserInput.trim();
-    passwordInput = passwordInput.trim();
-
-    try {
-        // Error checking for username or email and password done in checkUser
-        const user = await usersData.checkUser(emailOrUserInput, passwordInput);
-        
-        req.session.user = {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            username: user.userName,
-            emailAddress: user.email,
-            role: user.role,
-            showUsername: user.showUsername
-            // TODO -- Not sure whether other user information should be stored in session
-        };
-
-        if (user.role === 'admin') {
-            // TODO -- Should user be redirected anywhere, or should pages simply be rendered differently, and use different tag (middleware)
-        } else {
-            // TODO -- Where to redirect?
-        }
-    } catch (e) {
-      res.status(500).render('login', { title: 'Login', error: `Failed to login: ${e}` });
-    }
-});
-
-router.route('/logout').get(async (req, res) => {
-  req.session.destroy();
-  res.render('logout', { title: 'Logout' })
-});
+//moved login to different js folder, moved logout to index.js
 
 export default router;
