@@ -60,6 +60,8 @@ export const recipeMethods = {
         return recipe;
     },
 
+    // TODO -- Get recipes liked by user
+
     async getAllRecipes(){
         const recipeCollection = await recipes();
         const recipeList = await recipeCollection.find({}).toArray();

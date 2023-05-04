@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
             // TODO -- Should user be redirected anywhere, or should pages simply be rendered differently, and use different tag (middleware)
         } else {
             // TODO -- Where to redirect?
-            res.redirect('/');
+            res.redirect('/ingredients');
         }
     } catch (e) {
       res.status(500).render('login', { title: 'Login', error: `Failed to login: ${e}` });

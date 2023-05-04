@@ -23,6 +23,9 @@ const constructorMethod = (app) => {
   //if not logged in, uses the ingredients stored in the session
   //if no ingredients stored in session, show all recipes
 
+  app.use("/profile", userMiddleware, usersRoutes);
+  // redirects to /login if not logged in
+
   app.use("/user", userMiddleware, usersRoutes);
   //redirects to /login if not logged in
 

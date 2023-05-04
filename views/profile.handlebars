@@ -1,0 +1,55 @@
+<h1>Profile</h1>
+<header>
+  <a href="/logout">Logout</a>
+  <a href="/home">Home</a>
+  <a href="/recipes">Recipes</a>
+  <a href="/recipes">Ingredients</a>
+</header>
+<body>
+    <div>
+      <h2>Welcome {{firstName}}!</h2>
+      <p>Here, you can view your profile, liked recipes, and your ingredients</p>
+    </div>
+    <div>
+      <h2>Ingredients</h2>
+      <ul>
+        {{#each ingredients}}
+          <li>
+            <div>
+              <h3>{{name}}</h3>
+              <p>Flavors: {{flavors}}</p>
+              <p>Quantity: {{quantity}} {{measurement}}</p>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+    <div>
+      <h2>Recipes</h2>
+      <ul>
+        {{#each recipes}}
+          <li>
+            <div>
+              <h3>{{title}}</h3>
+              <p>Flavors: {{flavors}}</p>
+              {{!-- 
+                TODO -- Add these:
+
+                userId : userId,
+                imageURL : imageURL,
+                ingredients : ingredients,
+                instructions : instructions,
+                servings : servings,
+                readyInMinutes : readyInMinutes,
+                sourceUrl : sourceUrl,
+                comments : [],
+                likes : 0,
+                dislikes : 0,
+                certified : certified 
+              --}}
+            </div>
+          </li>
+        {{/recipes}}
+      </ul>
+    </div>
+</body>
