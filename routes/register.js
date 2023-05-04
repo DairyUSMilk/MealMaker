@@ -9,7 +9,7 @@ router
     res.render("register", { title: "Register" });
   })
   .post("/", async (req, res) => {
-    const {
+    let {
       firstNameInput,
       lastNameInput,
       usernameInput,
@@ -36,21 +36,14 @@ router
           error: `Missing fields: ${missingFields.join(", ")}`,
         });
 
-    firstNameInput = firstNameInput.trim();
-    lastNameInput = lastNameInput.trim();
-    usernameInput = usernameInput.trim();
-    emailAddressInput = emailAddressInput.trim();
-    passwordInput = passwordInput.trim();
-    confirmPasswordInput = confirmPasswordInput.trim();
-
     //this already checks for missing fields, and trims them
     //plus, password cannot contain spaces
     try {
-      verification.checkName(firstNameInput, "first name");
-      verification.checkName(lastNameInput, "last name");
-      verification.checkUsername(usernameInput, "username");
-      verification.checkEmail(emailAddressInput, "email");
-      verification.checkPassword(passwordInput, "password");
+      firstNameInput = verification.checkName(firstNameInput, "first name");
+      lastNameInput = verification.checkName(lastNameInput, "last name");
+      usernameInput = verification.checkUsername(usernameInput, "username");
+      emailAddressInput = verification.checkEmail(emailAddressInput, "email");
+      passwordInput = verification.checkPassword(passwordInput, "password");
       verification.checkPasswordMatch(passwordInput, confirmPasswordInput);
     } catch (e) {
       res.status(400).render("register", { title: "Register", error: e });
@@ -58,6 +51,7 @@ router
 
     try {
       // TODO -- For now, default user as admin (not sure how we will allow users to become admin yet)
+      
       const newUser = await usersData.createUser(
         firstNameInput,
         lastNameInput,
@@ -67,6 +61,7 @@ router
         "community",
         showUsernameInput
       );
+      console.log(JSON.stringify(newUser));
       if (newUser.insertedUser) {
         return res.redirect("/login");
       } else {

@@ -30,7 +30,7 @@ const exportedMethods = {
   checkName(strVal, varName) {
     strVal = this.checkString(strVal, varName);
     if (strVal.length > 26 || strVal.length < 2) throw `Error: ${varName} must be between 2 to 25 characters long`;
-    if (strVal.contains(' ')) throw `Error: ${varName} cannot contain spaces`;
+    if (strVal.includes(' ')) throw `Error: ${varName} cannot contain spaces`;
     if (strVal.match(/^[0-9]+$/) != null) throw `Error: ${varName} cannot contain numbers`;
     return strVal;
   },
@@ -39,7 +39,7 @@ const exportedMethods = {
     email = this.checkString(email, varName);
     let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email.match(emailRegex) === null) throw `Error: ${varName} must be a valid email address`;
-    if (email.split(email.length() - 4) !== '.com') throw `Error: ${varName} must be a valid .edu email address`;
+    if (email.slice(-4) !== '.com') throw `Error: ${varName} must be a valid .com email address`;
     email = email.toLowerCase();
     return email;
   },
@@ -47,7 +47,7 @@ const exportedMethods = {
   checkPassword(password, varName) {
     this.checkString(password, varName);
     //don't assign to password value b/c it might contain leading/trailing spaces
-    if (password.contains(' ')) throw `Error: ${varName} cannot contain spaces`;
+    if (password.includes(' ')) throw `Error: ${varName} cannot contain spaces`;
     if (password.length < 8) throw `Error: ${varName} must be at least 8 characters long`;
     let passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\];:'"<>,.?/|]).+$/;
     if (password.match(passwordRegex) === null) throw `Error: ${varName} must contain at least one uppercase letter, one lowercase letter, one number, and one special character`;
@@ -108,7 +108,7 @@ const exportedMethods = {
   checkUsername(username, varName) {
     username = this.checkString(username, varName);
     if (username.length > 26 || username.length < 2) throw `Error: ${varName} must be between 2 to 25 characters long`;
-    if (username.contains(' ')) throw `Error: ${varName} cannot contain spaces`;
+    if (username.includes(' ')) throw `Error: ${varName} cannot contain spaces`;
     if (username.match(/^(?=.*[A-Za-z])[A-Za-z0-9_.-]{1,31}[A-Za-z0-9_]$/) === null) 
       throw `Error: ${varName} can only contain letters, numbers, underscores, periods, and hyphens, and must contain at least one letter!`;
     return username;
