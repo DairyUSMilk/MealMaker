@@ -9,12 +9,16 @@ router.get('/ingredients', async (req, res) => {
   //TODO -- render display of user's ingredients
 });
 
-//profile
-//delete recipe -- based on role
-//unlike recipe
+// Profile displays:
+// Full Name
+// Username
+// Whether or not username can be displayed
+// Role
+// User's ingredients (from db)
+// User's liked recipes
 
-
-
-//moved login to different js folder, moved logout to index.js
+// Functionality to add
+// Delete recipe - can delete any recipe from any page that contains recipes if logged in as admin
+// Unlike recipe - can unlike any recipe from any page that contains recipes if logged in as community
 
 export default router;
