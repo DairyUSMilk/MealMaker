@@ -1,0 +1,34 @@
+<h1>Ingredients</h1>
+<header>
+  <a href="/logout">Logout</a>
+  <a href="/recipes">Recipes</a>
+  <a href="/home">Home</a>
+</header>
+<div>
+  <form id="ingredient-form" action="/ingredient" method="POST">
+    <label for="nameInput">Ingredient Name:</label>
+    <input type="text" name="nameInput" id="nameInput" />
+
+    <label for="flavorsInput">Flavors(seperated by commas):</label>
+    <input type="text" name="flavorsInput" id="flavorsInput" />
+
+    <label for="cuisinesInput">Cuisines(seperated by commas):</label>
+    <input type="text" name="cuisinesInput" id="cuisinesInput" />
+
+    <label for="quantityInput">Quantity:</label>
+    <input type="number" name="quantityInput" id="quantityInput" />
+
+    <label for="measurementInput">Measurement:</label>
+    <input type="text" name="measurementInput" id="measurementInput" />
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="error">
+    <div class="errorText">
+      {{#if error}}
+        {{error}}
+      {{/if}}
+    </div>
+  </div>
+</div>
