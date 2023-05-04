@@ -13,7 +13,7 @@ export const ingredientMethods = {
         quantity = verification.checkNumber(quantity, 'quantity');
         measurement = verification.checkOnlyWordsString(measurement, 'measurement');
         //need to check if measurement is a valid measurement but we'll do that later
-        
+        //when displaying database, quantity and measurement should be 0 and "Any" respectively
         const ingredient = {
             name : name,
             flavors : flavors,
@@ -87,6 +87,18 @@ export const ingredientMethods = {
         const deleted = await ingredientCollection.deleteOne({_id : id});
         if (deleted.deletedCount === 0) throw 'Could not delete ingredient';
         return {ingredientName, deleted : true};
+    },
+
+    async checkIngredientArray(ingredients) {   //for recipe and user to check validity of ingredients
+        const ingredientCollection = await ingredients();
+        const ingredientList = await ingredientCollection.find({}, {name: 1}).toArray();
+        const ingredientNames = ingredientList.map(ingredient => ingredient.name);
+      
+        for (let ingredient of ingredients) {
+          if (!ingredientNames.includes(ingredient)) {
+            throw `Ingredient ${ingredient} not found in database`;
+          }
+        }
     }
 
 }

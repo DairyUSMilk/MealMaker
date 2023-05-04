@@ -1,6 +1,8 @@
 import {users} from '../config/mongoCollections.js';
 import bcrypt from 'bcrypt';
+import { ObjectId } from 'mongodb';
 import verification from '../public/js/verification.js';
+import { recipesData } from './index.js';
 
 export const userMethods = {
   async createUser (firstName, lastName, username, email, password, role, showUsername) {
@@ -80,10 +82,52 @@ export const userMethods = {
     const userCollection = await users();
     if(!userCollection) throw 'Error: could not access user collection';
 
-    let user = userCollection.findOne({username: username});
+    let user = await userCollection.findOne({username: username});
     if(!user) throw 'Error: no user with that username';
     return user.likedRecipes;
 
+  },
+
+  async getRecipesCreated (username) {
+    username = verification.checkUsername(username, 'username');
+    const userCollection = await users();
+    if(!userCollection) throw 'Error: could not access user collection';
+
+    const user = await userCollection.findOne({username: username});
+    if(!user) throw 'Error: no user with that username';
+    return user.recipesCreated;
+  },
+
+  async addRecipeToLikedRecipes (username, recipeId) {
+    username = verification.checkUsername(username, 'username');
+    const recipe = await recipesData.getRecipeById(ObjectId(recipeId));
+    if(!recipe) throw 'Error: no recipe with that id';
+    const userCollection = await users();
+
+    const user = await userCollection.findOne({username: username});
+    if(!user) throw 'Error: no user with that username';
+    if(user.likedRecipes.includes(recipeId)) throw 'Error: recipe already in liked recipes';
+
+    const updatedUser = await userCollection.findOneAndUpdate({username: username}, {$addToSet: {likedRecipes: recipeId}});
+    if(!updatedUser) throw 'Error: could not add recipe to liked recipes';
+
+    return {recipeAdded : recipe, user: updatedUser};
+  },
+
+  async addRecipeToCreatedRecipes (username, recipeId) {
+    username = verification.checkUsername(username, 'username');
+    const recipe = await recipesData.getRecipeById(ObjectId(recipeId));
+    if(!recipe) throw 'Error: no recipe with that id';
+    const userCollection = await users();
+
+    const user = await userCollection.findOne({username: username});
+    if(!user) throw 'Error: no user with that username';
+    if(user.recipesCreated.includes(recipeId)) throw 'Error: recipe already in created recipes';
+
+    const updatedUser = await userCollection.findOneAndUpdate({username: username}, {$addToSet: {recipesCreated: recipeId}});
+    if(!updatedUser) throw 'Error: could not add recipe to created recipes';
+
+    return {recipeAdded : recipe, user: updatedUser};
   }
 
 }

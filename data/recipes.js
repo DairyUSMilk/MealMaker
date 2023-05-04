@@ -1,4 +1,4 @@
-import {recipes, users, ingredients} from '../config/mongoCollections.js';
+import {recipes} from '../config/mongoCollections.js';
 import verification from '../public/js/verification.js';
 
 export const recipeMethods = {
@@ -26,7 +26,7 @@ export const recipeMethods = {
         readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
         if(sourceUrl) sourceUrl = await verification.checkURL(sourceUrl, 'sourceUrl');
         //need url specific checks
-        if(certified !== true && certified !== false) throw 'certified must be a boolean';
+        if(typeof(certified) != boolean) throw 'certified must be a boolean';
         
         const recipe = {
             userId : userId,
