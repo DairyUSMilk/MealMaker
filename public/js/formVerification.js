@@ -14,27 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const passwordInput = document.getElementById('passwordInput').value;
             const confirmPasswordInput = document.getElementById('confirmPasswordInput').value;
             const error = document.getElementById('error');
-    
-            let missingFields = [];
-  
-            if (!firstNameInput) missingFields.push('First Name');
-            if (!lastNameInput) missingFields.push('Last Name');
-            if (!usernameInput) missingFields.push('Username');
-            if (!emailAddressInput) missingFields.push('Email Address');
-            if (!passwordInput) missingFields.push('Password');
-            if (!confirmPasswordInput) missingFields.push('Confirm Password');
-  
-            if (missingFields.length > 0) {
-                error.innerText = `Missing fields: ${missingFields.join(', ')}`;
-                return;
-            }
-  
-            firstNameInput = firstNameInput.trim();
-            lastNameInput = lastNameInput.trim();
-            usernameInput = usernameInput.trim();
-            emailAddressInput = emailAddressInput.trim();
-            passwordInput = passwordInput.trim();
-            confirmPasswordInput = confirmPasswordInput.trim();
         
             try {
               checkName(firstNameInput, 'first name');
@@ -65,15 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
               return;
             }
         
-            emailOrUserInput = emailOrUserInput.trim();
-            passwordInput = passwordInput.trim();
-        
             try {
               if(typeof(emailOrUserInput) !== 'string') throw 'Error: email or user must be a string!';
               
-              password = verification.checkPassword(passwordInput, 'password');
+              passwordInput = checkPassword(passwordInput, 'password');
               
-              if(verification.isEmail(emailOrUserInput)) {
+              if(isEmail(emailOrUserInput)) {
                 checkEmail(emailOrUserInput, 'email address');
               } else {
                 checkUsername(emailOrUserInput, 'username')
@@ -88,3 +64,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // TODO -- Add ingredients, recipes, comments, verification here
+  // Import from verification.js -- Module imports break
