@@ -26,7 +26,8 @@ app.use(session({
     // secret: randomBytes(160, 36),
     secret: 'secret',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    ingredients : []
 }));
 
 app.use((req, res, next) => {
@@ -38,7 +39,6 @@ app.use((req, res, next) => {
     next();
 });
 
-req.session.ingredients = [];
 
 configRoutesFunction(app);
 
