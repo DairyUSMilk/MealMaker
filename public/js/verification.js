@@ -1,4 +1,4 @@
-import {ObjectId} from "mongodb";
+import {ObjectId} from 'mongodb';
 import fetch from 'node-fetch';
 
 const exportedMethods = {

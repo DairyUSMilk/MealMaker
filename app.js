@@ -6,13 +6,14 @@ import session from 'express-session';
 import exphbs from 'express-handlebars';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import path from 'path';
 
 import configRoutesFunction from './routes/index.js';
 /* { Import Middleware Here } */
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const staticDir = express.static(__dirname + '/public');
+const staticDir = express.static(path.join(__dirname, '/public'));
 
 app.use('/public', staticDir);
 app.use(express.json());
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
+app.set('views', __dirname + '/views');
 
 app.use(session({
     name: 'MealMakerAuthCookie',
