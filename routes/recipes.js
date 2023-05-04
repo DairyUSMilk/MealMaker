@@ -31,7 +31,7 @@ router
       recipeInfo.servings = verification.checkNumber(recipeInfo.servings);
 
       if (recipeInfo.imageURL)
-        recipeInfo = verification.checkURL(recipeInfo.imageURL);
+        recipeInfo = await verification.checkURL(recipeInfo.imageURL);
       recipeInfo.ingredients = verification.checkStringArray(
         recipeInfo.ingredients
       );
@@ -42,7 +42,7 @@ router
         recipeInfo.readyInMinutes
       );
       if (recipeInfo.sourceURL)
-        recipeInfo.sourceURL = verification.checkURL(recipeInfo.sourceURL);
+        recipeInfo.sourceURL = await verification.checkURL(recipeInfo.sourceURL);
       if (recipeInfo.certified !== true) recipeInfo.certified = false;
 
       const newRecipe = await recipesData.createRecipe(
@@ -89,7 +89,7 @@ router
       recipeInfo.servings = verification.checkNumber(recipeInfo.servings);
 
       if (recipeInfo.imageURL)
-        recipeInfo = verification.checkURL(recipeInfo.imageURL);
+        recipeInfo = await verification.checkURL(recipeInfo.imageURL);
       recipeInfo.ingredients = verification.checkStringArray(
         recipeInfo.ingredients
       );
@@ -100,7 +100,8 @@ router
         recipeInfo.readyInMinutes
       );
       if (recipeInfo.sourceURL)
-        recipeInfo.sourceURL = verification.checkURL(recipeInfo.sourceURL);
+        recipeInfo.sourceURL = await verification.checkURL(recipeInfo.sourceURL);
+        //no certified check since this is update
 
       const newRecipe = await recipesData.createRecipe(
         recipeInfo.userId,

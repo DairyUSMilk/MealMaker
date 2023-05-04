@@ -16,9 +16,7 @@ router.get('/', async (req, res) => {
 
     try {
         // Error checking for username or email and password done in checkUser
-        console.log("dbug1");
         const user = await usersData.checkUser(emailOrUserInput, passwordInput);
-        console.log("dbug2");
         req.session.user = user;
         req.session.ingredients = user.ingredients;
 

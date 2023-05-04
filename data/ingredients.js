@@ -64,9 +64,9 @@ export const ingredientMethods = {
         //need to check if measurement is a valid measurement but we'll do that later
 
         //need to add a check for the url
-        let ingredientCollection = await ingredients();
-        let query = {_id : id};
-        let updateCommand = {
+        const ingredientCollection = await ingredients();
+        const query = {_id : id};
+        const updateCommand = {
             $set : {
                 name : name,
                 flavors : flavors,
@@ -74,7 +74,7 @@ export const ingredientMethods = {
                 measurement : measurement
             }
         };
-        let updateInfo = await ingredientCollection.updateOne(query, updateCommand);
+        const updateInfo = await ingredientCollection.updateOne(query, updateCommand);
         if (updateInfo.modifiedCount === 0) throw 'Could not update ingredient';
         return await this.getIngredientById(id);
     },
@@ -82,8 +82,9 @@ export const ingredientMethods = {
     async deleteIngredient(id){
         id = verification.checkId(id, 'id');
         const ingredientCollection = await ingredients();
-        let ingredientName = await this.getIngredientById(id).name;
-        let deleted = await ingredientCollection.deleteOne({_id : id});
+        const ingredient = await this.getIngredientById(id);
+        const ingredientName = ingredient.name;
+        const deleted = await ingredientCollection.deleteOne({_id : id});
         if (deleted.deletedCount === 0) throw 'Could not delete ingredient';
         return {ingredientName, deleted : true};
     }

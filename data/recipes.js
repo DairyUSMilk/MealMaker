@@ -17,20 +17,16 @@ export const recipeMethods = {
         userId = verification.checkId(userId, 'userId');
         title = verification.checkOnlyWordsString(title, 'title');
         flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
-        imageURL = verification.checkURL(imageURL, 'imageURL');
+        imageURL = await verification.checkURL(imageURL, 'imageURL');
         ingredients = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
-        // ingredients.forEach(ingredient => {
-        //     verification.checkOnlyWordsString(ingredient, 'ingredient');
-        // });
-
         //need a check for ingredients in their database
 
         instructions = verification.checkStringArray(instructions, 'instructions');
         servings = verification.checkNumber(servings, 'servings');
         readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
-        if(sourceUrl) sourceUrl = verification.checkURL(sourceUrl, 'sourceUrl');
+        if(sourceUrl) sourceUrl = await verification.checkURL(sourceUrl, 'sourceUrl');
+        //need url specific checks
         if(certified !== true && certified !== false) throw 'certified must be a boolean';
-        //need to add a check for the url, as it could be blank
         
         const recipe = {
             userId : userId,
@@ -81,12 +77,12 @@ export const recipeMethods = {
         if(userId) updatedRecipeData.userId = verification.checkId(userId, 'userId');
         if (title) updatedRecipeData.title = verification.checkOnlyWordsString(title, 'title');
         if (flavors) updatedRecipeData.flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
-        if (imageURL) updatedRecipeData.imageURL = verification.checkURL(imageURL, 'imageURL');
+        if (imageURL) updatedRecipeData.imageURL = await verification.checkURL(imageURL, 'imageURL');
         if (ingredients) updatedRecipeData.ingredients = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
         if (instructions) updatedRecipeData.instructions = verification.checkOnlyWordsStringArray(instructions, 'instructions');
         if (servings) updatedRecipeData.servings = verification.checkNumber(servings, 'servings');
         if (readyInMinutes) updatedRecipeData.readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
-        if (sourceUrl) updatedRecipeData.sourceUrl = verification.checkURL(sourceUrl, 'sourceUrl');
+        if (sourceUrl) updatedRecipeData.sourceUrl = await verification.checkURL(sourceUrl, 'sourceUrl');
 
         let query = {_id : id};
         let updateCommand = {$set : updatedRecipeData};

@@ -1,4 +1,5 @@
 import {ObjectId} from "mongodb";
+import fetch from 'node-fetch';
 
 const exportedMethods = {
   checkId(id, varName) {
@@ -68,9 +69,17 @@ const exportedMethods = {
     return false;
   },
 
-  checkURL(url, varName) {  //just an interface rn
-    url = this.checkString(url, varName); //INCOMPLETE
-    return url;
+  async checkURL(url, varName) {  
+    url = this.checkString(url, varName); 
+    const response = await fetch(url);
+    if (!response.ok) {
+      return false;
+    }
+    const contentType = response.headers.get('content-type');
+    if (!contentType.startsWith('image/')) {
+      return false;
+    }
+    return true;
   },
 
   checkStringArray(arr, varName) {
@@ -112,7 +121,8 @@ const exportedMethods = {
     if (username.match(/^(?=.*[A-Za-z])[A-Za-z0-9_.-]{1,31}[A-Za-z0-9_]$/) === null) 
       throw `Error: ${varName} can only contain letters, numbers, underscores, periods, and hyphens, and must contain at least one letter!`;
     return username;
-  }
+  },
+
 };
 
 export default exportedMethods;
