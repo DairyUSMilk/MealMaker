@@ -1,5 +1,6 @@
 import {recipes} from '../config/mongoCollections.js';
 import verification from '../public/js/verification.js';
+import { ObjectId } from 'mongodb';
 
 export const recipeMethods = {
     async createRecipe(
@@ -18,7 +19,31 @@ export const recipeMethods = {
         title = verification.checkOnlyWordsString(title, 'title');
         flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
         imageURL = await verification.checkURL(imageURL, 'imageURL');
-        ingredients = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
+        for(let i = 0; i < ingredients.length; i++){
+            if(typeof ingredients[i] !== "object"){
+                throw "Error: elements in ingredients array must be objects" 
+            }
+            for(let n = 0; n < ingredients[i].length; n++){
+                if(typeof ingredients[i][0] !== "number"){
+                    throw "ingredient id must be number"
+                }
+                if(typeof ingredients[i][1] !== "string"){
+                    throw "ingredient name must be string"
+                }
+                if(!(Array.isArray(ingredients[i][2]))){
+                    throw "ingredient flavors must be an array"
+                }
+                if(!(Array.isArray(ingredients[i][3]))){
+                    throw "ingredient general cuisine must be an array"
+                }
+                if(typeof ingredients[i][4] !== "number"){
+                    throw "ingredient quantity must be a number"
+                }
+                if(typeof ingredients[i][5] !== "string"){
+                    throw "ingredient measurement must be a string"
+                }
+            }
+        }
         //need a check for ingredients in their database
 
         instructions = verification.checkStringArray(instructions, 'instructions');
@@ -26,7 +51,7 @@ export const recipeMethods = {
         readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
         if(sourceUrl) sourceUrl = await verification.checkURL(sourceUrl, 'sourceUrl');
         //need url specific checks
-        if(typeof(certified) != boolean) throw 'certified must be a boolean';
+        if(typeof(certified) != "boolean") throw 'certified must be a boolean';
         
         const recipe = {
             userId : userId,
@@ -55,7 +80,7 @@ export const recipeMethods = {
     async getRecipeById(id){
         id = verification.checkId(id, 'id');
         const recipeCollection = await recipes();
-        const recipe = await recipeCollection.findOne({_id : id});
+        const recipe = await recipeCollection.findOne({_id : new ObjectId(id)});
         if (recipe === null) throw 'No recipe with that id';
         return recipe;
     },
