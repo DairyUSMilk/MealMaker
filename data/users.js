@@ -38,10 +38,9 @@ export const userMethods = {
     
     const insertInfo = await userCollection.insertOne(newUser);
     if(insertInfo.insertedCount === 0) throw 'Error: could not add user';
-    console.log(newUser.hashedPassword);
     const user = await this.checkUser(email, password);
     if(!user) throw 'Error: could not find user';
-    return {insertedUser: true};
+    return {_id : user._id, firstName: user.firstName, lastName: user.lastName, username: user.username, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role, showUsername: user.showUsername};
   },
   
   async checkUser (emailOrUser, password) {
