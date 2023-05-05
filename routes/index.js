@@ -19,7 +19,7 @@ const constructorMethod = (app) => {
   //if not logged in, uses the ingredients stored in the session
   //if no ingredients stored in session, show all recipes
 
-  app.use("/recipes", recipesRoutes);
+  app.use("/recipes", recipesMiddleware, recipesRoutes);
   // TODO
   //if logged in, uses the ingredients stored in the user document in database
   //if not logged in, uses the ingredients stored in the session
