@@ -5,5 +5,36 @@
   <a href="/ingredients">Ingredients</a>
 </header>
 <body>
+  <ul>
+    {{#each recipes}}
+      <li>{{this.title}}</li>
+      <li>flavors:
+        {{#each this.flavors}}
+          {{this}}
+        {{/each}}
+      </li>
 
+      <li>Ingredients:
+        {{#each this.ingredients}}
+          <ul>
+            <li>{{this.name}}</li>
+            <ul>
+              <li>flavors:
+                {{#each this.flavors}}
+                  {{this}}
+                {{/each}}
+              </li>
+              <li>Quanitity: {{this.quantity}} {{this.measurement}}</li>
+            </ul>
+          </ul>
+        {{/each}}
+      </li>
+
+      <li>Instructions: {{this.instructions}}</li>
+      <li>Servings: {{this.servings}}</li>
+      <li>Ready in: {{this.readyInMinutes}} minutes</li>
+      <li><a href={{this.sourceUrl}}>Source</a></li>
+      <li>Certified: {{this.certified}}</li>
+    {{/each}}
+  </ul>
 </body>
