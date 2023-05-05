@@ -5,6 +5,7 @@ import loginRoutes from "./login.js";
 import registerRoutes from "./register.js";
 import userMiddleware from "./middleware/userMiddlewares.js";
 import recipesMiddleware from "./middleware/recipesMiddleware.js";
+import redirectMiddleware from "./middleware/redirectMiddleware.js";
 
 const constructorMethod = (app) => {
   
@@ -26,20 +27,17 @@ const constructorMethod = (app) => {
   //if no ingredients stored in session, show all recipes
 
   app.use("/profile", userMiddleware, profileRoutes);
-  // redirects to /login if not logged in
+  // TODO
   //if logged in, uses the ingredients/recipes stored in the user document in database
   //if not logged in, uses the ingredients stored in the session
   //if no ingredients stored in session, show all recipes
 
-  app.use("/user", userMiddleware, profileRoutes);
-  //redirects to /login if not logged in
-
-  app.use("/register", registerRoutes);
+  app.use("/register", redirectMiddleware, registerRoutes);
   //middleware here to check if user is logged in
   //if so, redirect to home page
 
   /* User data is set/updated in session upon login (also when adding/removing ingredient, recipe, or liking/disliking recipe) */
-  app.use("/login", loginRoutes);
+  app.use("/login", redirectMiddleware, loginRoutes);
 
   app.get("/logout", (req, res) => {
     req.session.destroy();
