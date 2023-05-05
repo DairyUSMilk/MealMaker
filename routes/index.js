@@ -1,6 +1,5 @@
 import ingredientsRoutes from "./ingredients.js";
 import recipesRoutes from "./recipes.js";
-import usersRoutes from "./users.js";
 import profileRoutes from "./profile.js";
 import loginRoutes from "./login.js";
 import registerRoutes from "./register.js";
@@ -32,7 +31,7 @@ const constructorMethod = (app) => {
   //if not logged in, uses the ingredients stored in the session
   //if no ingredients stored in session, show all recipes
 
-  app.use("/user", userMiddleware, usersRoutes);
+  app.use("/user", userMiddleware, profileRoutes);
   //redirects to /login if not logged in
 
   app.use("/register", registerRoutes);

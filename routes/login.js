@@ -1,6 +1,5 @@
 import { usersData } from '../data/index.js';
 import express from 'express';
-import verification from '../public/js/verification.js';
 
 const router = express.Router();
 
@@ -19,8 +18,8 @@ router.get('/', async (req, res) => {
         req.session.user = user;
         req.session.ingredients = user.ingredients;
 
-        /* Redirect to /ingredients whether admin or community */
-        res.redirect('/ingredients');
+        /* Redirect to /recipes whether admin or community */
+        res.redirect('/recipes');
     } catch (e) {
       res.status(500).render('login', { title: 'Login', error: `Failed to login: ${e}` });
     }
