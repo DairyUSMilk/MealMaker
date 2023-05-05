@@ -18,7 +18,6 @@ const did = Darius._id.toString();
 const Adam = await userMethods.createUser("Adam", "Borowczak", "AdamB", "AdamB@gmail.com", "Password1.2", "admin", true);
 const aid = Adam._id.toString();
 
-
 // #1
 const SpaghettiBolognese = await recipeMethods.createRecipe(
 tid,
@@ -64,7 +63,6 @@ tid,
 "https://www.foodiefiasco.com/three-ingredient-pasta-bolognese-for-one/",
 true
 );
-
 
 //#2
 const CaesarSalad = await recipeMethods.createRecipe(

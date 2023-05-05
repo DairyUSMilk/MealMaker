@@ -72,7 +72,7 @@ export const recipeMethods = {
         let recipeCollection = await recipes();
         let insertInfo = await recipeCollection.insertOne(recipe);
         if (insertInfo.insertedCount === 0) throw 'Could not add recipe';
-        let newId = insertInfo.insertedId;
+        let newId = insertInfo.insertedId.toString();
         const newRecipe = await this.getRecipeById(newId);
         return newRecipe;
     },

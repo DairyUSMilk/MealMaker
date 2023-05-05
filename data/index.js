@@ -4,4 +4,4 @@ import usersMethods from './users.js';
 
 export const ingredientsData = ingredientsMethods;
 export const recipesData = recipesMethods;
-export const usersData = usersMethods;
+//export const usersData = usersMethods;
