@@ -1,6 +1,7 @@
 import { recipesData } from "../data/index.js";
 import express from "express";
 import verification from "../public/js/verification.js";
+import updateSessionData from "./middleware/updateSessionMiddleware.js";
 
 const router = express.Router();
 
@@ -57,7 +58,9 @@ router
         recipeInfo.sourceURL,
         recipeInfo.certified
       );
-      res.json(newRecipe);
+      updateSessionData(req, res, () => {
+        res.json(newRecipe);
+      });
     } catch (e) {
       res.status(500).json({ error: e });
     }
@@ -114,7 +117,9 @@ router
         recipeInfo.readyInMinutes,
         recipeInfo.sourceURL
       );
-      res.json(newRecipe);
+      updateSessionData(req, res, () => {
+        res.json(newRecipe);
+      });
     } catch (e) {
       res.status(500).json({ error: e });
     }

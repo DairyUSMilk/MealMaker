@@ -4,7 +4,8 @@ import usersRoutes from "./users.js";
 import profileRoutes from "./profile.js";
 import loginRoutes from "./login.js";
 import registerRoutes from "./register.js";
-import userMiddleware from "./middleware/userMiddlewares.js"
+import userMiddleware from "./middleware/userMiddlewares.js";
+import recipesMiddleware from "./middleware/recipesMiddleware.js";
 
 const constructorMethod = (app) => {
   

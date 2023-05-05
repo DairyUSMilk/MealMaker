@@ -1,6 +1,7 @@
 import express from 'express';
 import {ingredientsData} from '../data/index.js';
 import verification from '../public/js/verification.js';
+import updateSessionData from "./middleware/updateSessionMiddleware.js";
 
 const router = express.Router();
 
@@ -32,7 +33,9 @@ router.post('/', async (req, res) => {
         ingredientInfo.measurement = verification.checkOnlyWordsString(ingredientInfo.measurement);
         
         const newIngredient = await ingredientsData.create(ingredientInfo.name, ingredientInfo.type);
-        res.json(newIngredient);
+        updateSessionData(req, res, () => {
+            res.json(newIngredient);
+        });
     } catch (e) {
         res.status(500).json({ error: e });
     }
@@ -50,7 +53,9 @@ router.post('/:id', async (req, res) => {
         req.params.id = verification.checkId(req.params.id);
 
         const updatedIngredient = await ingredientsData.updateIngredient(req.params.id, ingredientInfo.name, ingredientInfo.flavors, ingredientInfo.quantity, ingredientInfo.measurement);
-        res.json(updatedIngredient);
+        updateSessionData(req, res, () => {
+            res.json(updatedIngredient);
+        });
     } catch (e) {
         res.status(500).json({ error: e });
     }
@@ -65,7 +70,9 @@ router.delete('/:id', async (req, res) => {
     }
     try {
         await ingredientsData.remove(req.params.id);
-        res.sendStatus(200);
+        updateSessionData(req, res, () => {
+            res.sendStatus(200);
+        });
     } catch (e) {
         res.status(500).json({ error: e });
     }
