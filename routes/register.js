@@ -43,7 +43,7 @@ router
         showUsernameInput
       );
       console.log(JSON.stringify(newUser));
-      if (newUser.insertedUser) {
+      if (newUser.insertInfo !== 0) {
         return res.redirect("/login");
       } else {
         return res

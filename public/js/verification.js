@@ -61,6 +61,7 @@ const exportedMethods = {
 
   checkRole(role, varName) {
     if(role !== 'admin' && role !== 'community') throw `Error: ${varName} must be either admin or community`;
+    return role;
   },
 
   isEmail(email) {

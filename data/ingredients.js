@@ -29,8 +29,6 @@ export const ingredientMethods = {
         return newIngredient;
     },
 
-    // TODO -- Get ingredients by user
-
     async getIngredientById(id){
         id = verification.checkId(id, 'id');
         const ingredientCollection = await ingredients();

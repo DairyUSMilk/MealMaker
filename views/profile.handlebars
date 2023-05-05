@@ -7,49 +7,86 @@
 </header>
 <body>
     <div>
-      <h2>Welcome {{firstName}}!</h2>
+      <h2>Welcome {{user.firstName}}!</h2>
       <p>Here, you can view your profile, liked recipes, and your ingredients</p>
     </div>
     <div>
-      <h2>Ingredients</h2>
+      <h2>Profile</h2>
+      <p>First Name: {{user.firstName}}</p>
+      <p>Last Name: {{user.lastName}}</p>
+      <p>Username: {{user.username}}</p>
+      <p>Display Username: {{user.showUsername}}</p>
+      <p>Email: {{user.email}}</p>
+      <p>Role: {{user.role}}</p>
+    </div>
+    <div>
+      <h2>Your ingredients</h2>
       <ul>
-        {{#each ingredients}}
+        {{#each user.ingredients}}
           <li>
             <div>
-              <h3>{{name}}</h3>
-              <p>Flavors: {{flavors}}</p>
-              <p>Quantity: {{quantity}} {{measurement}}</p>
+              <h3>{{this.name}}</h3>
+              <p>Flavors: {{this.flavors}}</p>
+              <p>Quantity: {{this.quantity}} {{this.measurement}}</p>
             </div>
           </li>
         {{/each}}
       </ul>
     </div>
     <div>
-      <h2>Recipes</h2>
+      <h2>Recipes made by you:</h2>
       <ul>
-        {{#each recipes}}
+        {{#each user.recipesCreated}}
           <li>
-            <div>
-              <h3>{{title}}</h3>
-              <p>Flavors: {{flavors}}</p>
-              {{!-- 
-                TODO -- Add these:
+            <a href={{this.sourceUrl}}>
+              <div>
+                <h3>{{this.title}}</h3>
+                {{!-- 
+                  TODO -- Add these:
 
-                userId : userId,
-                imageURL : imageURL,
-                ingredients : ingredients,
-                instructions : instructions,
-                servings : servings,
-                readyInMinutes : readyInMinutes,
-                sourceUrl : sourceUrl,
-                comments : [],
-                likes : 0,
-                dislikes : 0,
-                certified : certified 
-              --}}
-            </div>
+                  userId : userId,
+                  imageURL : imageURL,
+                  ingredients : ingredients,
+                  instructions : instructions,
+                  servings : servings,
+                  readyInMinutes : readyInMinutes,
+                  comments : [],
+                  likes : 0,
+                  dislikes : 0,
+                  certified : certified 
+                --}}
+              </div>
+            </a>
           </li>
-        {{/recipes}}
+        {{/each}}
+      </ul>
+    </div>
+    <div>
+      <h2>Liked Recipes:</h2>
+      <ul>
+        {{#each user.likedRecipes}}
+          <li>
+            <a href={{this.sourceUrl}}>
+              <div>
+                <h3>{{this.title}}</h3>
+                {{!-- 
+                  TODO -- Add these:
+
+                  userId : userId,
+                  imageURL : imageURL,
+                  ingredients : ingredients,
+                  instructions : instructions,
+                  servings : servings,
+                  readyInMinutes : readyInMinutes,
+                  comments : [],
+                  likes : 0,
+                  dislikes : 0,
+                  certified : certified 
+                --}}
+              </div>
+            </a>
+          </li>
+        {{/each}}
       </ul>
     </div>
 </body>

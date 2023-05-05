@@ -1,7 +1,38 @@
 <h1>Home</h1>
 <header>
+  {{#if user}}
+  <a href="/logout">Logout</a>
+  {{else}}
   <a href="/login">Login</a>
+  {{/if}}
   <a href="/recipes">Recipes</a>
   <a href="/ingredients">Ingredients</a>
   <a href="/profile">Profile</a>
 </header>
+<body>
+  <div>
+    {{#if user}}
+      <h2>Welcome {{user.firstName}}!</h2>
+      <p>As {{#if (eq user.role 'admin')}}an{{else}}a{{/if}} {{user.role}} user, you can:</p>
+      <ul>
+        <li>Add ingredients to your personal list</li>
+        <li>Create new ingredients</li>
+        <li>Search recipes using a variety of filters, given your ingredients</li>
+        <li>Create recipes with a {{user.role}} tag</li>
+        <li>Comment on recipes</li>
+        <li>Like recipes</li>
+        {{#if (eq user.role 'admin')}}
+          <li>Delete recipes</li>
+        {{/if}}
+      </ul>
+    {{else}}
+      <h2>Welcome!</h2>
+      <p>As a guest user, you can:</p>
+      <ul>
+        <li>Add ingredients to personal list</li>
+        <li>Search recipes using a variety of filters, given your ingredients</li>
+      </ul>
+      <p>Please <a href="/login">login</a> to access more features.</p>
+    {{/if}}
+  </div>
+</body>

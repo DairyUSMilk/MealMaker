@@ -5,21 +5,11 @@ import verification from '../public/js/verification.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    // TODO -- Might need to use AJAX here to not do a full page render
-    // Load all ingredients and recipes from db here
-    const recipes = await usersData.checkUser(emailOrUserInput, passwordInput);
-          req.session.user = user;
-          req.session.ingredients = user.ingredients;
-    // Save them into session
-    res.render("profile", { title: "Profile" });
+    /* Loading from database unecessary here */
+    /* User data is set/updated in session upon login (also when adding/removing ingredient, recipe, or liking/disliking recipe) */
+    if (req.session.user) {
+        res.render("profile", { title: "Profile", user: req.session.user });   
+    }
 });
-
-// Profile displays:
-// Full Name
-// Username
-// Whether or not username can be displayed
-// Role
-// User's ingredients (from db)
-// User's liked recipes
 
 export default router;

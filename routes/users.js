@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/ingredients', async (req, res) => {
   // should be a middleware here to check if user is logged in
   // TODO -- render display of user's ingredients
+  res.render('ingredients', { title: 'Ingredients' });
 });
 
 export default router;
