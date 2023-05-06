@@ -1,0 +1,43 @@
+<h1>Create Recipes</h1>
+<header>
+  <a href="/logout">Logout</a>
+  <a href="/ingredients">Ingredients</a>
+  <a href="/">Home</a>
+</header>
+<div>
+  <form id="recipes-form" action="/recipes" method="POST">
+    <label for="nameInput">Recipe Name:</label>
+    <input type="text" name="nameInput" id="nameInput" />
+
+    <label for="flavorsInput">Flavors(separated by commas):</label>
+    <input type="text" name="flavorsInput" id="flavorsInput" />
+
+    <label for="imageInput">Image:</label>
+    <input type="image" name="imageInput" id="imageInput" />
+
+    <label for="ingredientsInput">Ingredients(seperated by a comma):</label>
+    <input type="text" name="ingredientsInput" id="ingredientsInput" />
+
+    <label for="instructionsInput">Instructions:</label>
+    <input type="text" name="instructionsInput" id="instructionsInput" />
+
+    <label for="servingsInput">Servings:</label>
+    <input type="number" name="servingsInput" id="servingsInput" />
+
+    <label for="readyInput">Ready in(minutes):</label>
+    <input type="number" name="readyInput" id="readyInput" />
+
+    <label for="sourceInput">Source:</label>
+    <input type="url" name="sourceInput" id="sourceInput" />
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="error">
+    <div class="errorText">
+      {{#if error}}
+        {{error}}
+      {{/if}}
+    </div>
+  </div>
+</div>
