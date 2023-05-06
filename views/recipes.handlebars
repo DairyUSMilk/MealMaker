@@ -34,12 +34,23 @@
       <li>Servings: {{this.servings}}</li>
       <li>Ready in: {{this.readyInMinutes}} minutes</li>
       <li><a href={{this.sourceUrl}}>Source</a></li>
-      <li>Certified: {{this.certified}}</li>
-      {{#if (eq user.role 'admin')}}
-      <li>
-        <label for="deleteRecipeButton">Delete Recipe</label>
-        <input type="button" name="deleteRecipeButton" id="deleteRecipeButton">
+      <li>Comments:
+        {{#each this.comments}}
+          {{this}}
+        {{/each}}
       </li>
+      <li>Likes: {{this.likes}}</li>
+      <li>Dislikes: {{this.dislikes}}</li>
+      <li>Certified: {{this.certified}}</li>
+      {{#if (eq user.role "admin")}}
+        <li>
+          <label for="deleteRecipeButton">Delete Recipe</label>
+          <input
+            type="button"
+            name="deleteRecipeButton"
+            id="deleteRecipeButton"
+          />
+        </li>
       {{/if}}
     {{/each}}
   </ul>
