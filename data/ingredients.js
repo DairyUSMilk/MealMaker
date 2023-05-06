@@ -1,7 +1,7 @@
 import {ingredients} from '../config/mongoCollections.js'
 import verification from '../public/js/verification.js';
 
-export const ingredientMethods = {
+const ingredientMethods = {
     async createIngredient(
         name,
         flavors,//includes generalCuisine specifications
@@ -94,12 +94,22 @@ export const ingredientMethods = {
         const ingredientList = await ingredientCollection.find({}, {name: 1}).toArray();
         const ingredientNames = ingredientList.map(ingredient => ingredient.name);
       
+        let notInDB = [];
         for (let ingredient of ingredients) {
           if (!ingredientNames.includes(ingredient)) {
-            throw `Ingredient ${ingredient} not found in database`;
+            notInDB.push(ingredient);
           }
         }
-    }
+
+        return notInDB;
+    },
+
+    async getIngredientByName(ingredientName) {   //for recipe and user to check validity of ingredients
+        const ingredientCollection = await ingredients();
+        let ingredient = await ingredientCollection.findOne({name: ingredientName});
+        
+        return ingredient;
+    },
 
 }
 

@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb';
 import verification from '../public/js/verification.js';
 import { recipesData } from './index.js';
 
-export const userMethods = {
+const userMethods = {
   async createUser (firstName, lastName, username, email, password, role, showUsername) {
     const userCollection = await users();
     if(!userCollection) throw 'Error: could not access user collection';

@@ -23,7 +23,7 @@ const SpaghettiBolognese = await recipeMethods.createRecipe(
 tid,
 "Spaghetti Bolognese",
 ["meaty", "savory", "tomato"],
-"https://pixabay.com/photos/spaghetti-bolognese-italian-court-4546233/",
+"https://cdn.pixabay.com/photo/2019/10/13/14/23/spaghetti-bolognese-4546233_960_720.jpg",
 [
 {
   id: 2001,
