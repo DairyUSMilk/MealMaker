@@ -23,7 +23,7 @@ const SpaghettiBolognese = await recipeMethods.createRecipe(
 tid,
 "Spaghetti Bolognese",
 ["meaty", "savory", "tomato"],
-"https://cdn.pixabay.com/photo/2019/10/13/14/23/spaghetti-bolognese-4546233_960_720.jpg",
+"https://www.aheadofthyme.com/wp-content/uploads/2020/12/spaghetti-bolognese-4-1024x1536.jpg",
 [
 {
   id: 2001,
@@ -465,7 +465,7 @@ const PotatoSoup = await recipeMethods.createRecipe(
 did,
 "Potato Soup",
 ["savory", "hearty"],
-"data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20568%20568'%3E%3C/svg%3E",
+"https://sugarspunrun.com/wp-content/uploads/2018/01/Potato-Soup-Recipe-1-of-1-5.jpg",
 [
 {
 id: 1001,
