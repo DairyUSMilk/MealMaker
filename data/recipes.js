@@ -2,7 +2,7 @@ import {recipes} from '../config/mongoCollections.js';
 import verification from '../public/js/verification.js';
 import { ObjectId } from 'mongodb';
 
-const recipeMethods = {
+const recipesMethods = {
     async createRecipe(
         userId,
         title,
@@ -233,4 +233,4 @@ const recipeMethods = {
 
 }
 
-export default recipeMethods
+export default recipesMethods;

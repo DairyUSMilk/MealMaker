@@ -1,7 +1,7 @@
 import {ingredients} from '../config/mongoCollections.js'
 import verification from '../public/js/verification.js';
 
-const ingredientMethods = {
+const ingredientsMethods = {
     async createIngredient(
         name,
         flavors,//includes generalCuisine specifications
@@ -113,4 +113,4 @@ const ingredientMethods = {
 
 }
 
-export default ingredientMethods;
+export default ingredientsMethods;
