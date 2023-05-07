@@ -5,7 +5,24 @@
   <a href="/recipes">Recipes</a>
 </header>
 <body>
+  <a href="/ingredients/add">Add Ingredients Here!</a>
   <p>{{error}}</p>
   <p>{{message}}</p>
 
+  <ul>
+    {{#each ingredients}}
+      <li>{{this.name}}</li>
+      <ul>
+        <li>Flavors:
+          {{#each this.flavors}}
+            {{this}}
+          {{/each}}
+        </li>
+        <li>Quantity: {{this.quantity}} {{this.measurement}}</li>
+      </ul>
+    {{/each}}
+  </ul>
+
+
+  
 </body>

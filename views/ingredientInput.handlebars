@@ -5,21 +5,18 @@
   <a href="/">Home</a>
 </header>
 <div>
-  <form id="ingredient-form" action="/ingredient" method="POST">
-    <label for="nameInput">Ingredient Name:</label>
-    <input type="text" name="nameInput" id="nameInput">
+  <form id="ingredient-form" action="/ingredients/add" method="POST">
+    <label for="name">Ingredient Name:</label>
+    <input type="text" name="name" id="name" />
 
-    <label for="flavorsInput">Flavors(separated by commas):</label>
-    <input type="text" name="flavorsInput" id="flavorsInput">
+    <label for="flavors">Flavors/Cuisines(separated by commas):</label>
+    <input type="text" name="flavors" id="flavors" />
 
-    <label for="cuisinesInput">Cuisines(separated by commas):</label>
-    <input type="text" name="cuisinesInput" id="cuisinesInput">
+    <label for="quantity">Quantity:</label>
+    <input type="text" name="quantity" id="quantity" />
 
-    <label for="quantityInput">Quantity:</label>
-    <input type="number" name="quantityInput" id="quantityInput">
-
-    <label for="measurementInput">Measurement:</label>
-    <input type="text" name="measurementInput" id="measurementInput">
+    <label for="measurement">Measurement:</label>
+    <input type="text" name="measurement" id="measurement" />
 
     <button type="submit">Submit</button>
   </form>

@@ -112,6 +112,22 @@ const ingredientsMethods = {
         return ingredient;
     },
 
+    async addFlavorsToIngredient(ingredientName, flavors) {
+        const ingredientCollection = await ingredients();
+        const ingredient = await ingredientCollection.findOne({name: ingredientName});
+        const ingredientFlavors = ingredient.flavors;
+        let newFlavors = [...new Set(ingredientFlavors.concat(flavors))];   //remove duplicates
+        const query = {name: ingredientName};
+        const updateCommand = {
+            $set : {
+                flavors : newFlavors,
+            }
+        };
+        const updateInfo = await ingredientCollection.updateOne(query, updateCommand);
+        if (updateInfo.modifiedCount === 0) throw 'Could not update ingredient';
+        return await this.getIngredientByName(ingredientName);
+    }
+
 }
 
 export default ingredientsMethods;
