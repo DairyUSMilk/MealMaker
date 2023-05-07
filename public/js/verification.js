@@ -99,6 +99,13 @@ const exportedMethods = {
     return username;
   },
 
+  checkURL(url, varName) {
+    url = this.checkString(url, varName);
+    let urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+    if (url.match(urlRegex) === null) throw `Error: ${varName} must be a valid URL`;
+    return url;
+  },  
+
 };
 
 export default exportedMethods;

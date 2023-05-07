@@ -3,6 +3,8 @@ import verification from './verification.js';
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('registration-form');
+  const ingredientForm = document.getElementById('ingredient-form');
+  const recipesForm = document.getElementById('recipes-form');
 
   if (registerForm) {
       registerForm.addEventListener('submit', event => {
@@ -33,12 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (loginForm) {
       loginForm.addEventListener('submit', async event => {
-        console.log("loginForm!");
           event.preventDefault();
 
           const emailOrUserInput = document.getElementById('emailOrUserInput').value;
           const passwordInput = document.getElementById('passwordInput').value;
-          const errorMessage = document.getElementById('error');
+          const error = document.getElementById('error');
 
           if (!emailOrUserInput || !passwordInput) {
             error.innerText = 'Both email address or username, and a password are required';
@@ -56,12 +57,62 @@ document.addEventListener('DOMContentLoaded', () => {
               verification.checkUsername(emailOrUserInput, 'username')
             }
           } catch (e) {
-              errorMessage.innerText = `${e}`;
+              error.innerText = `${e}`;
+              return;
           }  
           loginForm.submit();
       })
   }
+
+  // TODO -- Complete ingredients form verification here
+  if (ingredientForm) {
+    ingredientForm.addEventListener('submit', async event => {
+      event.preventDefault();
+    })
+  }
+
+  if (recipesForm) {
+    recipesForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      
+      const nameInput = document.getElementById('nameInput').value;
+      const flavorsInput = document.getElementById('flavorsInput').value;
+      const imageInput = document.getElementById('imageInput');
+      const ingredientsInput = document.getElementById('ingredientsInput').value;
+      const instructionsInput = document.getElementById('instructionsInput').value;
+      const servingsInput = document.getElementById('servingsInput').value;
+      const readyInput = document.getElementById('readyInput').value;
+      const sourceInput = document.getElementById('sourceInput').value;
+      const error = document.getElementById('error');
+
+      const flavorsInputArray = flavorsInput.split(',').map(s => s.trim());
+      const ingredientsInputArray = ingredientsInput.split(',').map(s => s.trim());
+      const instructionsInputArray = instructionsInput.split(',').map(s => s.trim());
+
+      if (!imageInput.files || imageInput.files.length === 0) {
+        error.innerText = 'An image is required';
+        return;
+      }
+
+      if (!sourceInput || !verification.checkURL(sourceInput)) {
+        error.innerText = 'A valid source URL is required';
+        return;
+      }
+
+      try {
+        verification.checkOnlyWordsString(nameInput);
+        verification.checkOnlyWordsStringArray(flavorsInputArray);
+        verification.checkNumber(servingsInput);
+        verification.checkStringArray(ingredientsInputArray);
+        verification.checkOnlyWordsStringArray(instructionsInputArray);
+        verification.checkNumber(readyInput);
+      } catch (e) {
+        error.innerText = `${e}`;
+        return;
+      }
+      recipesForm.submit();
+    })
+  }
 });
 
-// TODO -- Add ingredients, recipes, comments, verification here
-// Import from verification.js -- Module imports break
+// TODO -- Add comments verification here
