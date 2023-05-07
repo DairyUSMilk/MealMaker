@@ -1,16 +1,4 @@
-import {ObjectId} from 'mongodb';
-import fetch from 'node-fetch';
-
 const exportedMethods = {
-  checkId(id, varName) {
-    if (!id) throw `Error: You must provide a ${varName}`;
-    if (typeof id !== 'string') throw `Error:${varName} must be a string`;
-    id = id.trim();
-    if (id.length === 0) throw `Error: ${varName} cannot be an empty string or just spaces`;
-    if (!ObjectId.isValid(id)) throw `Error: ${varName} invalid object ID`;
-    return id;
-  },
-
   checkString(strVal, varName) {
     if (!strVal) throw `Error: You must supply a ${varName}!`;
     if (typeof strVal !== 'string') throw `Error: ${varName} must be a string!`;
@@ -70,19 +58,6 @@ const exportedMethods = {
     return false;
   },
 
-  async checkURL(url, varName) {  
-    url = this.checkString(url, varName); 
-    const response = await fetch(url);
-    if (!response.ok) {
-      return false;
-    }
-    const contentType = response.headers.get('content-type');
-    if (!contentType.startsWith('image/')) {
-      return false;
-    }
-    return true;
-  },
-
   checkStringArray(arr, varName) {
     //We will allow an empty array for this,
     //if it's not empty, we will make sure all tags are strings
@@ -127,4 +102,3 @@ const exportedMethods = {
 };
 
 export default exportedMethods;
-

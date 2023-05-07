@@ -1,5 +1,6 @@
 import {recipes} from '../config/mongoCollections.js';
 import verification from '../public/js/verification.js';
+import backendVerification from '../public/js/backendVerification.js';
 import { ObjectId } from 'mongodb';
 
 const recipesMethods = {
@@ -15,10 +16,10 @@ const recipesMethods = {
         sourceUrl,
         certified
     ){
-        userId = verification.checkId(userId, 'userId');
+        userId = backendVerification.checkId(userId, 'userId');
         title = verification.checkOnlyWordsString(title, 'title');
         flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
-        imageURL = await verification.checkURL(imageURL, 'imageURL');
+        imageURL = await backendVerification.checkURL(imageURL, 'imageURL');
         for(let i = 0; i < ingredients.length; i++){
             if(typeof ingredients[i] !== "object"){
                 throw "Error: elements in ingredients array must be objects" 
@@ -49,7 +50,7 @@ const recipesMethods = {
         instructions = verification.checkStringArray(instructions, 'instructions');
         servings = verification.checkNumber(servings, 'servings');
         readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
-        if(sourceUrl) sourceUrl = await verification.checkURL(sourceUrl, 'sourceUrl');
+        if(sourceUrl) sourceUrl = await backendVerification.checkURL(sourceUrl, 'sourceUrl');
         //need url specific checks
         if(typeof(certified) != "boolean") throw 'certified must be a boolean';
         
@@ -78,7 +79,7 @@ const recipesMethods = {
     },
 
     async getRecipeById(id){
-        id = verification.checkId(id, 'id');
+        id = backendVerification.checkId(id, 'id');
         const recipeCollection = await recipes();
         const recipe = await recipeCollection.findOne({_id : new ObjectId(id)});
         if (recipe === null) throw 'No recipe with that id';
@@ -92,22 +93,22 @@ const recipesMethods = {
     },
 
     async updateRecipe(id, userId, title, flavors, imageURL, ingredients, instructions, servings, readyInMinutes, sourceUrl){
-        id = verification.checkId(id, 'id');
+        id = backendVerification.checkId(id, 'id');
         const recipeCollection = await recipes();
         const currentRecipe = await this.getRecipeById(id);
         
         let updatedRecipeData = currentRecipe;
 
         //basically, if the field is not null, then we update it
-        if(userId) updatedRecipeData.userId = verification.checkId(userId, 'userId');
+        if(userId) updatedRecipeData.userId = backendVerification.checkId(userId, 'userId');
         if (title) updatedRecipeData.title = verification.checkOnlyWordsString(title, 'title');
         if (flavors) updatedRecipeData.flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
-        if (imageURL) updatedRecipeData.imageURL = await verification.checkURL(imageURL, 'imageURL');
+        if (imageURL) updatedRecipeData.imageURL = await backendVerification.checkURL(imageURL, 'imageURL');
         if (ingredients) updatedRecipeData.ingredients = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
         if (instructions) updatedRecipeData.instructions = verification.checkOnlyWordsStringArray(instructions, 'instructions');
         if (servings) updatedRecipeData.servings = verification.checkNumber(servings, 'servings');
         if (readyInMinutes) updatedRecipeData.readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
-        if (sourceUrl) updatedRecipeData.sourceUrl = await verification.checkURL(sourceUrl, 'sourceUrl');
+        if (sourceUrl) updatedRecipeData.sourceUrl = await backendVerification.checkURL(sourceUrl, 'sourceUrl');
 
         let query = {_id : id};
         let updateCommand = {$set : updatedRecipeData};
@@ -118,7 +119,7 @@ const recipesMethods = {
     },
 
     async deleteRecipe(id){
-        id = verification.checkId(id, 'id');
+        id = backendVerification.checkId(id, 'id');
         const recipeCollection = await recipes();
         let recipeName = await this.getRecipeById(id);
         let deleted = recipeCollection.deleteOne({_id : id});
@@ -127,8 +128,8 @@ const recipesMethods = {
     },
 
     async addComment(recipeId, userId, comment){
-        recipeId = verification.checkId(recipeId, 'recipeId');
-        userId = verification.checkId(userId, 'userId');
+        recipeId = backendVerification.checkId(recipeId, 'recipeId');
+        userId = backendVerification.checkId(userId, 'userId');
         comment = verification.checkString(comment, 'comment');
         let recipe = await this.getRecipeById(recipeId);
         let recipeCollection = await recipes();
@@ -144,8 +145,8 @@ const recipesMethods = {
     },
 
     async deleteComment(recipeId, commentId){
-        recipeId = verification.checkId(recipeId, 'recipeId');
-        commentId = verification.checkId(commentId, 'commentId');
+        recipeId = backendVerification.checkId(recipeId, 'recipeId');
+        commentId = backendVerification.checkId(commentId, 'commentId');
         let recipe = await this.getRecipeById(recipeId);
         let recipeCollection = await recipes();
         let newComments = recipe.comments.filter(comment => comment._id == commentId);
@@ -157,7 +158,7 @@ const recipesMethods = {
     },
 
     async likeRecipe(recipeId){
-        recipeId = verification.checkId(recipeId, 'recipeId');
+        recipeId = backendVerification.checkId(recipeId, 'recipeId');
         let recipe = await this.getRecipeById(recipeId);
         let recipeCollection = await recipes();
         recipe.likes++;
@@ -168,7 +169,7 @@ const recipesMethods = {
     },
 
     async dislikeRecipe(recipeId){
-        recipeId = verification.checkId(recipeId, 'recipeId');
+        recipeId = backendVerification.checkId(recipeId, 'recipeId');
         let recipe = await this.getRecipeById(recipeId);
         let recipeCollection = await recipes();
         recipe.dislikes++;
@@ -181,7 +182,7 @@ const recipesMethods = {
     async getRecipeByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified){
         let query = {};
 
-        if(userId) query.userId = verification.checkId(userId, 'userId');
+        if(userId) query.userId = backendVerification.checkId(userId, 'userId');
         if(title) query.title = {$regex : verification.checkOnlyWordsString(title, 'title'), $options : 'i'};
         if(flavors) query.flavors = {$all : verification.checkOnlyWordsStringArray(flavors, 'flavors')};
         if(ingredients) query.ingredients = {$gte: [{ $divide: [ { $size: { $setIntersection: [ "$ingredients", verification.checkOnlyWordsStringArray(ingredients, 'ingredients') ] } }, { $size: "$ingredients" } ] }, verification.checkNumber(minMatchPercentage, 'minMatchPercentage')]};
@@ -201,7 +202,7 @@ const recipesMethods = {
         
     //     let query_userId, query_title, query_flavors, query_ingredients, query_readyInMinutes, query_likes, query_totalScore, query_minMatchPercentage;
         
-    //     if(userId) query_userId = verification.checkId(userId, 'userId');
+    //     if(userId) query_userId = backendVerification.checkId(userId, 'userId');
     //     if(title) query_title = verification.checkOnlyWordsString(title, 'title');
     //     if(flavors) query_flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
     //     if(ingredients) query_ingredients = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');

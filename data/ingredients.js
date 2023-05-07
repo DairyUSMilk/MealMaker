@@ -1,5 +1,6 @@
 import {ingredients} from '../config/mongoCollections.js'
 import verification from '../public/js/verification.js';
+import backendVerification from '../public/js/backendVerification.js';
 
 const ingredientsMethods = {
     async createIngredient(
@@ -30,7 +31,7 @@ const ingredientsMethods = {
     },
 
     async getIngredientById(id){
-        id = verification.checkId(id, 'id');
+        id = backendVerification.checkId(id, 'id');
         const ingredientCollection = await ingredients();
         const ingredient = await ingredientCollection.findOne({_id : id});
         if (ingredient === null) throw 'No ingredient with that id';
@@ -56,7 +57,7 @@ const ingredientsMethods = {
         quantity,
         measurement,
     ){
-        id = verification.checkId(id, 'id');
+        id = backendVerification.checkId(id, 'id');
         name = verification.checkOnlyWordsString(name, 'name');
         flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
         quantity = verification.checkNumber(quantity, 'quantity');
@@ -80,7 +81,7 @@ const ingredientsMethods = {
     },
 
     async deleteIngredient(id){
-        id = verification.checkId(id, 'id');
+        id = backendVerification.checkId(id, 'id');
         const ingredientCollection = await ingredients();
         const ingredient = await this.getIngredientById(id);
         const ingredientName = ingredient.name;

@@ -1,6 +1,7 @@
 import { recipesData } from "../data/index.js";
 import express from "express";
 import verification from "../public/js/verification.js";
+import backendVerification from '../public/js/backendVerification.js';
 import updateSessionData from "./middleware/updateSessionMiddleware.js";
 
 const router = express.Router();
@@ -25,14 +26,14 @@ router
     }
     try {
       recipeInfo.title = verification.checkOnlyWordsString(recipeInfo.title);
-      recipeInfo.userId = verification.checkId(recipeInfo.userId);
+      recipeInfo.userId = backendVerification.checkId(recipeInfo.userId);
       recipeInfo.flavors = verification.checkOnlyWordsStringArray(
         recipeInfo.flavors
       );
       recipeInfo.servings = verification.checkNumber(recipeInfo.servings);
 
       if (recipeInfo.imageURL)
-        recipeInfo = await verification.checkURL(recipeInfo.imageURL);
+        recipeInfo = await backendVerification.checkURL(recipeInfo.imageURL);
       recipeInfo.ingredients = verification.checkStringArray(
         recipeInfo.ingredients
       );
@@ -43,7 +44,7 @@ router
         recipeInfo.readyInMinutes
       );
       if (recipeInfo.sourceURL)
-        recipeInfo.sourceURL = await verification.checkURL(recipeInfo.sourceURL);
+        recipeInfo.sourceURL = await backendVerification.checkURL(recipeInfo.sourceURL);
       if (recipeInfo.certified !== true) recipeInfo.certified = false;
 
       const newRecipe = await recipesData.createRecipe(
@@ -85,14 +86,14 @@ router
     }
     try {
       recipeInfo.title = verification.checkOnlyWordsString(recipeInfo.title);
-      recipeInfo.userId = verification.checkId(recipeInfo.userId);
+      recipeInfo.userId = backendVerification.checkId(recipeInfo.userId);
       recipeInfo.flavors = verification.checkOnlyWordsStringArray(
         recipeInfo.flavors
       );
       recipeInfo.servings = verification.checkNumber(recipeInfo.servings);
 
       if (recipeInfo.imageURL)
-        recipeInfo = await verification.checkURL(recipeInfo.imageURL);
+        recipeInfo = await backendVerification.checkURL(recipeInfo.imageURL);
       recipeInfo.ingredients = verification.checkStringArray(
         recipeInfo.ingredients
       );
@@ -103,7 +104,7 @@ router
         recipeInfo.readyInMinutes
       );
       if (recipeInfo.sourceURL)
-        recipeInfo.sourceURL = await verification.checkURL(recipeInfo.sourceURL);
+        recipeInfo.sourceURL = await backendVerification.checkURL(recipeInfo.sourceURL);
         //no certified check since this is update
 
       const newRecipe = await recipesData.createRecipe(

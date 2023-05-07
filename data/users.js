@@ -2,6 +2,7 @@ import {users} from '../config/mongoCollections.js';
 import bcrypt from 'bcrypt';
 import { ObjectId } from 'mongodb';
 import verification from '../public/js/verification.js';
+import backendVerification from '../public/js/backendVerification.js';
 import { recipesData } from './index.js';
 
 const usersMethods = {
@@ -174,7 +175,7 @@ const usersMethods = {
 
   async addIngredientToUser (username, ingredientId, quantity, measurement) {
     username = verification.checkUsername(username, 'username');
-    ingredientId = verification.checkId(ingredientId, 'ingredientId');
+    ingredientId = backendVerification.checkId(ingredientId, 'ingredientId');
     quantity = verification.checkNumber(quantity, 'quantity');
     measurement = verification.checkOnlyWordsString(measurement, 'measurement');
 
@@ -191,7 +192,7 @@ const usersMethods = {
 
   async removeIngredientFromUser (username, ingredientId) {
     username = verification.checkUsername(username, 'username');
-    ingredientId = verification.checkId(ingredientId, 'ingredientId');
+    ingredientId = backendVerification.checkId(ingredientId, 'ingredientId');
 
     const userCollection = await users();
     const user = await userCollection.findOne({username: username});

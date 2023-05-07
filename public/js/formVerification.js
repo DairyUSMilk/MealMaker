@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verification.checkPassword(passwordInput, 'password');
             verification.checkPasswordMatch(passwordInput, confirmPasswordInput);
           } catch (e) {
-            error.innerText = `Client side: ${e}`;
+            error.innerText = `${e}`;
             return;
           }        
           registerForm.submit();
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (loginForm) {
       loginForm.addEventListener('submit', async event => {
-        console.log("CLIENT SIDE");
+        console.log("loginForm!");
           event.preventDefault();
 
           const emailOrUserInput = document.getElementById('emailOrUserInput').value;
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
               verification.checkUsername(emailOrUserInput, 'username')
             }
           } catch (e) {
-              errorMessage.innerText = `Client side: ${e}`;
+              errorMessage.innerText = `${e}`;
           }  
           loginForm.submit();
       })

@@ -1,6 +1,7 @@
 import express from 'express';
 import {ingredientsData} from '../data/index.js';
 import verification from '../public/js/verification.js';
+import backendVerification from '../public/js/backendVerification.js';
 import updateSessionData from "./middleware/updateSessionMiddleware.js";
 
 const router = express.Router();
@@ -63,7 +64,7 @@ router.post('/:id', async (req, res) => {
         ingredientInfo.quantity = verification.checkNumber(ingredientInfo.quantity);
         ingredientInfo.measurement = verification.checkOnlyWordsString(ingredientInfo.measurement);
         
-        req.params.id = verification.checkId(req.params.id);
+        req.params.id = backendVerification.checkId(req.params.id);
 
         const updatedIngredient = await ingredientsData.updateIngredient(req.params.id, ingredientInfo.name, ingredientInfo.flavors, ingredientInfo.quantity, ingredientInfo.measurement);
         updateSessionData(req, res, () => {
