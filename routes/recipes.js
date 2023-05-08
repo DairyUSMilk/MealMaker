@@ -57,7 +57,8 @@ router
         const user = await usersData.getUserByUsername(filter.usernameInput);
         userId = user._id;
       }
-  
+      console.log("A");
+      console.log(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified)
       const recipes = await recipesData.getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified);
       return res.json(recipes);
     } catch (e) {
