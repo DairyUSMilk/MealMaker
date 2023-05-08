@@ -2,6 +2,7 @@ import {recipes} from '../config/mongoCollections.js';
 import verification from '../public/js/verification.js';
 import backendVerification from '../public/js/backendVerification.js';
 import { ObjectId } from 'mongodb';
+import { ingredientsData } from './index.js';
 
 const recipesMethods = {
     async createRecipe(
@@ -59,7 +60,7 @@ const recipesMethods = {
             title : title,
             flavors : flavors,
             imageURL : imageURL,
-            ingredients : ingredients,
+            ingredients : [],
             instructions : instructions,
             servings : servings,
             readyInMinutes : readyInMinutes,
@@ -69,6 +70,19 @@ const recipesMethods = {
             dislikes : 0,
             certified : certified
         };
+
+        for (let i = 0; i < ingredients.length; i++) {
+            const ingredient = ingredients[i];
+            const ingredientId = await ingredientsData.getIngredientByName2(ingredient.name);
+            recipe.ingredients.push({
+              id: ingredientId,
+              name: ingredient.name,
+              flavors: ingredient.flavors,
+              generalCuisine: ingredient.generalCuisine,
+              quantity: ingredient.quantity,
+              measurement: ingredient.measurement
+            });
+          }
 
         let recipeCollection = await recipes();
         let insertInfo = await recipeCollection.insertOne(recipe);

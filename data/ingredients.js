@@ -37,8 +37,8 @@ const ingredientsMethods = {
         id = backendVerification.checkId(id, 'id');
         const ingredientCollection = await ingredients();
         console.log(id);
-        let ingredient = await ingredientCollection.findOne({_id : ObjectId(id)});
-        console.log(ObjectId(id));
+        let ingredient = await ingredientCollection.findOne({_id : new ObjectId(id)});
+        console.log(new ObjectId(id));
         if (ingredient === null) throw 'No ingredient with that id';
         console.log(ingredient);
         return ingredient;
@@ -116,6 +116,13 @@ const ingredientsMethods = {
         let ingredient = await ingredientCollection.findOne({name: ingredientName});
         
         return ingredient;
+    },
+
+    async getIngredientByName2(ingredientName) {   //for recipe and user to check validity of ingredients
+        const ingredientCollection = await ingredients();
+        let ingredient = await ingredientCollection.findOne({name: ingredientName});
+        
+        return ingredient._id.toString();
     },
 
     async addFlavorsToIngredient(ingredientName, flavors) {

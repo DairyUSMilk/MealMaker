@@ -1,5 +1,5 @@
 import {dbConnection, closeConnection} from './config/mongoConnection.js';
-import { usersData, recipesData } from './data/index.js';
+import { usersData, recipesData, ingredientsData } from './data/index.js';
 
 const db = await dbConnection();
 await db.dropDatabase();
@@ -15,6 +15,118 @@ const did = Darius._id.toString();
 
 const Adam = await usersData.createUser("Adam", "Borowczak", "AdamB", "AdamB@gmail.com", "Password1.2", "admin", true);
 const aid = Adam._id.toString();
+
+
+//function for adding ingredients to used in following recipes to DB
+
+// async function populateIngredients(recipeIngredients) {
+//   for (let i = 0; i < recipeIngredients.length; i++) {
+//     const ingredient = recipeIngredients[i];
+//     await ingredientsData.createIngredient(ingredient.name, ingredient.flavors, 0, "any");
+//   }
+// }
+
+await ingredientsData.createIngredient("spaghetti", ["wheaty"], 0, "any");
+await ingredientsData.createIngredient("ground beef", ["meaty", "salty"], 0, "any");
+await ingredientsData.createIngredient("tomato sauce", ["savory", "tomato"], 0, "any");
+await ingredientsData.createIngredient("romaine lettuce", ["bitter", "crunchy"], 0, "any");
+await ingredientsData.createIngredient("croutons", ["garlicky"], 0, "any");
+await ingredientsData.createIngredient("Parmesan Cheese", ["cheesy"], 0, "any");
+await ingredientsData.createIngredient("ceasar dressing", ["sweet", "sour"], 0, "any");
+await ingredientsData.createIngredient("fettuccine pasta", ["starchy", "pasta"], 0, "any");
+await ingredientsData.createIngredient("salted butter", ["fat", "buttery", "salty"], 0, "any");
+await ingredientsData.createIngredient("heavy cream", ["creamy", "rich"], 0, "any");
+await ingredientsData.createIngredient("grated parmesan cheese", ["salty", "cheesy"], 0, "any");
+await ingredientsData.createIngredient("garlic powder", ["spicy", "pungent"], 0, "any");
+await ingredientsData.createIngredient("egg", ["eggy"], 0, "any");
+await ingredientsData.createIngredient("creamy peanut butter", ["fat", "peanuty"], 0, "any");
+await ingredientsData.createIngredient("sugar", ["sweet"], 0, "any");
+await ingredientsData.createIngredient("medium red potatoes", ["potato"], 0, "any");
+await ingredientsData.createIngredient("butter", ["fat", "buttery"], 0, "any");
+await ingredientsData.createIngredient("parsley", ["parsley"], 0, "any");
+await ingredientsData.createIngredient("bananas", ["banana"], 0, "any");
+await ingredientsData.createIngredient("yellow cake mix", ["sweet"], 0, "any");
+await ingredientsData.createIngredient("bacon strips", ["savory"], 0, "any");
+await ingredientsData.createIngredient("frozen fully cooked breakfast sausage links", ["savory"], 0, "any");
+await ingredientsData.createIngredient("brown sugar", ["sweet"], 0, "any");
+await ingredientsData.createIngredient("toothpick", ["none"], 0, "any");
+await ingredientsData.createIngredient("refrigerated crescent rolls", ["bready"], 1, "tube");
+await ingredientsData.createIngredient("french-fried onions", ["savory"], 1.33, "cups");
+await ingredientsData.createIngredient("egg", ["egg"], 1, "large");
+await ingredientsData.createIngredient("water", [], 1, "tablespoon");
+await ingredientsData.createIngredient("cream cheese", ["creamy"], 0, "any");
+await ingredientsData.createIngredient("chicken breast", ["chicken"], 0, "any");
+await ingredientsData.createIngredient("Buffalo wing sauce", ["spicy"], 0, "any");
+await ingredientsData.createIngredient("ranch or blue cheese salad dressing", ["creamy"], 0, "any");
+await ingredientsData.createIngredient("Colby-Monterey Jack cheese", ["cheese"], 0, "any");
+await ingredientsData.createIngredient("potatoes", ["earthy"], 0, "any");
+await ingredientsData.createIngredient("carrot", ["sweet"], 0, "any");
+await ingredientsData.createIngredient("onion", ["pungent"], 0, "any");
+await ingredientsData.createIngredient("parsley flakes", ["herbaceous"], 0, "any");
+await ingredientsData.createIngredient("salt", ["salty"], 0, "any");
+await ingredientsData.createIngredient("pepper", ["spicy"], 0, "any");
+await ingredientsData.createIngredient("celery seed", ["herbaceous"], 0, "any");
+await ingredientsData.createIngredient("chicken broth", ["salty"], 0, "any");
+await ingredientsData.createIngredient("all purpose flour", ["neutral"], 0, "any");
+await ingredientsData.createIngredient("milk", ["creamy"], 0, "any");
+await ingredientsData.createIngredient("Velveeta", ["cheesy"], 0, "any");
+await ingredientsData.createIngredient("green onions", ["pungent"], 0, "any");
+await ingredientsData.createIngredient("onion powder", ["savory"], 0, "any");
+await ingredientsData.createIngredient("kosher salt", ["savory"], 0, "any");
+await ingredientsData.createIngredient("black pepper", ["savory"], 0, "any");
+await ingredientsData.createIngredient("cheddar cheese", ["cheesy"], 0, "any");
+await ingredientsData.createIngredient("mayonnaise", ["savory"], 0, "any");
+await ingredientsData.createIngredient("ketchup", ["sweet", "savory"], 0, "any");
+await ingredientsData.createIngredient("pickle juice", ["tangy", "savory"], 0, "any");
+await ingredientsData.createIngredient("hot sauce", ["spicy"], 0, "any");
+await ingredientsData.createIngredient("flour tortillas", ["bready"], 0, "any");
+await ingredientsData.createIngredient("lettuce", ["leafy", "bitter"], 0, "any");
+await ingredientsData.createIngredient("tomato", ["umami"], 0, "any");
+await ingredientsData.createIngredient("pickles", ["tangy", "savory"], 0, "any");
+await ingredientsData.createIngredient("ramen noodles", ["savory", "umami", "asian"], 0, "any");
+await ingredientsData.createIngredient("cornstarch", [], 0, "any");
+await ingredientsData.createIngredient("soy sauce", ["salty", "umami", "asian"], 0, "any");
+await ingredientsData.createIngredient("rice vinegar", ["sour", "asian"], 0, "any");
+await ingredientsData.createIngredient("hoisin sauce", ["sweet", "salty", "asian"], 0, "any");
+await ingredientsData.createIngredient("ginger", ["spicy", "asian"], 0, "any");
+await ingredientsData.createIngredient("garlic", ["spicy", "global"], 0, "any");
+await ingredientsData.createIngredient("salt", [], 0, "any");
+await ingredientsData.createIngredient("black pepper", ["spicy", "global"], 0, "any");
+await ingredientsData.createIngredient("sesame oil", ["nutty", "asian"], 0, "any");
+await ingredientsData.createIngredient("broccoli", ["vegetal", "global"], 0, "any");
+await ingredientsData.createIngredient("sugar snap peas", ["vegetal", "global"], 0, "any");
+await ingredientsData.createIngredient("carrot", ["sweet", "vegetal", "global"], 0, "any");
+await ingredientsData.createIngredient("red bell pepper", ["sweet", "vegetal", "global"], 0, "any");
+await ingredientsData.createIngredient("rotisserie chicken", ["savory", "american"], 0, "any");
+await ingredientsData.createIngredient("colby-monterey jack cheese", ["cheese", "global"], 0, "any");
+await ingredientsData.createIngredient("cheddar cheese", ["cheese", "global"], 0, "any");
+await ingredientsData.createIngredient("celery", ["vegetable", "global"], 0, "any");
+await ingredientsData.createIngredient("blue cheese salad dressing", ["savory", "cheesy", "global"], 0, "any");
+await ingredientsData.createIngredient("Buffalo wing sauce", ["spicy", "global"], 0, "any");
+await ingredientsData.createIngredient("flour tortillas", ["bready", "mexican"], 0, "any");
+await ingredientsData.createIngredient("spaghetti", ["neutral"], 0, "any");
+await ingredientsData.createIngredient("bacon", ["salty"], 0, "any");
+await ingredientsData.createIngredient("ground beef", ["meaty"], 0, "any");
+await ingredientsData.createIngredient("onion", ["savory"], 0, "any");
+await ingredientsData.createIngredient("kidney beans", ["earthy"], 0, "any");
+await ingredientsData.createIngredient("tomato sauce", ["savory"], 0, "any");
+await ingredientsData.createIngredient("diced tomatoes and green chiles", ["spicy"], 0, "any");
+await ingredientsData.createIngredient("chili powder", ["spicy"], 0, "any");
+await ingredientsData.createIngredient("Worcestershire sauce", ["savory"], 0, "any");
+await ingredientsData.createIngredient("ground cumin", ["spicy"], 0, "any");
+await ingredientsData.createIngredient("dried oregano", ["herbaceous"], 0, "any");
+await ingredientsData.createIngredient("garlic powder", ["savory"], 0, "any");
+await ingredientsData.createIngredient("pepper jack cheese", ["spicy", "cheesy"], 0, "any");
+await ingredientsData.createIngredient("condensed cream of chicken soup", ["savory"], 0, "any");
+await ingredientsData.createIngredient("shredded cooked chicken", ["savory"], 0, "any");
+await ingredientsData.createIngredient("cottage cheese", ["creamy"], 0, "any");
+await ingredientsData.createIngredient("Ritz crackers", ["salty"], 0, "any");
+await ingredientsData.createIngredient("sour cream", ["sour", "creamy"], 0, "any");
+
+
+
+
+
 
 // #1
 const SpaghettiBolognese = await recipesData.createRecipe(
@@ -70,7 +182,7 @@ did,
 "https://media.istockphoto.com/id/186841877/photo/caesar-salad.jpg?b=1&s=170667a&w=0&k=20&c=KoCb_IK8EmkH6KBt6LWujZM4j9WWMDEYjdTeM7ZaOhM=",
 [
 {
-  id: 3001,
+  id: 1234,
   name: "romaine lettuce",
   flavors: ["bitter", "crunchy"],
   generalCuisine: ["american"],
@@ -96,7 +208,7 @@ did,
 {
 id: 3004,
 name: "ceasar dressing",
-flavors: ["sweet, sour"],
+flavors: ["sweet", "sour"],
 generalCuisine: ["american"],
 quantity: 1,
 measurement: "cup"
@@ -539,7 +651,7 @@ measurement: "can (14-1/2 ounces)"
 },
 {
 id: 20081,
-name: "all-purpose flour",
+name: "all purpose flour",
 flavors: ["neutral"],
 generalCuisine: ["global"],
 quantity: 3,
@@ -547,7 +659,7 @@ measurement: "tablespoon"
 },
 {
 id: 1077,
-name: "2% milk",
+name: "milk",
 flavors: ["creamy"],
 generalCuisine: ["global"],
 quantity: 3,
@@ -1118,6 +1230,23 @@ const CowboySpaghetti = await recipesData.createRecipe(
     true
   );
   
+
+// await populateIngredients(SpaghettiBolognese.ingredients)
+// await populateIngredients(CaesarSalad.ingredients)
+// await populateIngredients(FettuccineAlfredo.ingredients)
+// await populateIngredients(PeanutButterCookies.ingredients)
+// await populateIngredients(basicBoiledPotatoes.ingredients)
+// await populateIngredients(BananaBread.ingredients)
+// await populateIngredients(SausageBaconBites.ingredients)
+// await populateIngredients(OnionCrescentRolls.ingredients)
+// await populateIngredients(BuffaloChickenDip.ingredients)
+// await populateIngredients(PotatoSoup.ingredients)
+// await populateIngredients(cheeseburgerTacos.ingredients)
+// await populateIngredients(RamenStirFry.ingredients)
+// await populateIngredients(BuffaloChickenWraps.ingredients)
+// await populateIngredients(CowboySpaghetti.ingredients)
+// await populateIngredients(ChickenCasserole.ingredients)
+
 
 console.log('Done seeding database');
 await closeConnection();
