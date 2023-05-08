@@ -13,7 +13,9 @@
   <ul>
     {{#each ingredients}}
       <li>
-        {{> ingredient}}
+        <h2>{{ingredient.name}}</h2>
+        <p>{{ingredient.flavors}}</p>
+        <main>{{ingredient.quantity}} {{ingredient.measurement}}</main>
       </li>
     {{/each}}
   </ul>

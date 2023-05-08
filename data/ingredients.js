@@ -27,20 +27,15 @@ const ingredientsMethods = {
         let insertInfo = await ingredientCollection.insertOne(ingredient);
         if (insertInfo.insertedCount === 0) throw 'Could not add ingredient';
         let newId = insertInfo.insertedId;
-        console.log(newId.toString());
         const newIngredient = await this.getIngredientById(newId.toString());
-        console.log("AEAEAE");
         return newIngredient;
     },
 
     async getIngredientById(id){
         id = backendVerification.checkId(id, 'id');
         const ingredientCollection = await ingredients();
-        console.log(id);
-        let ingredient = await ingredientCollection.findOne({_id : new ObjectId(id)});
-        console.log(new ObjectId(id));
+        let ingredient = await ingredientCollection.findOne({"_id" : new ObjectId(id)});
         if (ingredient === null) throw 'No ingredient with that id';
-        console.log(ingredient);
         return ingredient;
     },
 
