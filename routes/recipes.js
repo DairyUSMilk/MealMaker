@@ -60,7 +60,7 @@ router
       console.log("A");
       console.log(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified)
       const recipes = await recipesData.getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified);
-      return res.json(recipes);
+      return res.render("recipes", { title: "Recipes", recipes: recipes });
     } catch (e) {
       console.log(e);
       res.status(500).json({ error: e });
