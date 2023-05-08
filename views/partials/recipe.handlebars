@@ -23,9 +23,8 @@
       <li>Likes: {{this.likes}}</li>
       <li>Dislikes: {{this.dislikes}}</li>
       <li>Certified: {{this.certified}}</li>
-      {{#if (eq user.role "admin")}}
-        <li>
-          <label for="deleteRecipeButton">Delete Recipe</label>
-          <input type="button" name="deleteRecipeButton" id="deleteRecipeButton">
-        </li>
+      {{#if (eq @root.user.role 'admin')}}
+        <form action="/recipes/delete/{{this._id}}" method="POST">
+          <input type="submit" value="Delete Recipe" id="deleteRecipeButton">
+        </form>
       {{/if}}

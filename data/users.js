@@ -77,6 +77,15 @@ const usersMethods = {
     return {_id : user._id, firstName: user.firstName, lastName: user.lastName, username: user.username, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role, showUsername: user.showUsername};
   },
 
+  async getUserById (id) {
+    const userCollection = await users();
+    if(!userCollection) throw 'Error: could not access user collection';
+
+    let user = await userCollection.findOne({"_id": new ObjectId(id)});
+    if(!user) throw 'Error: no user with that id';
+    return {_id : user._id, firstName: user.firstName, lastName: user.lastName, username: user.username, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role, showUsername: user.showUsername};
+  },
+
   async getIngredients (username) {
     username = verification.checkUsername(username, 'username');
     const userCollection = await users();

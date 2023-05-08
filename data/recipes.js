@@ -135,8 +135,9 @@ const recipesMethods = {
     async deleteRecipe(id){
         id = backendVerification.checkId(id, 'id');
         const recipeCollection = await recipes();
-        let recipeName = await this.getRecipeById(id);
-        let deleted = recipeCollection.deleteOne({_id : id});
+        let recipe = await this.getRecipeById(id);
+        let recipeName = recipe.title;
+        let deleted = recipeCollection.deleteOne({_id : new ObjectId(id)});
         if (deleted.deletedCount === 0) throw 'Could not delete recipe';
         return {recipeName, deleted : true};
     },

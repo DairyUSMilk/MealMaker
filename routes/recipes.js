@@ -3,6 +3,7 @@ import express from "express";
 import verification from "../public/js/verification.js";
 import backendVerification from '../public/js/backendVerification.js';
 import updateSessionData from "./middleware/updateSessionMiddleware.js";
+import isAdminMiddleware from './middleware/isAdminMiddleware.js';
 
 const router = express.Router();
 
@@ -125,7 +126,20 @@ router
       res.status(500).json({ error: e });
     }
   });
-//TODO -- DELETE
+
+router.all("/delete/:id", isAdminMiddleware, async (req, res) => {
+  try {
+    let recipes = await recipesData.getAllRecipes();
+    let deletedRecipe = await recipesData.deleteRecipe(req.params.id);
+    recipes = await recipesData.getAllRecipes();
+
+    updateSessionData(req, res, () => {
+      res.status(200).render("recipes", { title: "Recipes", recipes: recipes, success: `Recipe: '${deletedRecipe.recipeName}' successfully deleted`});
+    });
+  } catch (e) {
+    return res.status(500).render("recipes", { title: "Recipes", recipes: recipes, error: `${e}`});
+  }
+});
 
 router.get(
   "/filter",

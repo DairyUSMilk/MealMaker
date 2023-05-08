@@ -6,6 +6,7 @@ import registerRoutes from "./register.js";
 import userMiddleware from "./middleware/userMiddlewares.js";
 import recipesMiddleware from "./middleware/recipesMiddleware.js";
 import redirectMiddleware from "./middleware/redirectMiddleware.js";
+import isAdminMiddleware from "./middleware/isAdminMiddleware.js";
 
 const constructorMethod = (app) => {
   
