@@ -8,7 +8,6 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        console.log(req.session.ingredients);
         let message = '';
         if(req.body.message) message = req.body.message;
         res.render('ingredients', {ingredients : req.session.ingredients, title : 'Your Ingredients Stash!', message : message});
@@ -32,7 +31,7 @@ router.get('/add', async (req, res) => {
             measurement : req.body.measurementInput
         };
         if (!ingredientInfo) throw 'You must provide data to add an ingredient to your stash!';
-        ingredientInfo.name = verification.checkOnlyWordsString(ingredientInfo.name, "ingredient name");
+        ingredientInfo.name = verification.checkOnlyWordsString(ingredientInfo.name, "ingredient name").toUpperCase();
 
         if(!ingredientInfo.flavors) ingredientInfo.flavors = [];
         else ingredientInfo.flavors = verification.checkOnlyWordsStringArray(ingredientInfo.flavors.split(',').map(s => s.trim()), "ingredient flavors");
@@ -49,18 +48,25 @@ router.get('/add', async (req, res) => {
             const updatedIngredient = await ingredientsData.addFlavorsToIngredient(ingredientInfo.name, ingredientInfo.flavors);
             ingredientInfo._id = updatedIngredient._id;
             ingredientInfo.flavors = updatedIngredient.flavors;
-            console.log(ingredientInfo);
         }
         console.log("AAA");
-        try{req.session.ingredients.push(ingredientInfo);
+        try{
+            if(req.session.ingredients.some(ingredient => ingredient.name === ingredientInfo.name)){
+                req.session.ingredients = req.session.ingredients.map(
+                  (ingredient) => {
+                    if (ingredient.name === ingredientInfo.name){
+                        return ingredientInfo;
+                    }
+                    else return ingredient;
+                  }
+                );
+            } 
+            else req.session.ingredients.push(ingredientInfo);
         } catch (e) {
             console.log(e);
             console.log(req.session.ingredients);
         }
-        console.log(req.session.ingredients);
-        console.log("yeeeeee")
         if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo._id, ingredientInfo.flavors, ingredientInfo.quantity, ingredientInfo.measurement);
-        console.log("yeeeeeeeeeee")
         res.redirect('/ingredients'); //need a way to pass the message that a new thing is added
     } catch (e) {
         res.status(500).json({ error: e });

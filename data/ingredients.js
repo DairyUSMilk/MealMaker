@@ -11,6 +11,7 @@ const ingredientsMethods = {
         measurement,
     ){
         name = verification.checkOnlyWordsString(name, 'name');
+        name = name.toUpperCase();
         flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
         quantity = verification.checkNumber(quantity, 'quantity');
         measurement = verification.checkOnlyWordsString(measurement, 'measurement');
