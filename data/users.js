@@ -86,6 +86,16 @@ const usersMethods = {
     return {_id : user._id, firstName: user.firstName, lastName: user.lastName, username: user.username, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role, showUsername: user.showUsername};
   },
 
+  async getUserByUsername (username) {
+    username = verification.checkUsername(username, 'username');
+    const userCollection = await users();
+    if(!userCollection) throw 'Error: could not access user collection';
+
+    let user = await userCollection.findOne({"username": username});
+    if(!user) throw 'Error: no user with that username';
+    return {_id : user._id, firstName: user.firstName, lastName: user.lastName, username: user.username, email: user.email, ingredients: user.ingredients, likedRecipes: user.likedRecipes, recipesCreated: user.recipesCreated, role: user.role, showUsername: user.showUsername};
+  },
+  
   async getIngredients (username) {
     username = verification.checkUsername(username, 'username');
     const userCollection = await users();
@@ -244,7 +254,8 @@ const usersMethods = {
     if(!updatedUser) throw 'Error: could not change username';
 
     return {usernameChanged : true, user: updatedUser};
-  }
+  },
+
 
 }
 

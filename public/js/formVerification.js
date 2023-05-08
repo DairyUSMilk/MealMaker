@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const registerForm = document.getElementById('registration-form');
   const ingredientForm = document.getElementById('ingredient-form');
   const recipesForm = document.getElementById('recipes-form');
+  const filterForm = document.getElementById('filter-form');
 
   if (registerForm) {
       registerForm.addEventListener('submit', event => {
@@ -98,22 +99,21 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const nameInput = document.getElementById('nameInput').value;
       const flavorsInput = document.getElementById('flavorsInput').value;
-      const imageInput = document.getElementById('imageInput');
       const ingredientsInput = document.getElementById('ingredientsInput').value;
       const instructionsInput = document.getElementById('instructionsInput').value;
       const servingsInput = document.getElementById('servingsInput').value;
       const readyInput = document.getElementById('readyInput').value;
-      const sourceInput = document.getElementById('sourceInput').value;
+      const certifiedInput = document.getElementById('certifiedInput').value;
       const error = document.getElementById('error');
 
+      if(typeof flavorsInput !== 'string') throw 'Error: flavors must be a string!';
+      if(typeof ingredientsInput !== 'string') throw 'Error: ingredients must be a string!';
+      if(typeof instructionsInput !== 'string') throw 'Error: instructions must be a string!';
+      
       const flavorsInputArray = flavorsInput.split(',').map(s => s.trim());
       const ingredientsInputArray = ingredientsInput.split(',').map(s => s.trim());
       const instructionsInputArray = instructionsInput.split(',').map(s => s.trim());
 
-      if (!imageInput.files || imageInput.files.length === 0) {
-        error.innerText = 'An image is required';
-        return;
-      }
 
       if (!sourceInput || !verification.checkURL(sourceInput)) {
         error.innerText = 'A valid source URL is required';
@@ -121,17 +121,57 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
-        verification.checkOnlyWordsString(nameInput);
-        verification.checkOnlyWordsStringArray(flavorsInputArray);
-        verification.checkNumber(servingsInput);
-        verification.checkStringArray(ingredientsInputArray);
-        verification.checkOnlyWordsStringArray(instructionsInputArray);
-        verification.checkNumber(readyInput);
+        verification.checkOnlyWordsString(nameInput, "recipe name");
+        verification.checkOnlyWordsStringArray(flavorsInputArray, "recipe flavors");
+        verification.checkNumber(servingsInput, "recipe servings");
+        verification.checkStringArray(ingredientsInputArray, "recipe ingredients");
+        verification.checkOnlyWordsStringArray(instructionsInputArray, "recipe instructions");
+        verification.checkNumber(readyInput, "recipe ready in");
+        if(certifiedInput !== true && certifiedInput !== false) throw 'Error: certified must be a boolean!';
       } catch (e) {
         error.innerText = `${e}`;
         return;
       }
       recipesForm.submit();
+    })
+  }
+
+  if (filterForm) {
+    filterForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      
+      const nameInput = document.getElementById('nameInput').value;
+      const flavorsInput = document.getElementById('flavorsInput').value;
+      const ingredientsInput = document.getElementById('ingredientsInput').value;
+      const instructionsInput = document.getElementById('instructionsInput').value;
+      const servingsInput = document.getElementById('servingsInput').value;
+      const readyInput = document.getElementById('readyInput').value;
+      const certifiedInput = document.getElementById('certifiedInput').value;
+      const usernameInput = document.getElementById('usernameInput').value;
+      const error = document.getElementById('error');
+
+      if(typeof flavorsInput !== 'string') throw 'Error: flavors must be a string!';
+      if(typeof ingredientsInput !== 'string') throw 'Error: ingredients must be a string!';
+      if(typeof instructionsInput !== 'string') throw 'Error: instructions must be a string!';
+      
+      const flavorsInputArray = flavorsInput.split(',').map(s => s.trim());
+      const ingredientsInputArray = ingredientsInput.split(',').map(s => s.trim());
+      const instructionsInputArray = instructionsInput.split(',').map(s => s.trim());
+
+      try {
+        verification.checkOnlyWordsString(nameInput, "recipe name");
+        verification.checkOnlyWordsStringArray(flavorsInputArray, "recipe flavors");
+        verification.checkNumber(servingsInput, "recipe servings");
+        verification.checkStringArray(ingredientsInputArray, "recipe ingredients");
+        verification.checkOnlyWordsStringArray(instructionsInputArray, "recipe instructions");
+        verification.checkNumber(readyInput, "recipe readyInMin");
+        verification.checkUsername(usernameInput, "recipe username");
+        if(certifiedInput !== true && certifiedInput !== false) throw 'Error: certified must be a boolean!';
+      } catch (e) {
+        error.innerText = `${e}`;
+        return;
+      }
+      filterForm.submit();
     })
   }
 });

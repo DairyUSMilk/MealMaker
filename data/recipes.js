@@ -197,7 +197,7 @@ const recipesMethods = {
         return await this.getRecipeById(recipeId);
     },
 
-    async getRecipeByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified){
+    async getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified){
         let query = {};
 
         if(userId) query.userId = backendVerification.checkId(userId, 'userId');

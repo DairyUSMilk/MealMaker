@@ -1,4 +1,4 @@
-import { recipesData } from "../data/index.js";
+import { recipesData, usersData } from "../data/index.js";
 import express from "express";
 import verification from "../public/js/verification.js";
 import backendVerification from '../public/js/backendVerification.js';
@@ -10,46 +10,117 @@ const router = express.Router();
 router
   .get("/", async (req, res) => {
     try {
-      let recipes = await recipesData.getAllRecipes();
-      if(req.body.filter) recipes = await recipesData.getRecipeByFilter(req.body.filter.userId, req.body.filter.title, req.body.filter.flavors, req.body.filter.ingredients, req.body.filter.readyInMinutes, req.body.filter.likes, req.body.filter.totalScore, req.body.filter.minMatchPercentage, req.body.filter.certified);
-
-      
-      return res.render("recipes", { title: "Recipes", recipes: recipes});
+      let recipes = [];
+      if(req.body.filter) recipes = await recipesData.getRecipesByFilter(req.body.filter.userId, req.body.filter.title, req.body.filter.flavors, req.body.filter.ingredients, req.body.filter.readyInMinutes, req.body.filter.likes, req.body.filter.totalScore, req.body.filter.minMatchPercentage, req.body.filter.certified);
+      else recipes = await recipesData.getAllRecipes();
+      return res.render("recipes", { title: "Recipes", recipes: recipes });
     } catch (e) {
       res.status(500).send();
     }
-  })
-  .post("/", async (req, res) => {
+  }).post("/",async (req, res) => {
+    try {
+      const filter = req.body;
+      let userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, certified, minMatchPercentage;
+  
+      
+      if(filter.nameInput) title = verification.checkOnlyWordsString(filter.nameInput, 'title');
+
+      if(filter.flavorsInput){
+        if(typeof filter.flavorsInput !== 'string') throw `Error: flavors must be a string`;
+        filter.flavorsInput = filter.flavorsInput.split(',');
+        flavors = verification.checkOnlyWordsStringArray(filter.flavorsInput, 'flavors');
+      }
+      if(filter.ingredients){
+        if(typeof filter.ingredientsInput !== 'string') throw `Error: ingredients must be a string`;
+        ingredients = verification.checkOnlyWordsStringArray(filter.ingredientsInput.split(','));
+      } 
+
+      if(filter.readyInput) {
+        filter.readInput = Number(filter.readyInput);
+        readyInMinutes = verification.checkNumber(filter.readyInput, 'readyInMinutes');
+      }
+
+      if(filter.likesInput) {
+        likesInput = verification.checkNumber(Number(filter.likesInput), 'likes');
+      }
+
+      if(filter.totalScoreInput) totalScore = verification.checkNumber(Number(filter.totalScoreInput), "totalScore");
+        
+      if(filter.minMatchPercentageInput) {
+        minMatchPercentage = verification.checkNumber(Number(filter.minMatchPercentageInput));
+      }
+
+      if(filter.certifiedInput === true) certified = true;
+      else if(filter.certifiedInput === false) certified = false;
+
+      if(filter.username){
+        const user = await usersData.getUserByUsername(filter.usernameInput);
+        userId = user._id;
+      }
+  
+      const recipes = await recipesData.getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified);
+      return res.json(recipes);
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({ error: e });
+    }
+  });
+
+  router.get("/add", async (req, res) => {
+    try {
+      if(!req.session.user){
+        return res.render('/login', {title: 'Login', error: 'You must be logged in to add a recipe'});
+      }
+      return res.render('recipeInput', {title: 'Recipe Filter Input', user: req.session.user});
+    } catch (e) {
+      return res.status(500).render('recipeInput', {title: 'Recipe Filter Input', error: `${e}`});
+    }
+  }).post("/add", async (req, res) => {
+    //NEED MIDDLEWARE SO ONLY LOGGED IN USERS CAN ADD RECIPES, AND ONLY ADMINS CAN ADD CERTIFIED RECIPES
     const recipeInfo = req.body;
     if (!recipeInfo) {
-      res
-        .status(400)
-        .json({ error: "You must provide data to create a recipe" });
+      res.status(400).json({ error: "You must provide data to create a recipe" });
       return;
     }
     try {
-      recipeInfo.title = verification.checkOnlyWordsString(recipeInfo.title);
-      recipeInfo.userId = backendVerification.checkId(recipeInfo.userId);
+      recipeInfo.title = verification.checkOnlyWordsString(recipeInfo.nameInput, 'nameInput');
+      
+      // recipeInfo.userId = backendVerification.checkId(recipeInfo.userId);
+      
+      recipeInfo.userId = req.session.user._id.toString();
+  
+      if(typeof recipeInfo.flavorsInput !== 'string') throw 'flavorsInput must be a string separated by commas!';
+  
       recipeInfo.flavors = verification.checkOnlyWordsStringArray(
-        recipeInfo.flavors
+        recipeInfo.flavorsInput.split(','), 'flavorsInput'
       );
-      recipeInfo.servings = verification.checkNumber(recipeInfo.servings);
-
-      if (recipeInfo.imageURL)
-        recipeInfo = await backendVerification.checkURL(recipeInfo.imageURL);
+  
+      recipeInfo.servings = verification.checkNumber(recipeInfo.servingsInput, "servingsInput");
+  
+      if (recipeInfo.imageURL){
+        recipeInfo = await backendVerification.checkImgURL(recipeInfo.imageInput, "imageInput");
+      }
+  
+      if(typeof recipeInfo.ingredientsInput !== 'string') throw 'ingredientsInput must be a string separated by commas!';
       recipeInfo.ingredients = verification.checkStringArray(
-        recipeInfo.ingredients
+        recipeInfo.ingredientsInput.split(','), 'ingredientsInput'
       );
+  
+      if(typeof recipeInfo.instructionsInput !== 'string') throw 'instructionsInput must be a string separated by newlines!';
       recipeInfo.instructions = verification.checkOnlyWordsStringArray(
-        recipeInfo.instructions
+        recipeInfo.instructionsInput.split(','), 'instructionsInput'
       );
+  
       recipeInfo.readyInMinutes = verification.checkNumber(
-        recipeInfo.readyInMinutes
+        Number(recipeInfo.readyInput), "readyInput"
       );
-      if (recipeInfo.sourceURL)
-        recipeInfo.sourceURL = await backendVerification.checkURL(recipeInfo.sourceURL);
-      if (recipeInfo.certified !== true) recipeInfo.certified = false;
-
+  
+      if (recipeInfo.sourceURL){
+        recipeInfo.sourceURL = await backendVerification.checkURL(recipeInfo.sourceInput, "sourceURL");
+      }
+  
+      if(req.session.user.role === 'admin' && certifiedInput) recipeInfo.certified = true;
+  
       const newRecipe = await recipesData.createRecipe(
         recipeInfo.userId,
         recipeInfo.title,
@@ -69,6 +140,7 @@ router
       res.status(500).json({ error: e });
     }
   });
+  
 
 router
   .get("/:id", async (req, res) => {
@@ -96,7 +168,7 @@ router
       recipeInfo.servings = verification.checkNumber(recipeInfo.servings);
 
       if (recipeInfo.imageURL)
-        recipeInfo = await backendVerification.checkURL(recipeInfo.imageURL);
+        recipeInfo = await backendVerification.checkImgURL(recipeInfo.imageURL);
       recipeInfo.ingredients = verification.checkStringArray(
         recipeInfo.ingredients
       );
@@ -143,18 +215,6 @@ router.all("/delete/:id", isAdminMiddleware, async (req, res) => {
   }
 });
 
-router.get(
-  "/filter",
-  async (req, res) => {
-    try {
-      const recipes = await recipesData.getRecipesByFilter(req.body.filter);
-      return res.json(recipes);
-    } catch (e) {
-      res.status(500).send();
-    }
-  }
 
-  //TODO : FILTER
-);
 
 export default router;

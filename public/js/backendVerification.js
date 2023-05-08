@@ -12,18 +12,24 @@ const exportedMethods = {
         return id;
     },
 
-    async checkURL(url, varName) {  
+    async checkImgURL(url, varName) {  
         url = verification.checkString(url, varName); 
         const response = await fetch(url);
         if (!response.ok) {
         return false;
         }
         const contentType = response.headers.get('content-type');
-        if (!contentType.startsWith('image/')) {
-        return false;
-        }
-        return true;
+        if (!contentType.startsWith('image/')) throw `Error: ${varName} must be a valid image URL`;
+        return url;
+    },
+
+    async checkURL(url, varName) {
+        url = verification.checkString(url, varName); 
+        const response = await fetch(url);
+        if (!response.ok) throw `Error: ${varName} must be a valid URL`;
+        return url;
     }
+
 }
 
 export default exportedMethods;
