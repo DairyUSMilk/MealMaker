@@ -1,21 +1,20 @@
 <h1>Ingredients</h1>
 <header>
-  <a href="/logout">Logout</a>
+  {{#if user}}
+    <a href="/logout">Logout</a>
+    {{else}}
+    <a href="/login">Login</a>
+  {{/if}}
   <a href="/">Home</a>
   <a href="/recipes">Recipes</a>
   <a href="/profile">Profile</a>
 </header>
 <body>
   <a href="/ingredients/add">Add Ingredients Here!</a>
-  <p>{{error}}</p>
-  <p>{{message}}</p>
-
   <ul>
     {{#each ingredients}}
       <li>
-        <h2>{{ingredient.name}}</h2>
-        <p>{{ingredient.flavors}}</p>
-        <main>{{ingredient.quantity}} {{ingredient.measurement}}</main>
+        {> ingredient}
       </li>
     {{/each}}
   </ul>
