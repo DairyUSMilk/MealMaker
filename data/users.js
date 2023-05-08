@@ -111,7 +111,7 @@ const usersMethods = {
 
   async addRecipeToLikedRecipes (username, recipeId) {
     username = verification.checkUsername(username, 'username');
-    const recipe = await recipesData.getRecipeById(ObjectId(recipeId));
+    const recipe = await recipesData.getRecipeById(recipeId);
     if(!recipe) throw 'Error: no recipe with that id';
     const userCollection = await users();
 
@@ -127,7 +127,7 @@ const usersMethods = {
 
   async addRecipeToCreatedRecipes (username, recipeId) {
     username = verification.checkUsername(username, 'username');
-    const recipe = await recipesData.getRecipeById(ObjectId(recipeId));
+    const recipe = await recipesData.getRecipeById(recipeId);
     if(!recipe) throw 'Error: no recipe with that id';
     const userCollection = await users();
 

@@ -1,8 +1,8 @@
-import {recipes} from '../config/mongoCollections.js';
+import {recipes, users} from '../config/mongoCollections.js';
 import verification from '../public/js/verification.js';
 import backendVerification from '../public/js/backendVerification.js';
 import { ObjectId } from 'mongodb';
-import { ingredientsData } from './index.js';
+import { ingredientsData, usersData } from './index.js';
 
 const recipesMethods = {
     async createRecipe(
@@ -89,6 +89,9 @@ const recipesMethods = {
         if (insertInfo.insertedCount === 0) throw 'Could not add recipe';
         let newId = insertInfo.insertedId.toString();
         const newRecipe = await this.getRecipeById(newId);
+        const userCollection = await users();
+        const user = await userCollection.findOne({_id : new ObjectId(userId)});
+        await usersData.addRecipeToCreatedRecipes(user.username, newId)
         return newRecipe;
     },
 
