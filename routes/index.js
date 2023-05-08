@@ -33,14 +33,15 @@ const constructorMethod = (app) => {
   //if not logged in, uses the ingredients stored in the session
   //if no ingredients stored in session, show all recipes
 
+  /* If user already logged in, redirect to /profile, with error stating you are already logged in */
   app.use("/register", redirectMiddleware, registerRoutes);
-  //middleware here to check if user is logged in
-  //if so, redirect to home page
 
+  /* If user already logged in, redirect to /profile, with error stating you are already logged in */
   /* User data is set/updated in session upon login (also when adding/removing ingredient, recipe, or liking/disliking recipe) */
   app.use("/login", redirectMiddleware, loginRoutes);
 
-  app.get("/logout", (req, res) => {
+  /* If user already logged out, redirect to /login, with error stating you are already logged out */
+  app.get("/logout", redirectMiddleware, (req, res) => {
     req.session.destroy();
     res.render("logout", { title: "Logout" });
   });
