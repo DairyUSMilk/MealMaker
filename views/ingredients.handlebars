@@ -1,6 +1,10 @@
 <h1>Ingredients</h1>
 <header>
-  <a href="/logout">Logout</a>
+  {{#if user}}
+    <a href="/logout">Logout</a>
+    {{else}}
+    <a href="/login">Login</a>
+  {{/if}}
   <a href="/">Home</a>
   <a href="/recipes">Recipes</a>
   <a href="/profile">Profile</a>
