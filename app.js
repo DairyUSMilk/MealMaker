@@ -33,9 +33,13 @@ app.use(session({
     name: 'MealMakerAuthCookie',
     secret: 'secret',
     resave: false,
-    saveUninitialized: false,
-    ingredients : []
+    saveUninitialized: false
 }));
+
+app.use((req, res, next) => {
+    if(!req.session.ingredients) req.session.ingredients = [];
+    next();
+});
 
 app.use((req, res, next) => {
     let userAuth = "(Non-Authenticated User)";

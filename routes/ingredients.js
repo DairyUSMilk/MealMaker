@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
+        console.log(req.session.ingredients);
         res.render('ingredients', {ingredients : req.session.ingredients, title : 'Your Ingredients Stash!'})
     } catch (e) {
         res.status(500).send();
@@ -23,7 +24,6 @@ router.get('/add', async (req, res) => {
 }).post('/add', async (req, res) => {  //add ingredient to user's stash. Also add ingredient to database if not already there
     try {
         const ingredientInfo = req.body;
-        console.log(ingredientInfo);
         if (!ingredientInfo) throw 'You must provide data to add an ingredient to your stash!';
         ingredientInfo.nameInput = verification.checkOnlyWordsString(ingredientInfo.nameInput, "ingredient name");
 
@@ -34,7 +34,6 @@ router.get('/add', async (req, res) => {
         if(Number.isNaN(ingredientInfo.quantityInput)) throw 'Error: ingredient quantity must be a number!';
 
         ingredientInfo.measurementInput = verification.checkOnlyWordsString(ingredientInfo.measurementInput, "measurement");
-        console.log("yee")
         const checkForIngredient = await ingredientsData.getIngredientByName(ingredientInfo.nameInput);
         if(!checkForIngredient) {
             const newIngredient = await ingredientsData.createIngredient(ingredientInfo.nameInput, ingredientInfo.flavorsInput, 0, "DB");
@@ -47,11 +46,17 @@ router.get('/add', async (req, res) => {
             console.log(updatedIngredient);
         }
         console.log("AAA");
-        req.session.ingredients = req.session.ingredients.push(ingredientInfo);
+        console.log(req.session.ingredients);
+        try{req.session.ingredients.push(ingredientInfo);
+        } catch (e) {
+            console.log(e);
+            console.log(req.session.ingredients);
+        }
+        console.log(req.session.ingredients);
         console.log("yeeeeee")
         if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo._id, ingredientInfo.flavorsInput, ingredientInfo.quantityInput, ingredientInfo.measurementInput);
         console.log("yeeeeeeeeeee")
-        res.redirect("/ingredients", {
+        res.render("ingredients", {
           title: "Ingredients",
           message:
             "" +
