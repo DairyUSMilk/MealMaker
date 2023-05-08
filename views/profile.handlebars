@@ -23,13 +23,7 @@
       <h2>Your ingredients</h2>
       <ul>
         {{#each user.ingredients}}
-          <li>
-            <div>
-              <h3>{{this.name}}</h3>
-              <p>Flavors: {{this.flavors}}</p>
-              <p>Quantity: {{this.quantity}} {{this.measurement}}</p>
-            </div>
-          </li>
+          {{> ingredient}}
         {{/each}}
       </ul>
     </div>

@@ -13,11 +13,7 @@
   <a href="/ingredients/add">Add Ingredients Here!</a>
   <ul>
     {{#each ingredients}}
-      <li>
-        <h2>{{name}}</h2>
-        <p>{{flavors}}</p>
-        <main>{{quantity}} {{measurement}}</main>
-      </li>
+      {{> ingredient}}
     {{/each}}
   </ul>
 </body>
