@@ -9,7 +9,9 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         console.log(req.session.ingredients);
-        res.render('ingredients', {ingredients : req.session.ingredients, title : 'Your Ingredients Stash!'})
+        let message = '';
+        if(req.body.message) message = req.body.message;
+        res.render('ingredients', {ingredients : req.session.ingredients, title : 'Your Ingredients Stash!', message : message});
     } catch (e) {
         res.status(500).send();
     }
@@ -23,30 +25,33 @@ router.get('/add', async (req, res) => {
     }
 }).post('/add', async (req, res) => {  //add ingredient to user's stash. Also add ingredient to database if not already there
     try {
-        const ingredientInfo = req.body;
+        const ingredientInfo = {
+            name : req.body.nameInput,
+            flavors : req.body.flavorsInput,
+            quantity : req.body.quantityInput,
+            measurement : req.body.measurementInput
+        };
         if (!ingredientInfo) throw 'You must provide data to add an ingredient to your stash!';
-        ingredientInfo.nameInput = verification.checkOnlyWordsString(ingredientInfo.nameInput, "ingredient name");
+        ingredientInfo.name = verification.checkOnlyWordsString(ingredientInfo.name, "ingredient name");
 
-        if(!ingredientInfo.flavorsInput) ingredientInfo.flavorsInput = [];
-        else ingredientInfo.flavorsInput = verification.checkOnlyWordsStringArray(ingredientInfo.flavorsInput.split(',').map(s => s.trim()), "ingredient flavors");
+        if(!ingredientInfo.flavors) ingredientInfo.flavors = [];
+        else ingredientInfo.flavors = verification.checkOnlyWordsStringArray(ingredientInfo.flavors.split(',').map(s => s.trim()), "ingredient flavors");
         
-        ingredientInfo.quantityInput = verification.checkNumber(Number(ingredientInfo.quantityInput), "quantity");
-        if(Number.isNaN(ingredientInfo.quantityInput)) throw 'Error: ingredient quantity must be a number!';
+        ingredientInfo.quantity = verification.checkNumber(Number(ingredientInfo.quantity), "quantity");
+        if(Number.isNaN(ingredientInfo.quantity)) throw 'Error: ingredient quantity must be a number!';
 
-        ingredientInfo.measurementInput = verification.checkOnlyWordsString(ingredientInfo.measurementInput, "measurement");
-        const checkForIngredient = await ingredientsData.getIngredientByName(ingredientInfo.nameInput);
+        ingredientInfo.measurement = verification.checkOnlyWordsString(ingredientInfo.measurement, "measurement");
+        const checkForIngredient = await ingredientsData.getIngredientByName(ingredientInfo.name);
         if(!checkForIngredient) {
-            const newIngredient = await ingredientsData.createIngredient(ingredientInfo.nameInput, ingredientInfo.flavorsInput, 0, "DB");
-            console.log(newIngredient);
+            const newIngredient = await ingredientsData.createIngredient(ingredientInfo.name, ingredientInfo.flavors, 0, "DB");
             ingredientInfo._id = newIngredient._id;
         } else {
-            ingredientInfo._id = checkForIngredient._id;
-            const updatedIngredient = await ingredientsData.addFlavorsToIngredient(ingredientInfo.nameInput, ingredientInfo.flavorsInput);
-            console.log("updated ingredient:");
-            console.log(updatedIngredient);
+            const updatedIngredient = await ingredientsData.addFlavorsToIngredient(ingredientInfo.name, ingredientInfo.flavors);
+            ingredientInfo._id = updatedIngredient._id;
+            ingredientInfo.flavors = updatedIngredient.flavors;
+            console.log(ingredientInfo);
         }
         console.log("AAA");
-        console.log(req.session.ingredients);
         try{req.session.ingredients.push(ingredientInfo);
         } catch (e) {
             console.log(e);
@@ -54,19 +59,9 @@ router.get('/add', async (req, res) => {
         }
         console.log(req.session.ingredients);
         console.log("yeeeeee")
-        if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo._id, ingredientInfo.flavorsInput, ingredientInfo.quantityInput, ingredientInfo.measurementInput);
+        if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo._id, ingredientInfo.flavors, ingredientInfo.quantity, ingredientInfo.measurement);
         console.log("yeeeeeeeeeee")
-        res.render("ingredients", {
-          title: "Ingredients",
-          message:
-            "" +
-            ingredientInfo.quantityInput +
-            " " +
-            ingredientInfo.measurementInput +
-            " of " +
-            ingredientInfo.nameInput +
-            " has been added to your stash!",
-        });
+        res.redirect('/ingredients'); //need a way to pass the message that a new thing is added
     } catch (e) {
         res.status(500).json({ error: e });
     }

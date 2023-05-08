@@ -125,6 +125,9 @@ const ingredientsMethods = {
         const ingredient = await ingredientCollection.findOne({name: ingredientName});
         const ingredientFlavors = ingredient.flavors;
         let newFlavors = [...new Set(ingredientFlavors.concat(flavors))];   //remove duplicates
+        
+        if(newFlavors.length === ingredient.flavors.length) return ingredient; //nothing to change
+        
         const query = {name: ingredientName};
         const updateCommand = {
             $set : {
