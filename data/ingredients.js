@@ -116,8 +116,8 @@ const ingredientsMethods = {
 
     async getIngredientByName2(ingredientName) {   //for recipe and user to check validity of ingredients
         const ingredientCollection = await ingredients();
-        let ingredient = await ingredientCollection.findOne({name: ingredientName});
-        
+        let ingredient = await ingredientCollection.findOne({name: ingredientName.toUpperCase()});
+    
         return ingredient._id.toString();
     },
 

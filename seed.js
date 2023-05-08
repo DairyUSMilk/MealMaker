@@ -128,12 +128,12 @@ await ingredientsData.createIngredient("sour cream", ["sour", "creamy"], 0, "any
 
 
 
-// #1
+//#1
 const SpaghettiBolognese = await recipesData.createRecipe(
 tid,
 "Spaghetti Bolognese",
 ["meaty", "savory", "tomato"],
-"https://www.aheadofthyme.com/wp-content/uploads/2020/12/spaghetti-bolognese-4-1024x1536.jpg",
+"https://www.foodiefiasco.com/wp-content/uploads/2017/03/IMG_7230.jpg",
 [
 {
   id: 2001,
@@ -222,7 +222,7 @@ measurement: "cup"
 ],
 4,
 20,
-"https://www.food.com/recipe/classic-caesar-salad-587935",
+"https://www.food.com/recipe/classic-caesar-salad-370618",
 false
 );
 
