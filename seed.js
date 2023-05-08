@@ -10,10 +10,10 @@ const mid = Milton._id.toString();
 const Trent = await usersData.createUser("Trent", "Zeller", "trentZ123", "TrentZ@gmail.com", "Password1.2", "admin", true);
 const tid = Trent._id.toString();
 
-const Darius = await usersData.createUser("Darius", "Truong", "Darius154", "DariusT@gmail.com", "Password1.2", "admin", true);
+const Darius = await usersData.createUser("Darius", "Truong", "Darius154", "DariusT@gmail.com", "Password1.2", "community", true);
 const did = Darius._id.toString();
 
-const Adam = await usersData.createUser("Adam", "Borowczak", "AdamB", "AdamB@gmail.com", "Password1.2", "admin", true);
+const Adam = await usersData.createUser("Adam", "Borowczak", "AdamB", "AdamB@gmail.com", "Password1.2", "community", true);
 const aid = Adam._id.toString();
 
 
@@ -223,7 +223,7 @@ measurement: "cup"
 4,
 20,
 "https://www.food.com/recipe/classic-caesar-salad-587935",
-true
+false
 );
 
 //#3
@@ -288,7 +288,7 @@ did,
 4,
 25,
 "https://lilluna.com/easy-fettuccine-alfredo/",
-true
+false
 );
 
 //#4
@@ -461,7 +461,7 @@ aid,
 4,
 25,
 "https://www.tasteofhome.com/recipes/air-fryer-sausage-bacon-bites/",
-true
+false
 );
 
 
@@ -568,7 +568,7 @@ measurement: "cup",
 8,
 30,
 "https://www.tasteofhome.com/recipes/buffalo-chicken-dip/",
-true
+false
 );
 
 const PotatoSoup = await recipesData.createRecipe(
@@ -687,7 +687,7 @@ measurement: "whole"
 6,
 60,
 "https://www.tasteofhome.com/recipes/best-ever-potato-soup/",
-true);
+false);
 
 const cheeseburgerTacos = await recipesData.createRecipe(
 tid,
@@ -1227,7 +1227,7 @@ const CowboySpaghetti = await recipesData.createRecipe(
     8,
     45,
     "https://www.tasteofhome.com/recipes/million-dollar-chicken-casserole/",
-    true
+    false
   );
   
 

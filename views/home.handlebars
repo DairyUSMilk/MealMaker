@@ -1,18 +1,31 @@
-<h1>Home</h1>
 <header>
-  {{#if user}}
-  <a href="/logout">Logout</a>
-  {{else}}
-  <a href="/login">Login</a>
-  {{/if}}
-  <a href="/recipes">Recipes</a>
-  <a href="/ingredients">Ingredients</a>
-  <a href="/profile">Profile</a>
+  <nav>
+    <div class="left-links">
+      <a href="/" class="meal-maker-link">MealMaker</a>
+    </div>
+    <div class="center-links">
+      {{#if user}}
+        <div class="dropdown">
+          <a href="#" class="dropbtn">{{user.firstName}} ▼</a>
+          <div class="dropdown-content">
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
+          </div>
+        </div>
+      {{else}}
+        <a href="/login">Login</a>
+      {{/if}}
+    </div>
+    <div class="right-links">
+      <a href="/recipes">Recipes</a>
+      <a href="/ingredients">Ingredients</a>
+    </div>
+  </nav>
 </header>
 <body>
-  <div>
+  <h2>Welcome {{user.firstName}}!</h2>
+  <div class= "box">
     {{#if user}}
-      <h2>Welcome {{user.firstName}}!</h2>
       <p>As {{#if (eq user.role 'admin')}}an{{else}}a{{/if}} {{user.role}} user, you can:</p>
       <ul>
         <li>Add ingredients to your personal list</li>
@@ -26,7 +39,6 @@
         {{/if}}
       </ul>
     {{else}}
-      <h2>Welcome!</h2>
       <p>As a guest user, you can:</p>
       <ul>
         <li>Add ingredients to personal list</li>
