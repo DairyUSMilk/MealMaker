@@ -68,6 +68,27 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ingredientForm) {
     ingredientForm.addEventListener('submit', async event => {
       event.preventDefault();
+
+      const nameInput = document.getElementById('nameInput').value;
+      const flavorsInput = document.getElementById('flavorsInput').value;
+      const quantityInput = document.getElementById('quantityInput').value;
+      const measurementInput = document.getElementById('measurementInput').value;
+      const error = document.getElementById('error');
+
+      const flavorsInputArray = flavorsInput.split(',').map(s => s.trim());
+      try {
+        verification.checkOnlyWordsString(nameInput, "ingredient name");
+        verification.checkOnlyWordsStringArray(flavorsInputArray, "ingredient flavors");
+        verification.checkNumber(Number(quantityInput), "ingredient quantity");
+        if(Number.isNaN(document.ingredientForm.quantityInput.value)) throw 'Error: ingredient quantity must be a number!';
+        verification.checkOnlyWordsString(measurementInput, "ingredient measurement");
+      }
+      catch (e) {
+        error.innerText = `${e}`;
+        return;
+      }
+      
+      ingredientForm.submit();
     })
   }
 
