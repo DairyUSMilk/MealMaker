@@ -1,25 +1,23 @@
 import {dbConnection, closeConnection} from './config/mongoConnection.js';
-import ingredientMethods from './data/ingredients.js';
-import recipeMethods from './data/recipes.js';
-import userMethods from './data/users.js';
+import { usersData, recipesData } from './data/index.js';
 
 const db = await dbConnection();
 await db.dropDatabase();
 
-const Milton = await userMethods.createUser("Milton", "Zarzuela", "miltonz0628", "miltonz0628@gmail.com", 'Milton_Z0628', "admin", true);
+const Milton = await usersData.createUser("Milton", "Zarzuela", "miltonz0628", "miltonz0628@gmail.com", 'Milton_Z0628', "admin", true);
 const mid = Milton._id.toString();
 
-const Trent = await userMethods.createUser("Trent", "Zeller", "trentZ123", "TrentZ@gmail.com", "Password1.2", "admin", true);
+const Trent = await usersData.createUser("Trent", "Zeller", "trentZ123", "TrentZ@gmail.com", "Password1.2", "admin", true);
 const tid = Trent._id.toString();
 
-const Darius = await userMethods.createUser("Darius", "Truong", "Darius154", "DariusT@gmail.com", "Password1.2", "admin", true);
+const Darius = await usersData.createUser("Darius", "Truong", "Darius154", "DariusT@gmail.com", "Password1.2", "admin", true);
 const did = Darius._id.toString();
 
-const Adam = await userMethods.createUser("Adam", "Borowczak", "AdamB", "AdamB@gmail.com", "Password1.2", "admin", true);
+const Adam = await usersData.createUser("Adam", "Borowczak", "AdamB", "AdamB@gmail.com", "Password1.2", "admin", true);
 const aid = Adam._id.toString();
 
 // #1
-const SpaghettiBolognese = await recipeMethods.createRecipe(
+const SpaghettiBolognese = await recipesData.createRecipe(
 tid,
 "Spaghetti Bolognese",
 ["meaty", "savory", "tomato"],
@@ -65,7 +63,7 @@ true
 );
 
 //#2
-const CaesarSalad = await recipeMethods.createRecipe(
+const CaesarSalad = await recipesData.createRecipe(
 did,
 "Caesar Salad",
 ["salty", "savory", "garlicky"],
@@ -117,7 +115,7 @@ true
 );
 
 //#3
-const FettuccineAlfredo = await recipeMethods.createRecipe(
+const FettuccineAlfredo = await recipesData.createRecipe(
 did,
 "Fettuccine Alfredo",
 ["creamy", "buttery"],
@@ -182,7 +180,7 @@ true
 );
 
 //#4
-const PeanutButterCookies = await recipeMethods.createRecipe(
+const PeanutButterCookies = await recipesData.createRecipe(
 mid,
 "Flourless Peanut Butter Cookies",
 ["savory", "peanuty"],
@@ -224,7 +222,7 @@ true
 
 //6
 
-const basicBoiledPotatoes = await recipeMethods.createRecipe(
+const basicBoiledPotatoes = await recipesData.createRecipe(
 tid,
 "Basic Boiled Potatoes",
 ["water", "potatoey"],
@@ -264,7 +262,7 @@ true
 
 //7
 
-const BananaBread = await recipeMethods.createRecipe(
+const BananaBread = await recipesData.createRecipe(
 tid,
 "Banana bread",
 ["sweet", "bready"],
@@ -305,7 +303,7 @@ true
 //8
 
 
-const SausageBaconBites = await recipeMethods.createRecipe(
+const SausageBaconBites = await recipesData.createRecipe(
 aid,
 "Air-Fryer Sausage Bacon Bites",
 ["savory"],
@@ -355,7 +353,7 @@ true
 );
 
 
-const OnionCrescentRolls = await recipeMethods.createRecipe(
+const OnionCrescentRolls = await recipesData.createRecipe(
 mid,
 "Air-Fryer Onion Crescent Rolls",
 ["savory"],
@@ -404,7 +402,7 @@ mid,
 true
 );
 
-const BuffaloChickenDip = await recipeMethods.createRecipe(
+const BuffaloChickenDip = await recipesData.createRecipe(
 aid,
 "Buffalo Chicken Dip",
 ["spicy", "creamy"],
@@ -461,7 +459,7 @@ measurement: "cup",
 true
 );
 
-const PotatoSoup = await recipeMethods.createRecipe(
+const PotatoSoup = await recipesData.createRecipe(
 did,
 "Potato Soup",
 ["savory", "hearty"],
@@ -579,7 +577,7 @@ measurement: "whole"
 "https://www.tasteofhome.com/recipes/best-ever-potato-soup/",
 true);
 
-const cheeseburgerTacos = await recipeMethods.createRecipe(
+const cheeseburgerTacos = await recipesData.createRecipe(
 tid,
 "Cheeseburger Tacos",
 ["savory", "cheesy"],
@@ -697,7 +695,7 @@ measurement: "cup"
 "https://www.tasteofhome.com/recipes/cheeseburger-tacos/",
 true);
 
-const RamenStirFry = await recipeMethods.createRecipe(
+const RamenStirFry = await recipesData.createRecipe(
 tid,
 "Ramen Stir-Fry",
 ["savory", "umami"],
@@ -824,7 +822,7 @@ tid,
 "https://www.tasteofhome.com/recipes/ramen-stir-fry/",
 true);
 
-const BuffaloChickenWraps = await recipeMethods.createRecipe(
+const BuffaloChickenWraps = await recipesData.createRecipe(
   tid,
   "Buffalo Chicken Crunch Wraps",
   ["spicy", "cheesy", "crunchy"],
@@ -898,7 +896,7 @@ const BuffaloChickenWraps = await recipeMethods.createRecipe(
   true
 );
 
-const CowboySpaghetti = await recipeMethods.createRecipe(
+const CowboySpaghetti = await recipesData.createRecipe(
   mid,
   "Cowboy Spaghetti",
   ["spicy", "meaty"],
@@ -1019,7 +1017,7 @@ const CowboySpaghetti = await recipeMethods.createRecipe(
   "https://www.tasteofhome.com/recipes/cowboy-spaghetti/",
   true);
 
-  const ChickenCasserole = await recipeMethods.createRecipe(
+  const ChickenCasserole = await recipesData.createRecipe(
     did,
     "Chicken Casserole",
     ["creamy", "savory"],
