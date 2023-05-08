@@ -49,7 +49,6 @@ router.get('/add', async (req, res) => {
             ingredientInfo._id = updatedIngredient._id;
             ingredientInfo.flavors = updatedIngredient.flavors;
         }
-        console.log("AAA");
         try{
             if(req.session.ingredients.some(ingredient => ingredient.name === ingredientInfo.name)){
                 req.session.ingredients = req.session.ingredients.map(
