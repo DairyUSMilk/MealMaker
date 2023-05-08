@@ -96,31 +96,27 @@ document.addEventListener('DOMContentLoaded', () => {
   if (recipesForm) {
     recipesForm.addEventListener('submit', async event => {
       event.preventDefault();
-      
-      const nameInput = document.getElementById('nameInput').value;
-      const flavorsInput = document.getElementById('flavorsInput').value;
-      const ingredientsInput = document.getElementById('ingredientsInput').value;
-      const instructionsInput = document.getElementById('instructionsInput').value;
-      const servingsInput = document.getElementById('servingsInput').value;
-      const readyInput = document.getElementById('readyInput').value;
-      const certifiedInput = document.getElementById('certifiedInput').value;
-      const error = document.getElementById('error');
-
-      if(typeof flavorsInput !== 'string') throw 'Error: flavors must be a string!';
-      if(typeof ingredientsInput !== 'string') throw 'Error: ingredients must be a string!';
-      if(typeof instructionsInput !== 'string') throw 'Error: instructions must be a string!';
-      
-      const flavorsInputArray = flavorsInput.split(',').map(s => s.trim());
-      const ingredientsInputArray = ingredientsInput.split(',').map(s => s.trim());
-      const instructionsInputArray = instructionsInput.split(',').map(s => s.trim());
-
-
-      if (!sourceInput || !verification.checkURL(sourceInput)) {
-        error.innerText = 'A valid source URL is required';
-        return;
-      }
-
       try {
+        const nameInput = document.getElementById('nameInput').value;
+        const flavorsInput = document.getElementById('flavorsInput').value;
+        const ingredientsInput = document.getElementById('ingredientsInput').value;
+        const instructionsInput = document.getElementById('instructionsInput').value;
+        const servingsInput = document.getElementById('servingsInput').value;
+        const readyInput = document.getElementById('readyInput').value;
+        const certifiedInput = document.getElementById('certifiedInput').checked;
+        const error = document.getElementById('error');
+
+        if(typeof flavorsInput !== 'string') throw 'Error: flavors must be a string!';
+        if(typeof ingredientsInput !== 'string') throw 'Error: ingredients must be a string!';
+        if(typeof instructionsInput !== 'string') throw 'Error: instructions must be a string!';
+        
+
+        const flavorsInputArray = flavorsInput.split(',').map(s => s.trim());
+
+        const ingredientsInputArray = ingredientsInput.split(',').map(s => s.trim());
+
+        const instructionsInputArray = instructionsInput.split(',').map(s => s.trim());
+
         verification.checkOnlyWordsString(nameInput, "recipe name");
         verification.checkOnlyWordsStringArray(flavorsInputArray, "recipe flavors");
         verification.checkNumber(servingsInput, "recipe servings");
@@ -143,30 +139,26 @@ document.addEventListener('DOMContentLoaded', () => {
       const nameInput = document.getElementById('nameInput').value;
       const flavorsInput = document.getElementById('flavorsInput').value;
       const ingredientsInput = document.getElementById('ingredientsInput').value;
-      const instructionsInput = document.getElementById('instructionsInput').value;
-      const servingsInput = document.getElementById('servingsInput').value;
       const readyInput = document.getElementById('readyInput').value;
-      const certifiedInput = document.getElementById('certifiedInput').value;
+      const certifiedInput = document.getElementById('certifiedInput').checked;
       const usernameInput = document.getElementById('usernameInput').value;
+      const minMatchPercentage = document.getElementById('minMatchPercentage').value;
       const error = document.getElementById('error');
 
       if(typeof flavorsInput !== 'string') throw 'Error: flavors must be a string!';
       if(typeof ingredientsInput !== 'string') throw 'Error: ingredients must be a string!';
-      if(typeof instructionsInput !== 'string') throw 'Error: instructions must be a string!';
       
       const flavorsInputArray = flavorsInput.split(',').map(s => s.trim());
       const ingredientsInputArray = ingredientsInput.split(',').map(s => s.trim());
-      const instructionsInputArray = instructionsInput.split(',').map(s => s.trim());
-
+      
       try {
-        verification.checkOnlyWordsString(nameInput, "recipe name");
-        verification.checkOnlyWordsStringArray(flavorsInputArray, "recipe flavors");
-        verification.checkNumber(servingsInput, "recipe servings");
-        verification.checkStringArray(ingredientsInputArray, "recipe ingredients");
-        verification.checkOnlyWordsStringArray(instructionsInputArray, "recipe instructions");
-        verification.checkNumber(readyInput, "recipe readyInMin");
-        verification.checkUsername(usernameInput, "recipe username");
-        if(certifiedInput !== true && certifiedInput !== false) throw 'Error: certified must be a boolean!';
+        if(nameInput !== '') verification.checkOnlyWordsString(nameInput, "recipe name");
+        if(flavorsInput !== '') verification.checkOnlyWordsStringArray(flavorsInputArray, "recipe flavors");
+        if(ingredientsInput !== '') verification.checkStringArray(ingredientsInputArray, "recipe ingredients");
+        if(readyInput !== '') verification.checkNumber(Number(readyInput), "recipe ready in");
+        if(minMatchPercentage !== '') verification.checkNumber(Number(minMatchPercentage), "min match percentage");
+        if(certifiedInput !== true && certifiedInput !== false) throw 'Error: certified must be a boolean!'; 
+        if(usernameInput !== '') verification.checkOnlyWordsString(usernameInput, "username");
       } catch (e) {
         error.innerText = `${e}`;
         return;

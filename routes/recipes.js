@@ -47,7 +47,7 @@ router
       if(filter.totalScoreInput) totalScore = verification.checkNumber(Number(filter.totalScoreInput), "totalScore");
         
       if(filter.minMatchPercentageInput) {
-        minMatchPercentage = verification.checkNumber(Number(filter.minMatchPercentageInput));
+        minMatchPercentage = verification.checkNumber(Number(filter.minMatchPercentageInput)) / 100;
       }
 
       if(filter.certifiedInput === true) certified = true;
@@ -57,9 +57,11 @@ router
         const user = await usersData.getUserByUsername(filter.usernameInput);
         userId = user._id;
       }
-  
+      console.log("A");
+      console.log(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified)
       const recipes = await recipesData.getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified);
-      return res.status(200).json(recipes);
+
+      return res.render("recipes", { title: "Recipes", recipes: recipes });
     } catch (e) {
       res.status(500).json({ error: e });
     }
@@ -67,7 +69,10 @@ router
 
   router.get("/add", isLoggedInMiddleware, async (req, res) => {
     try {
-      return res.status(200).render('recipeInput', {title: 'Recipe Filter Input', user: req.session.user});
+      if(!req.session.user){
+        return res.render('login', {title: 'Login', error: 'You must be logged in to add a recipe'});
+      }
+      return res.render('recipeInput', {title: 'Recipe Filter Input', user: req.session.user});
     } catch (e) {
       res.status(500).json({ error: e });
     }
@@ -94,7 +99,7 @@ router
         recipeInfo.flavorsInput.split(','), 'flavorsInput'
       );
   
-      recipeInfo.servings = verification.checkNumber(recipeInfo.servingsInput, "servingsInput");
+      recipeInfo.servings = verification.checkNumber(Number(recipeInfo.servingsInput), "servingsInput");
   
       if (recipeInfo.imageURL){
         recipeInfo = await backendVerification.checkImgURL(recipeInfo.imageInput, "imageInput");
