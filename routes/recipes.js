@@ -202,8 +202,14 @@ router
   });
 
 router.all("/delete/:id", isAdminMiddleware, async (req, res) => {
+  let recipes = [];
   try {
-    let recipes = await recipesData.getAllRecipes();
+    recipes = await recipesData.getAllRecipes();
+
+    if (recipes.length === 0) {
+      return res.status(400).render("recipes", { title: "Recipes", recipes: recipes, error: "No recipes to delete"});
+    }
+
     let deletedRecipe = await recipesData.deleteRecipe(req.params.id);
     recipes = await recipesData.getAllRecipes();
 
