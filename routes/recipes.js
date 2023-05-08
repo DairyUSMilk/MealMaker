@@ -47,7 +47,7 @@ router
       if(filter.totalScoreInput) totalScore = verification.checkNumber(Number(filter.totalScoreInput), "totalScore");
         
       if(filter.minMatchPercentageInput) {
-        minMatchPercentage = verification.checkNumber(Number(filter.minMatchPercentageInput));
+        minMatchPercentage = verification.checkNumber(Number(filter.minMatchPercentageInput)) / 100;
       }
 
       if(filter.certifiedInput === true) certified = true;
