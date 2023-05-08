@@ -4,6 +4,7 @@ import verification from "../public/js/verification.js";
 import backendVerification from '../public/js/backendVerification.js';
 import updateSessionData from "./middleware/updateSessionMiddleware.js";
 import isAdminMiddleware from './middleware/isAdminMiddleware.js';
+import isLoggedInMiddleware from './middleware/isLoggedInMiddleware.js';
 
 const router = express.Router();
 
@@ -13,16 +14,15 @@ router
       let recipes = [];
       if(req.body.filter) recipes = await recipesData.getRecipesByFilter(req.body.filter.userId, req.body.filter.title, req.body.filter.flavors, req.body.filter.ingredients, req.body.filter.readyInMinutes, req.body.filter.likes, req.body.filter.totalScore, req.body.filter.minMatchPercentage, req.body.filter.certified);
       else recipes = await recipesData.getAllRecipes();
-      return res.render("recipes", { title: "Recipes", recipes: recipes });
+      return res.status(200).render("recipes", { title: "Recipes", recipes: recipes });
     } catch (e) {
-      res.status(500).send();
+      res.status(500).json({ error: e });
     }
   }).post("/",async (req, res) => {
     try {
       const filter = req.body;
       let userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, certified, minMatchPercentage;
   
-      
       if(filter.nameInput) title = verification.checkOnlyWordsString(filter.nameInput, 'title');
 
       if(filter.flavorsInput){
@@ -59,27 +59,26 @@ router
       }
   
       const recipes = await recipesData.getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified);
-      return res.json(recipes);
+      return res.status(200).json(recipes);
     } catch (e) {
-      console.log(e);
       res.status(500).json({ error: e });
     }
   });
 
-  router.get("/add", async (req, res) => {
+  router.get("/add", isLoggedInMiddleware, async (req, res) => {
     try {
-      if(!req.session.user){
-        return res.render('/login', {title: 'Login', error: 'You must be logged in to add a recipe'});
-      }
-      return res.render('recipeInput', {title: 'Recipe Filter Input', user: req.session.user});
+      return res.status(200).render('recipeInput', {title: 'Recipe Filter Input', user: req.session.user});
     } catch (e) {
-      return res.status(500).render('recipeInput', {title: 'Recipe Filter Input', error: `${e}`});
+      res.status(500).json({ error: e });
     }
-  }).post("/add", async (req, res) => {
-    //NEED MIDDLEWARE SO ONLY LOGGED IN USERS CAN ADD RECIPES, AND ONLY ADMINS CAN ADD CERTIFIED RECIPES
+  }).post("/add", isLoggedInMiddleware, async (req, res) => {
+    // TODO -- NEED MIDDLEWARE SO ONLY ADMINS CAN ADD CERTIFIED RECIPES
+    // Do we still need this? Is this check not sufficient? 
+    //        if(req.session.user.role === 'admin' && certifiedInput) recipeInfo.certified = true;
+
     const recipeInfo = req.body;
     if (!recipeInfo) {
-      res.status(400).json({ error: "You must provide data to create a recipe" });
+      res.status(400).render("recipeinput", { title: "Create Recipe", user: req.session.user, error: "You must provide data to create a recipe" });
       return;
     }
     try {
@@ -143,20 +142,18 @@ router
   
 
 router
-  .get("/:id", async (req, res) => {
+  .get("/add/:id", isLoggedInMiddleware, async (req, res) => {
     try {
       const recipe = await recipesData.get(req.params.id);
       res.json(recipe);
     } catch (e) {
-      res.status(404).json({ error: "Recipe not found" });
+      res.status(404).render("recipes", { title: "Get Recipe", user: req.session.user, error: "Recipe not found"})
     }
   })
-  .post("/:id", async (req, res) => {
+  .post("/add/:id", isLoggedInMiddleware, async (req, res) => {
     const recipeInfo = req.body;
     if (!recipeInfo) {
-      res
-        .status(400)
-        .json({ error: "You must provide data to create a recipe" });
+      res.status(400).render("recipes", { title: "Add Recipe", user: req.session.user, error: "You must provide data to create a recipe"});
       return;
     }
     try {
@@ -201,7 +198,23 @@ router
     }
   });
 
-router.all("/delete/:id", isAdminMiddleware, async (req, res) => {
+router.get("/delete", isLoggedInMiddleware, isAdminMiddleware, async (req, res) => {
+  let recipes = [];
+  try {
+    recipes = await recipesData.getAllRecipes();
+
+    if (recipes.length === 0) {
+      return res.status(400).render("recipes", { title: "Recipes", recipes: recipes, error: "No recipes to delete"});
+    }
+
+  } catch (e) {
+    return res.status(400).render("recipes", { title: "Recipes", recipes: recipes, error: "No recipes id provided"});
+  }
+
+  return res.status(400).render("recipes", { title: "Recipes", recipes: recipes, error: "No recipes id provided"});
+})
+
+router.all("/delete/:id", isLoggedInMiddleware, isAdminMiddleware, async (req, res) => {
   let recipes = [];
   try {
     recipes = await recipesData.getAllRecipes();
@@ -217,10 +230,8 @@ router.all("/delete/:id", isAdminMiddleware, async (req, res) => {
       res.status(200).render("recipes", { title: "Recipes", recipes: recipes, success: `Recipe: '${deletedRecipe.recipeName}' successfully deleted`});
     });
   } catch (e) {
-    return res.status(500).render("recipes", { title: "Recipes", recipes: recipes, error: `${e}`});
+    return res.status(500).json({ error: e });
   }
 });
-
-
 
 export default router;
