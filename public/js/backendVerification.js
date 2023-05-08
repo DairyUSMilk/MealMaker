@@ -1,5 +1,6 @@
 import {ObjectId} from 'mongodb';
 import fetch from 'node-fetch';
+import verification from './verification.js';
 
 const exportedMethods = {
     checkId(id, varName) {
@@ -12,7 +13,7 @@ const exportedMethods = {
     },
 
     async checkURL(url, varName) {  
-        url = this.checkString(url, varName); 
+        url = verification.checkString(url, varName); 
         const response = await fetch(url);
         if (!response.ok) {
         return false;

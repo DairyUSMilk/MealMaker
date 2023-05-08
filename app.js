@@ -1,7 +1,6 @@
 import express from 'express';
 const app = express();
 
-import { randomBytes } from 'crypto';
 import session from 'express-session';
 import exphbs from 'express-handlebars';
 import Handlebars from 'handlebars';
@@ -10,7 +9,6 @@ import { dirname } from 'path';
 import path from 'path';
 
 import configRoutesFunction from './routes/index.js';
-/* { Import Middleware Here } */
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -24,13 +22,15 @@ app.use('/public', staticDir);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
+app.engine('handlebars', exphbs.engine({ 
+    defaultLayout: 'main',
+    partialsDir: path.join(__dirname, '/views/partials')
+}));
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
 app.use(session({
     name: 'MealMakerAuthCookie',
-    // secret: randomBytes(160, 36),
     secret: 'secret',
     resave: false,
     saveUninitialized: false,

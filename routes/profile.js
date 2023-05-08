@@ -1,6 +1,4 @@
-import { usersData } from '../data/index.js';
 import express from 'express';
-import verification from '../public/js/verification.js';
 
 const router = express.Router();
 
