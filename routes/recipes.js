@@ -96,7 +96,7 @@ router
         recipeInfo.flavorsInput.split(','), 'flavorsInput'
       );
   
-      recipeInfo.servings = verification.checkNumber(recipeInfo.servingsInput, "servingsInput");
+      recipeInfo.servings = verification.checkNumber(Number(recipeInfo.servingsInput), "servingsInput");
   
       if (recipeInfo.imageURL){
         recipeInfo = await backendVerification.checkImgURL(recipeInfo.imageInput, "imageInput");
