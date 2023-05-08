@@ -70,7 +70,7 @@ router
   router.get("/add", async (req, res) => {
     try {
       if(!req.session.user){
-        return res.render('/login', {title: 'Login', error: 'You must be logged in to add a recipe'});
+        return res.render('login', {title: 'Login', error: 'You must be logged in to add a recipe'});
       }
       return res.render('recipeInput', {title: 'Recipe Filter Input', user: req.session.user});
     } catch (e) {
