@@ -27,7 +27,6 @@ router.get('/add', async (req, res) => {
         if (!ingredientInfo) throw 'You must provide data to add an ingredient to your stash!';
         ingredientInfo.nameInput = verification.checkOnlyWordsString(ingredientInfo.nameInput, "ingredient name");
 
-        
         if(!ingredientInfo.flavorsInput) ingredientInfo.flavorsInput = [];
         else ingredientInfo.flavorsInput = verification.checkOnlyWordsStringArray(ingredientInfo.flavorsInput.split(',').map(s => s.trim()), "ingredient flavors");
         
@@ -39,6 +38,7 @@ router.get('/add', async (req, res) => {
         const checkForIngredient = await ingredientsData.getIngredientByName(ingredientInfo.nameInput);
         if(!checkForIngredient) {
             const newIngredient = await ingredientsData.createIngredient(ingredientInfo.nameInput, ingredientInfo.flavorsInput, 0, "DB");
+            console.log(newIngredient);
             ingredientInfo._id = newIngredient._id;
         } else {
             ingredientInfo._id = checkForIngredient._id;

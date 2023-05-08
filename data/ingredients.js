@@ -1,6 +1,7 @@
 import {ingredients} from '../config/mongoCollections.js'
 import verification from '../public/js/verification.js';
 import backendVerification from '../public/js/backendVerification.js';
+import {ObjectId} from 'mongodb';
 
 const ingredientsMethods = {
     async createIngredient(
@@ -26,15 +27,20 @@ const ingredientsMethods = {
         let insertInfo = await ingredientCollection.insertOne(ingredient);
         if (insertInfo.insertedCount === 0) throw 'Could not add ingredient';
         let newId = insertInfo.insertedId;
-        const newIngredient = await this.getIngredientById(newId);
+        console.log(newId.toString());
+        const newIngredient = await this.getIngredientById(newId.toString());
+        console.log("AEAEAE");
         return newIngredient;
     },
 
     async getIngredientById(id){
         id = backendVerification.checkId(id, 'id');
         const ingredientCollection = await ingredients();
-        const ingredient = await ingredientCollection.findOne({_id : id});
+        console.log(id);
+        let ingredient = await ingredientCollection.findOne({_id : ObjectId(id)});
+        console.log(ObjectId(id));
         if (ingredient === null) throw 'No ingredient with that id';
+        console.log(ingredient);
         return ingredient;
     },
 

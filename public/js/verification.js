@@ -84,7 +84,7 @@ const exportedMethods = {
   },
 
   checkNumber(num, varName) {
-    if (!num) throw `Error: You must provide a ${varName}`;
+    if (!num && num !== 0) throw `Error: You must provide a ${varName}`;
     if (typeof num !== 'number') throw `Error:${varName} must be a number`;
     if (isNaN(num)) throw `Error: ${varName} must be a number`;
     return num;
