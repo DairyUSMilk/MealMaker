@@ -23,7 +23,7 @@
 <h4>Certified:</h4>
 <h5>{{this.certified}}</h5>
 {{#if (eq @root.user.role 'admin')}}
-  <form action="/recipes/delete/{{this._id}}" method="POST">
+  <form action="/recipes/{{this._id}}/delete" method="POST">
     <input type="submit" value="Delete Recipe" id="deleteRecipeButton">
   </form>
 {{/if}}
