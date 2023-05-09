@@ -254,14 +254,13 @@ router.post("/:id/like", async (req, res) => {
     const recipe = await recipesData.getRecipeById(req.params.id);
     if(!recipe) throw 'Recipe with id ${req.params.id} not found';
     
-    const user = await usersData.getUserById(req.session.user._id);
+    const user = await usersData.getUserById(req.session.user._id.toString());
     if(!user) throw 'User with id ${req.session.user._id} not found';
 
-    await recipesData.likeRecipe(req.params.id);
+    const likedRecipe = await recipesData.likeRecipe(req.params.id);
     await usersData.addRecipeToLikedRecipes(req.session.user.username, req.params.id);
-    const recipes = await recipesData.getAllRecipes();
     updateSessionData(req, res, () => {
-      res.status(200).render("detailedRecipe", { title: "Recipe", recipes: recipes, user: req.session.user, success : "Recipe was successfully liked"});
+      res.status(200).render("detailedRecipe", { title: likedRecipe.title, recipe: likedRecipe, user: req.session.user, success : "Recipe was successfully liked"});
     });
   } catch (error) {
     res.status(500).json({ error: error.toString() });

@@ -28,11 +28,6 @@
   </form>
 {{/if}}
 
-{{!-- TODO -- 
-  Check whether this recipe has already been liked
-  If yes; Show dislike link
-  If no; Show like link
---}}
 {{#if @root.user}}
   {{#if (userHasLiked this._id @root.user.likedRecipes)}}
     <form action="/recipes/{{this._id}}/dislike" method="POST">
