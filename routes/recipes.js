@@ -5,6 +5,8 @@ import backendVerification from '../public/js/backendVerification.js';
 import updateSessionData from "./middleware/updateSessionMiddleware.js";
 import isAdminMiddleware from './middleware/isAdminMiddleware.js';
 import isLoggedInMiddleware from './middleware/isLoggedInMiddleware.js';
+import isAdminOrOwnerMiddleware from './middleware/recipesMiddleware.js';
+
 
 const router = express.Router();
 
@@ -14,7 +16,7 @@ router
       let recipes = [];
       if(req.body.filter) recipes = await recipesData.getRecipesByFilter(req.body.filter.userId, req.body.filter.title, req.body.filter.flavors, req.body.filter.ingredients, req.body.filter.readyInMinutes, req.body.filter.likes, req.body.filter.totalScore, req.body.filter.minMatchPercentage, req.body.filter.certified);
       else recipes = await recipesData.getAllRecipes();
-      return res.status(200).render("recipes", { title: "Recipes", recipes: recipes });
+      return res.status(200).render("recipes", { title: "Recipes", recipes: recipes, user: req.session.user });
     } catch (e) {
       res.status(500).json({ error: e });
     }
@@ -57,11 +59,10 @@ router
         const user = await usersData.getUserByUsername(filter.usernameInput);
         userId = user._id;
       }
-      console.log("A");
       console.log(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified)
       const recipes = await recipesData.getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified);
 
-      return res.render("recipes", { title: "Recipes", recipes: recipes });
+      return res.render("recipes", { title: "Recipes", recipes: recipes, user: req.session.user});
     } catch (e) {
       res.status(500).json({ error: e });
     }
@@ -77,10 +78,6 @@ router
       res.status(500).json({ error: e });
     }
   }).post("/add", isLoggedInMiddleware, async (req, res) => {
-    // TODO -- NEED MIDDLEWARE SO ONLY ADMINS CAN ADD CERTIFIED RECIPES
-    // Do we still need this? Is this check not sufficient? 
-    //        if(req.session.user.role === 'admin' && certifiedInput) recipeInfo.certified = true;
-
     const recipeInfo = req.body;
     if (!recipeInfo) {
       res.status(400).render("recipeinput", { title: "Create Recipe", user: req.session.user, error: "You must provide data to create a recipe" });
@@ -147,12 +144,13 @@ router
 router.get("/:id", async (req, res) => {
   try{
     const recipe = await recipesData.getRecipeById(req.params.id);
-    return res.render("detailedRecipe", {recipe: recipe});
+    return res.render("detailedRecipe", {recipe: recipe, user: req.session.user});
   }catch(e){
     res.status(500).json({ error: e });
   }
-}).post("/:id", async (req, res) => {
+}).post("/:id", isAdminOrOwnerMiddleware, async (req, res) => {
   try{
+
     const recipe = await recipesData.getRecipeById(req.params.id);
     const recipeInfo = req.body;
 
@@ -197,21 +195,21 @@ router.get("/:id", async (req, res) => {
       recipeInfo.sourceURL = await backendVerification.checkURL(recipeInfo.sourceURL, 'sourceURL');
     }
 
-    if(recipeInfo.commentInput){
-      recipeInfo.commentInput = verification.checkString(recipeInfo.commentInput, 'comments');
-    }
+    // if(recipeInfo.commentInput){
+    //   recipeInfo.commentInput = verification.checkString(recipeInfo.commentInput, 'comments');
+    // }
  
-    // if(req.session.user && req.session.user.role === 'admin' && recipeInfo.certified) recipeInfo.certified = true;
-    // else certified = false;
+    if(req.session.user && req.session.user.role === 'admin' && recipeInfo.certified) recipeInfo.certified = true;
+    else certified = false;
 
 
     const updatedRecipe = await recipesData.updateRecipe(req.params.id, recipeInfo.userId, recipeInfo.title, recipeInfo.flavors, recipeInfo.imageURL, recipeInfo.ingredients, recipeInfo.instructions, recipeInfo.servings, recipeInfo.readyInMinutes, recipeInfo.sourceURL, recipeInfo.certified, recipeInfo.commentInput);
     
-    return res.redirect(`/recipes/${updatedRecipe._id}`);
+    return res.redirect(`/recipes/${req.params.id}`);
   }catch(e){
     res.status(500).json({ error: e });
   }
-}).delete("/:id", async (req, res) => {
+}).delete("/:id", isAdminOrOwnerMiddleware, async (req, res) => {
   try{
     const recipe = await recipesData.getRecipeById(req.params.id);
     
@@ -220,12 +218,47 @@ router.get("/:id", async (req, res) => {
     }
 
     const deletedRecipe = await recipesData.deleteRecipe(req.params.id);
-    return res.render("recipes", {title: "Recipes", message : deletedRecipe + " was successfully deleted"});
+    return res.render("recipes", {title: "Recipes", message : deletedRecipe + " was successfully deleted", user: req.session.user});
   }catch(e){
     res.status(500).json({ error: e });
   }
 });
 
+router.post("/:id/like", isLoggedInMiddleware, async (req, res) => {
+  try{
+    const recipe = await recipesData.getRecipeById(req.params.id);
+    const user = await usersData.getUserById(req.session.user._id);
+    const updatedRecipe = await recipesData.likeRecipe(recipe, user);
+    return res.redirect(`/recipes/${updatedRecipe._id}`);
+  }catch(e){
+    res.status(500).json({ error: e });
+  }
+});
+
+router.post("/:id/comment", isLoggedInMiddleware, async (req, res) => {
+  try{
+    const recipe = await recipesData.getRecipeById(req.params.id);
+    if(!recipe) throw 'Recipe with id ${req.params.id} not found';
+    
+    const user = await usersData.getUserById(req.session.user._id);
+    if(!user) throw 'User with id ${req.session.user._id} not found';
+    
+    const commentInfo = req.body;
+    if(!commentInfo) throw 'You must provide data to create a comment';
+    
+    commentInfo.commentInput = verification.checkString(commentInfo.commentInput, 'comment');
+    
+    const updatedRecipe = await recipesData.addComment(req.params.id, req.session.user._id, commentInfo.commentInput);
+    if(!updatedRecipe) throw 'Comment was not added';
+    return res.redirect(`/recipes/${updatedRecipe._id}`);
+  }catch(e){
+    const recipe = await recipesData.getRecipeById(req.params.id);
+    if(!recipe){ 
+      return res.render("recipes", {title: "Recipes", error: e, user: req.session.user});
+    }
+    res.render("detailedRecipe", {recipe: recipe, error: e});
+  }
+});
 
 
 export default router;

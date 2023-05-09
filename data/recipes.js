@@ -127,11 +127,11 @@ const recipesMethods = {
         if (readyInMinutes) updatedRecipeData.readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
         if (sourceUrl) updatedRecipeData.sourceUrl = await backendVerification.checkURL(sourceUrl, 'sourceUrl');
         if (certified) updatedRecipeData.certified = verification.checkBoolean(certified, 'certified');
-        if (comments) {
-            let updatedComments = updatedRecipeData.comments.push(comments);
-            updatedRecipeData.comments = verification.checkStringArray(updatedRecipeData.comments, 'comments');
-        }
-        let query = {_id : id};
+        // if (comments) {
+        //     let updatedComments = updatedRecipeData.comments.push(comments);
+        //     updatedRecipeData.comments = verification.checkStringArray(updatedRecipeData.comments, 'comments');
+        // }
+        let query = {_id : new ObjectId(id)};
         let updateCommand = {$set : updatedRecipeData};
         
         await recipeCollection.updateOne(query, updateCommand);
@@ -153,16 +153,24 @@ const recipesMethods = {
         recipeId = backendVerification.checkId(recipeId, 'recipeId');
         userId = backendVerification.checkId(userId, 'userId');
         comment = verification.checkString(comment, 'comment');
-        let recipe = await this.getRecipeById(recipeId);
-        let recipeCollection = await recipes();
+        const recipe = await this.getRecipeById(recipeId);
+        const user = await usersData.getUserById(userId);
+        let username = user.firstName + " " + user.lastName;
+        if(user.showUsername){
+            username = user.username;
+        }
+
         let newComment = {
             userId : userId,
+            username : username,
             comment : comment
         };
         recipe.comments.push(newComment);
-        let query = {_id : recipeId};
+        let query = {_id : new ObjectId(recipeId)};
         let updateCommand = {$set : recipe};
-        await recipeCollection.updateOne(query, updateCommand);
+        let recipeCollection = await recipes();
+        const updatedRecipe = await recipeCollection.updateOne(query, updateCommand);
+        if(updatedRecipe.modifiedCount === 0) throw 'Could not add comment';
         return await this.getRecipeById(recipeId);
     },
 
@@ -173,7 +181,7 @@ const recipesMethods = {
         let recipeCollection = await recipes();
         let newComments = recipe.comments.filter(comment => comment._id == commentId);
         recipe.comments = newComments;
-        let query = {_id : recipeId};
+        let query = {_id : new ObjectId(recipeId)};
         let updateCommand = {$set : recipe};
         await recipeCollection.updateOne(query, updateCommand);
         return await this.getRecipeById(recipeId);
@@ -184,7 +192,7 @@ const recipesMethods = {
         let recipe = await this.getRecipeById(recipeId);
         let recipeCollection = await recipes();
         recipe.likes++;
-        let query = {_id : recipeId};
+        let query = {_id : new ObjectId(recipeId)};
         let updateCommand = {$set : recipe};
         await recipeCollection.updateOne(query, updateCommand);
         return await this.getRecipeById(recipeId);
@@ -195,7 +203,7 @@ const recipesMethods = {
         let recipe = await this.getRecipeById(recipeId);
         let recipeCollection = await recipes();
         recipe.dislikes++;
-        let query = {_id : recipeId};
+        let query = {_id : new ObjectId(recipeId)};
         let updateCommand = {$set : recipe};
         await recipeCollection.updateOne(query, updateCommand);
         return await this.getRecipeById(recipeId);

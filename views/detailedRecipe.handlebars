@@ -22,6 +22,7 @@
     </div>
   </nav>
 </header>
+<p id="error">{{error}}</p>
 <ul>
   <li class="recipe-box">
     <img src="{{recipe.imageURL}}" alt="{{recipe.title}}">
@@ -29,9 +30,19 @@
     {{> recipe recipe}}
   </li>
 </ul>
-<form id="comment-form" action="/recipes/{{recipe._id}}" method="POST" name="ingredientForm">
-<label for="commentInput">Add a comment</label>
-<input type="text" name="commentInput" id="commentInput">
-<button type="submit">Submit</button>
-</form>
-<p id="error">{{error}}</p>
+{{#if user}}
+  <h2>Add a Comment!</h2>
+  <form id="comment-form" action="/recipes/{{recipe._id}}/comment" method="POST" name="ingredientForm">
+  <label for="commentInput">Add a comment</label>
+  <input type="text" name="commentInput" id="commentInput">
+  <button type="submit">Submit</button>
+  </form>
+  {{else}}
+  <a href="/login">Login to add a comment!</a>
+{{/if}}
+<h2>Comments</h2>
+<ul>
+  {{#each recipe.comments}}
+    {{> comment}}
+  {{/each}}
+</ul>
