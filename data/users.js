@@ -135,9 +135,9 @@ const usersMethods = {
     const updatedUser = await userCollection.findOneAndUpdate({username: username}, {$addToSet: {likedRecipes: recipe}});
     if(!updatedUser) throw 'Error: could not add recipe to liked recipes';
 
-    const updatedRecipe = await recipesData.likeRecipe(recipeId);
+    //const updatedRecipe = await recipesData.likeRecipe(recipeId);
 
-    return {recipeAdded : updatedRecipe, user: updatedUser};
+    return {user: updatedUser};
   },
 
   async addRecipeToCreatedRecipes (username, recipeId) {
