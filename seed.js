@@ -1250,52 +1250,62 @@ await usersData.addRecipeToLikedRecipes("AdamB", BananaBread._id.toString())
 
 //Adding ingredients to users
 
-await usersData.addIngredientToUser("miltonz0628",await ingredientsData.getIngredientByName2("spaghetti"),0,"any" )
-await usersData.addIngredientToUser("miltonz0628",await ingredientsData.getIngredientByName2("ground beef"),0,"any" )
-await usersData.addIngredientToUser("miltonz0628",await ingredientsData.getIngredientByName2("tomato sauce"),0,"any" )
-await usersData.addIngredientToUser("miltonz0628",await ingredientsData.getIngredientByName2("bananas"),0,"any" )
-await usersData.addIngredientToUser("miltonz0628",await ingredientsData.getIngredientByName2("yellow cake mix"),0,"any" )
-await usersData.addIngredientToUser("miltonz0628",await ingredientsData.getIngredientByName2("salt"),0,"any" )
-await usersData.addIngredientToUser("miltonz0628",await ingredientsData.getIngredientByName2("butter"),0,"any" )
-await usersData.addIngredientToUser("miltonz0628",await ingredientsData.getIngredientByName2("onion powder"),0,"any" )
-await usersData.addIngredientToUser("miltonz0628",await ingredientsData.getIngredientByName2("green onions"),0,"any" )
+const usersIngredients = {
+  "miltonz0628": [
+    "ground beef",
+    "tomato sauce",
+    "bananas",
+    "yellow cake mix",
+    "salt",
+    "butter",
+    "onion powder",
+    "green onions"
+  ],
+  "trentZ123": [
+    "pepper",
+    "all purpose flour",
+    "bananas",
+    "romaine lettuce",
+    "spaghetti",
+    "ground beef",
+    "onion",
+    "bacon",
+    "rotisserie chicken",
+    "colby-monterey jack cheese"
+  ],
+  "Darius154": [
+    "fettuccine pasta",
+    "salted butter",
+    "heavy cream",
+    "grated parmesan cheese",
+    "bacon strips",
+    "brown sugar",
+    "medium red potatoes",
+    "toothpick",
+    "water",
+    "milk"
+  ],
+  "AdamB": [
+    "romaine lettuce",
+    "croutons",
+    "Parmesan Cheese",
+    "sugar",
+    "parsley",
+    "butter",
+    "salted butter",
+    "garlic powder",
+    "egg",
+    "creamy peanut butter"
+  ]
+};
 
-
-await usersData.addIngredientToUser("trentZ123",await ingredientsData.getIngredientByName2("pepper"),0,"any" )
-await usersData.addIngredientToUser("trentZ123",await ingredientsData.getIngredientByName2("all purpose flour"),0,"any" )
-await usersData.addIngredientToUser("trentZ123",await ingredientsData.getIngredientByName2("bananas"),0,"any" )
-await usersData.addIngredientToUser("trentZ123",await ingredientsData.getIngredientByName2("romaine lettuce"),0,"any" )
-await usersData.addIngredientToUser("trentZ123",await ingredientsData.getIngredientByName2("spaghetti"),0,"any" )
-await usersData.addIngredientToUser("trentZ123",await ingredientsData.getIngredientByName2("ground beef"),0,"any" )
-await usersData.addIngredientToUser("trentZ123",await ingredientsData.getIngredientByName2("onion"),0,"any" )
-await usersData.addIngredientToUser("trentZ123",await ingredientsData.getIngredientByName2("bacon"),0,"any" )
-await usersData.addIngredientToUser("trentZ123",await ingredientsData.getIngredientByName2("rotisserie chicken"),0,"any" )
-await usersData.addIngredientToUser("trentZ123",await ingredientsData.getIngredientByName2("colby-monterey jack cheese"),0,"any" )
-
-await usersData.addIngredientToUser("Darius154",await ingredientsData.getIngredientByName2("fettuccine pasta"),0,"any" )
-await usersData.addIngredientToUser("Darius154",await ingredientsData.getIngredientByName2("salted butter"),0,"any" )
-await usersData.addIngredientToUser("Darius154",await ingredientsData.getIngredientByName2("heavy cream"),0,"any" )
-await usersData.addIngredientToUser("Darius154",await ingredientsData.getIngredientByName2("grated parmesan cheese"),0,"any" )
-await usersData.addIngredientToUser("Darius154",await ingredientsData.getIngredientByName2("bacon strips"),0,"any" )
-await usersData.addIngredientToUser("Darius154",await ingredientsData.getIngredientByName2("brown sugar"),0,"any" )
-await usersData.addIngredientToUser("Darius154",await ingredientsData.getIngredientByName2("medium red potatoes"),0,"any" )
-await usersData.addIngredientToUser("Darius154",await ingredientsData.getIngredientByName2("toothpick"),0,"any" )
-await usersData.addIngredientToUser("Darius154",await ingredientsData.getIngredientByName2("water"),0,"any" )
-await usersData.addIngredientToUser("Darius154",await ingredientsData.getIngredientByName2("milk"),0,"any" )
-
-await usersData.addIngredientToUser("AdamB",await ingredientsData.getIngredientByName2("romaine lettuce"),0,"any" )
-await usersData.addIngredientToUser("AdamB",await ingredientsData.getIngredientByName2("croutons"),0,"any" )
-await usersData.addIngredientToUser("AdamB",await ingredientsData.getIngredientByName2("Parmesan Cheese"),0,"any" )
-await usersData.addIngredientToUser("AdamB",await ingredientsData.getIngredientByName2("sugar"),0,"any" )
-await usersData.addIngredientToUser("AdamB",await ingredientsData.getIngredientByName2("parsley"),0,"any" )
-await usersData.addIngredientToUser("AdamB",await ingredientsData.getIngredientByName2("butter"),0,"any" )
-await usersData.addIngredientToUser("AdamB",await ingredientsData.getIngredientByName2("salted butter"),0,"any" )
-await usersData.addIngredientToUser("AdamB",await ingredientsData.getIngredientByName2("garlic powder"),0,"any" )
-await usersData.addIngredientToUser("AdamB",await ingredientsData.getIngredientByName2("egg"),0,"any" )
-await usersData.addIngredientToUser("AdamB",await ingredientsData.getIngredientByName2("creamy peanut butter"),0,"any" )
-
-
-
+for (const user in usersIngredients) {
+  const ingredients = usersIngredients[user];
+  for (const ingredientName of ingredients) {
+    const ingredient = await ingredientsData.getIngredientByName(ingredientName);
+    await usersData.addIngredientToUser(user, ingredient.id, ingredient.name, ingredient.flavors, ingredient.quantity, ingredient.measurement);
+  }
+}
 
 // await populateIngredients(SpaghettiBolognese.ingredients)
 // await populateIngredients(CaesarSalad.ingredients)

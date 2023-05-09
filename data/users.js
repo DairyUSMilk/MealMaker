@@ -192,18 +192,20 @@ const usersMethods = {
     return {recipeRemoved : recipe, user: updatedUser};
   },
 
-  async addIngredientToUser (username, ingredientId, quantity, measurement) {
+  async addIngredientToUser (username, ingredientId, title, flavors, quantity, measurement) {
     username = verification.checkUsername(username, 'username');
     ingredientId = backendVerification.checkId(ingredientId, 'ingredientId');
     quantity = verification.checkNumber(quantity, 'quantity');
     measurement = verification.checkOnlyWordsString(measurement, 'measurement');
+    flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
+    title = verification.checkOnlyWordsString(title, 'title');
 
     const userCollection = await users();
     const user = await userCollection.findOne({username: username});
     if(!user) throw 'Error: no user with that username';
     if(user.ingredients.includes(ingredientId)) throw 'Error: ingredient already in user ingredients';
 
-    const updatedUser = await userCollection.findOneAndUpdate({username: username}, {$addToSet: {ingredients: {ingredientId: ingredientId, quantity: quantity, measurement: measurement}}});
+    const updatedUser = await userCollection.findOneAndUpdate({username: username}, {$addToSet: {ingredients: {ingredientId: ingredientId, name: title, flavors: flavors, quantity: quantity, measurement: measurement}}});
     if(!updatedUser) throw 'Error: could not add ingredient to user';
 
     return {ingredientAdded : ingredientId, user: updatedUser};
