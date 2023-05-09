@@ -170,9 +170,6 @@ const usersMethods = {
   async removeRecipeFromLikedRecipes (username, recipeId) {
     username = verification.checkUsername(username, 'username').toLowerCase();
     const recipe = await recipesData.getRecipeById(recipeId);
-    console.log(`Recipe retrieved by removeRecipeFromLikedRecipes: ${JSON.stringify(recipe)}`);
-    console.log("  ");
-    console.log("  ");
 
     if(!recipe) throw 'Error: no recipe with that id';
     const userCollection = await users();
@@ -182,9 +179,7 @@ const usersMethods = {
 
     if (!user.likedRecipes.some((recipe) => recipe._id.toString() === recipeId.toString())) throw 'Error: recipe not in liked recipes';
 
-    // TODO -- THE ISSUE IS WITH FIND ONE AND UPDATE
-    const updatedUser = await userCollection.findOneAndUpdate({username: username}, {$pull: {likedRecipes: recipe}});
-    console.log(`Updated user after removeRecipeFromLikedRecipes: ${JSON.stringify(updatedUser)}`);
+    const updatedUser = await userCollection.findOneAndUpdate({ username: username }, { $pull: { likedRecipes: { _id: new ObjectId(recipeId) } } });
 
     if(!updatedUser) throw 'Error: could not remove recipe from liked recipes';
 

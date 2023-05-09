@@ -285,16 +285,6 @@ router.post("/:id/dislike", async (req, res) => {
   try {
     const recipeId = req.params.id;
     const username = req.session.user.username;
-    const dislikedRecipe = await recipesData.dislikeRecipe(recipeId);
-
-    console.log("-----------------------")
-    console.log(`Disliked Recipe: ${JSON.stringify(dislikedRecipe)}`);
-    const afterDisliking = await recipesData.getRecipeById(recipeId.toString());
-    console.log("  ")
-    console.log("  ")
-    console.log("  ")
-    console.log(`Retrieved Recipe after Disliking: ${JSON.stringify(afterDisliking)}`);
-    console.log("-----------------------")
 
     await usersData.removeRecipeFromLikedRecipes(username, recipeId);
     const recipes = await recipesData.getAllRecipes();
