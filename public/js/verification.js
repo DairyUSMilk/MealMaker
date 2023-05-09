@@ -28,7 +28,7 @@ const exportedMethods = {
     email = this.checkString(email, varName);
     let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email.match(emailRegex) === null) throw `Error: ${varName} must be a valid email address`;
-    if (email.slice(-4) !== '.com') throw `Error: ${varName} must be a valid .com email address`;
+    if (email.slice(-4).toLowerCase() !== '.com') throw `Error: ${varName} must be a valid .com email address`;
     email = email.toLowerCase();
     return email;
   },

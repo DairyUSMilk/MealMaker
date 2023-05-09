@@ -13,8 +13,8 @@ const usersMethods = {
     firstName = verification.checkName(firstName, 'firstName');
     lastName = verification.checkName(lastName, 'lastName');
 
-    username = verification.checkUsername(username, 'username');
-    email = verification.checkEmail(email, 'email');
+    username = verification.checkUsername(username, 'username').toLowerCase();
+    email = verification.checkEmail(email, 'email').toLowerCase();
     const duplicateExists = await userCollection.findOne({$or: [{username: username}, {email: email}]});
     if(duplicateExists) throw 'Error: username or email already in use';
 
@@ -47,8 +47,8 @@ const usersMethods = {
   
   async checkUser (emailOrUser, password) {
     if(typeof(emailOrUser) !== 'string') throw 'Error: email or user must be a string!';
-    if(verification.isEmail(emailOrUser)) return await this.checkUserByEmail(emailOrUser, password);
-    else return await this.checkUserByUsername(emailOrUser, password);
+    if(verification.isEmail(emailOrUser)) return await this.checkUserByEmail(emailOrUser.toLowerCase(), password.toLowerCase());
+    else return await this.checkUserByUsername(emailOrUser.toLowerCase(), password.toLowerCase());
   },
 
   async checkUserByEmail (email, password) {
@@ -87,7 +87,7 @@ const usersMethods = {
   },
 
   async getUserByUsername (username) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     const userCollection = await users();
     if(!userCollection) throw 'Error: could not access user collection';
 
@@ -97,7 +97,7 @@ const usersMethods = {
   },
   
   async getIngredients (username) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     const userCollection = await users();
     if(!userCollection) throw 'Error: could not access user collection';
 
@@ -108,7 +108,7 @@ const usersMethods = {
   },
 
   async getLikedRecipes (username) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     const userCollection = await users();
     if(!userCollection) throw 'Error: could not access user collection';
 
@@ -119,7 +119,7 @@ const usersMethods = {
   },
 
   async getRecipesCreated (username) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     const userCollection = await users();
     if(!userCollection) throw 'Error: could not access user collection';
 
@@ -129,7 +129,7 @@ const usersMethods = {
   },
 
   async addRecipeToLikedRecipes (username, recipeId) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     const recipe = await recipesData.getRecipeById(recipeId);
     if(!recipe) throw 'Error: no recipe with that id';
     const userCollection = await users();
@@ -147,7 +147,7 @@ const usersMethods = {
   },
 
   async addRecipeToCreatedRecipes (username, recipeId) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     const recipe = await recipesData.getRecipeById(recipeId); 
     if(!recipe) throw 'Error: no recipe with that id';
     recipe._id = recipe._id.toString()
@@ -164,7 +164,7 @@ const usersMethods = {
   },
 
   async removeRecipeFromLikedRecipes (username, recipeId) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     const recipe = await recipesData.getRecipeById(recipeId);
     if(!recipe) throw 'Error: no recipe with that id';
     const userCollection = await users();
@@ -181,7 +181,7 @@ const usersMethods = {
   },
 
   async removeRecipeFromCreatedRecipes (username, recipeId) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     const recipe = await recipesData.getRecipeById(recipeId);
     if(!recipe) throw 'Error: no recipe with that id';
     const userCollection = await users();
@@ -197,7 +197,7 @@ const usersMethods = {
   },
 
   async addIngredientToUser (username, ingredientId) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     ingredientId = backendVerification.checkId(ingredientId, 'ingredientId');
     
     const ingredient = await ingredientsData.getIngredientById(ingredientId);
@@ -214,7 +214,7 @@ const usersMethods = {
   },
 
   async removeIngredientFromUser (username, ingredientId) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     ingredientId = backendVerification.checkId(ingredientId, 'ingredientId');
 
     const ingredient = await ingredientsData.getIngredientById(ingredientId);
@@ -231,7 +231,7 @@ const usersMethods = {
   },
 
   async changePassword (username, oldPassword, newPassword) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     oldPassword = verification.checkPassword(oldPassword, 'oldPassword');
     newPassword = verification.checkPassword(newPassword, 'newPassword');
 
@@ -248,7 +248,7 @@ const usersMethods = {
   },
 
   async changeUsername (username, newUsername) {
-    username = verification.checkUsername(username, 'username');
+    username = verification.checkUsername(username, 'username').toLowerCase();
     newUsername = verification.checkUsername(newUsername, 'newUsername');
 
     const userCollection = await users();
