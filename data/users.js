@@ -193,6 +193,24 @@ const usersMethods = {
   async addIngredientToUser (username, ingredientId) {
     username = verification.checkUsername(username, 'username').toLowerCase();
     ingredientId = backendVerification.checkId(ingredientId, 'ingredientId');
+
+    // for(let n = 0; n < ingredients[i].length; n++){
+    //     if(typeof ingredients[i][0] !== "number"){
+    //         throw "ingredient id must be number"
+    //     }
+    //     if(typeof ingredients[i][1] !== "string"){
+    //         throw "ingredient name must be string"
+    //     }
+    //     if(!(Array.isArray(ingredients[i][2]))){
+    //         throw "ingredient flavors must be an array"
+    //     }
+    //     if(typeof ingredients[i][3] !== "number"){
+    //         throw "ingredient quantity must be a number"
+    //     }
+    //     if(typeof ingredients[i][4] !== "string"){
+    //         throw "ingredient measurement must be a string"
+    //     }
+    // }
     
     const ingredient = await ingredientsData.getIngredientById(ingredientId);
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import {ingredientsData} from '../data/index.js';
+import {ingredientsData, usersData} from '../data/index.js';
 import verification from '../public/js/verification.js';
 import backendVerification from '../public/js/backendVerification.js';
 import updateSessionData from "./middleware/updateSessionMiddleware.js";
@@ -27,6 +27,7 @@ router.get('/add', async (req, res) => {
         const ingredientInfo = {
             name : req.body.nameInput,
             flavors : req.body.flavorsInput,
+            cuisine : [],
             quantity : req.body.quantityInput,
             measurement : req.body.measurementInput
         };
@@ -66,9 +67,10 @@ router.get('/add', async (req, res) => {
         
         console.log("FF");
 
-        if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo._id);
+        if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo);
         res.redirect('/ingredients'); //need a way to pass the message that a new thing is added
     } catch (e) {
+        console.log(e);
         res.status(500).json({ error: e });
     }
 });

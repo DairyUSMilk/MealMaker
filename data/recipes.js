@@ -35,13 +35,10 @@ const recipesMethods = {
                 if(!(Array.isArray(ingredients[i][2]))){
                     throw "ingredient flavors must be an array"
                 }
-                if(!(Array.isArray(ingredients[i][3]))){
-                    throw "ingredient general cuisine must be an array"
-                }
-                if(typeof ingredients[i][4] !== "number"){
+                if(typeof ingredients[i][3] !== "number"){
                     throw "ingredient quantity must be a number"
                 }
-                if(typeof ingredients[i][5] !== "string"){
+                if(typeof ingredients[i][4] !== "string"){
                     throw "ingredient measurement must be a string"
                 }
             }
@@ -78,7 +75,6 @@ const recipesMethods = {
               id: ingredientId,
               name: ingredient.name,
               flavors: ingredient.flavors,
-              generalCuisine: ingredient.generalCuisine,
               quantity: ingredient.quantity,
               measurement: ingredient.measurement
             });
