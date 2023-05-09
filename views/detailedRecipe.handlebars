@@ -1,0 +1,33 @@
+ <header>
+  <nav>
+    <div class="left-links">
+      <a href="/" class="meal-maker-link">MealMaker</a>
+    </div>
+    <div class="center-links">
+      {{#if user}}
+        <div class="dropdown">
+          <a href="#" class="dropbtn">{{user.firstName}} ▼</a>
+          <div class="dropdown-content">
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
+          </div>
+        </div>
+      {{else}}
+        <a href="/login">Login</a>
+      {{/if}}
+    </div>
+    <div class="right-links">
+      <a href="/ingredients">Ingredients</a>
+      <a href="/recipes/add">Add Recipe</a>
+    </div>
+  </nav>
+</header>
+<body>
+ <ul>
+      <li class="recipe-box">
+        <img src="{{image}}" alt="{{title}}">
+        <h2>{{title}}</h2>
+        {{> recipe recipe}}
+      </li>
+  </ul>
+</body>
