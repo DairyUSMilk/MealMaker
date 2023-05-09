@@ -139,7 +139,6 @@ tid,
   id: 2001,
   name: "spaghetti",
   flavors: ["wheaty"],
-  generalCuisine: ["italian"],
   quantity: 1,
   measurement: "pound"
 },
@@ -147,7 +146,6 @@ tid,
   id: 2002,
   name: "ground beef",
   flavors: ["meaty", "salty"],
-  generalCuisine: ["american"],
   quantity: 1,
   measurement: "pound"
 },
@@ -155,7 +153,6 @@ tid,
   id: 2003,
   name: "tomato sauce",
   flavors: ["savory", "tomato"],
-  generalCuisine: ["italian"],
   quantity: .5,
   measurement: "cup"
 }
@@ -185,7 +182,6 @@ did,
   id: 1234,
   name: "romaine lettuce",
   flavors: ["bitter", "crunchy"],
-  generalCuisine: ["american"],
   quantity: 2,
   measurement: "whole"
 },
@@ -193,7 +189,6 @@ did,
   id: 3002,
   name: "croutons",
   flavors: ["garlicky"],
-  generalCuisine: ["american"],
   quantity: 2,
   measurement: "cup"
 },
@@ -201,7 +196,6 @@ did,
   id: 3003,
   name: "Parmesan Cheese",
   flavors: ["cheesy"],
-  generalCuisine: ["italian"],
   quantity: 1,
   measurement: "cup"
 },
@@ -209,7 +203,6 @@ did,
 id: 3004,
 name: "ceasar dressing",
 flavors: ["sweet", "sour"],
-generalCuisine: ["american"],
 quantity: 1,
 measurement: "cup"
 }
@@ -237,7 +230,6 @@ did,
   id: 1053,
   name: "fettuccine pasta",
   flavors: ["starchy", "pasta"],
-  generalCuisine: ["italian"],
   quantity: 12,
   measurement: "ounce"
 },
@@ -245,7 +237,6 @@ did,
   id: 1001,
   name: "salted butter",
   flavors: ["fat", "buttery", "salty"],
-  generalCuisine: ["savory"],
   quantity: 1,
   measurement: "cup"
 },
@@ -253,7 +244,6 @@ did,
   id: 1123,
   name: "heavy cream",
   flavors: ["creamy", "rich"],
-  generalCuisine: ["dessert"],
   quantity: 2,
   measurement: "cup"
 },
@@ -261,7 +251,6 @@ did,
   id: 1004,
   name: "grated parmesan cheese",
   flavors: ["salty", "cheesy"],
-  generalCuisine: ["italian"],
   quantity: 1,
   measurement: "cup"
 },
@@ -269,7 +258,6 @@ did,
   id: 1102047,
   name: "garlic powder",
   flavors: ["spicy", "pungent"],
-  generalCuisine: ["savory"],
   quantity: 1,
   measurement: "tsp"
 }
@@ -302,7 +290,6 @@ mid,
   id: 1053,
   name: "egg",
   flavors: ["eggy"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "whole"
 },
@@ -310,7 +297,6 @@ mid,
   id: 1001,
   name: "creamy peanut butter",
   flavors: ["fat", "peanuty"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "cup"
 },
@@ -318,7 +304,6 @@ mid,
   id: 1123,
   name: "sugar",
   flavors: ["sweet"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "cup"
 }
@@ -344,7 +329,6 @@ tid,
   id: 1053,
   name: "medium red potatoes",
   flavors: ["potato"],
-  generalCuisine: ["global"],
   quantity: 5,
   measurement: "pound"
 },
@@ -352,7 +336,6 @@ tid,
   id: 1001,
   name: "butter",
   flavors: ["fat","buttery"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "cup"
 },
@@ -360,7 +343,6 @@ tid,
   id: 1123,
   name: "parsley",
   flavors: ["parsley"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "cup"
 }
@@ -384,7 +366,6 @@ tid,
   id: 1053,
   name: "bananas",
   flavors: ["banana"],
-  generalCuisine: ["global"],
   quantity: 4,
   measurement: "whole"
 },
@@ -392,7 +373,6 @@ tid,
   id: 1001,
   name: "yellow cake mix",
   flavors: ["sweet"],
-  generalCuisine: ["american"],
   quantity: 15.25,
   measurement: "ounce"
 },
@@ -400,7 +380,6 @@ tid,
   id: 1123,
   name: "egg",
   flavors: ["egg"],
-  generalCuisine: ["global"],
   quantity: 2,
   measurement: "whole"
 }
@@ -425,7 +404,6 @@ aid,
   id: 1,
   name: "bacon strips",
   flavors: ["savory"],
-  generalCuisine: ["global"],
   quantity: 0.75,
   measurement: "pound"
 },
@@ -433,7 +411,6 @@ aid,
   id: 2,
   name: "frozen fully cooked breakfast sausage links",
   flavors: ["savory"],
-  generalCuisine: ["global"],
   quantity: 16,
   measurement: "whole"
 },
@@ -441,7 +418,6 @@ aid,
   id: 3,
   name: "brown sugar",
   flavors: ["sweet"],
-  generalCuisine: ["global"],
   quantity: 0.5,
   measurement: "cup"
 },
@@ -449,7 +425,6 @@ aid,
   id: 4,
   name: "toothpick",
   flavors: ["none"],
-  generalCuisine: ["none"],
   quantity: 1,
   measurement: "whole"
 }
@@ -475,7 +450,6 @@ mid,
   id: 1004,
   name: "refrigerated crescent rolls",
   flavors: ["bready"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "tube"
 },
@@ -483,7 +457,6 @@ mid,
   id: 1061,
   name: "french-fried onions",
   flavors: ["savory"],
-  generalCuisine: ["global"],
   quantity: 1.33,
   measurement: "cups"
 },
@@ -491,7 +464,6 @@ mid,
   id: 1123,
   name: "egg",
   flavors: ["egg"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "large"
 },
@@ -499,7 +471,6 @@ mid,
   id: 1009,
   name: "water",
   flavors: [],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "tablespoon"
 }
@@ -524,7 +495,6 @@ aid,
 id: 1043,
 name: "cream cheese",
 flavors: ["creamy"],
-generalCuisine: ["global"],
 quantity: 8,
 measurement: "ounce",
 },
@@ -532,7 +502,6 @@ measurement: "ounce",
 id: 1056,
 name: "chicken breast",
 flavors: ["chicken"],
-generalCuisine: ["global"],
 quantity: 1,
 measurement: "cup",
 },
@@ -540,7 +509,6 @@ measurement: "cup",
 id: 1021,
 name: "Buffalo wing sauce",
 flavors: ["spicy"],
-generalCuisine: ["american"],
 quantity: 1 / 2,
 measurement: "cup",
 },
@@ -548,7 +516,6 @@ measurement: "cup",
 id: 1018,
 name: "ranch or blue cheese salad dressing",
 flavors: ["creamy"],
-generalCuisine: ["global"],
 quantity: 1 / 2,
 measurement: "cup",
 },
@@ -556,7 +523,6 @@ measurement: "cup",
 id: 1028,
 name: "Colby-Monterey Jack cheese",
 flavors: ["cheese"],
-generalCuisine: ["global"],
 quantity: 2,
 measurement: "cup",
 },
@@ -581,7 +547,6 @@ did,
 id: 1001,
 name: "bacon strips",
 flavors: ["salty"],
-generalCuisine: ["american"],
 quantity: 6,
 measurement: "whole"
 },
@@ -589,7 +554,6 @@ measurement: "whole"
 id: 1003,
 name: "potatoes",
 flavors: ["earthy"],
-generalCuisine: ["global"],
 quantity: 3,
 measurement: "cup"
 },
@@ -597,7 +561,6 @@ measurement: "cup"
 id: 1116,
 name: "carrot",
 flavors: ["sweet"],
-generalCuisine: ["global"],
 quantity: 1,
 measurement: "whole"
 },
@@ -605,7 +568,6 @@ measurement: "whole"
 id: 1129,
 name: "onion",
 flavors: ["pungent"],
-generalCuisine: ["global"],
 quantity: 0.5,
 measurement: "cup"
 },
@@ -613,7 +575,6 @@ measurement: "cup"
 id: 2014,
 name: "parsley flakes",
 flavors: ["herbaceous"],
-generalCuisine: ["global"],
 quantity: 1,
 measurement: "tablespoon"
 },
@@ -621,7 +582,6 @@ measurement: "tablespoon"
 id: 1009,
 name: "salt",
 flavors: ["salty"],
-generalCuisine: ["global"],
 quantity: 0.5,
 measurement: "teaspoon"
 },
@@ -629,7 +589,6 @@ measurement: "teaspoon"
 id: 1028,
 name: "pepper",
 flavors: ["spicy"],
-generalCuisine: ["global"],
 quantity: 0.5,
 measurement: "teaspoon"
 },
@@ -637,7 +596,6 @@ measurement: "teaspoon"
 id: 2015,
 name: "celery seed",
 flavors: ["herbaceous"],
-generalCuisine: ["global"],
 quantity: 0.5,
 measurement: "teaspoon"
 },
@@ -645,7 +603,6 @@ measurement: "teaspoon"
 id: 6194,
 name: "chicken broth",
 flavors: ["salty"],
-generalCuisine: ["global"],
 quantity: 1,
 measurement: "can (14-1/2 ounces)"
 },
@@ -653,7 +610,6 @@ measurement: "can (14-1/2 ounces)"
 id: 20081,
 name: "all purpose flour",
 flavors: ["neutral"],
-generalCuisine: ["global"],
 quantity: 3,
 measurement: "tablespoon"
 },
@@ -661,7 +617,6 @@ measurement: "tablespoon"
 id: 1077,
 name: "milk",
 flavors: ["creamy"],
-generalCuisine: ["global"],
 quantity: 3,
 measurement: "cup"
 },
@@ -669,7 +624,6 @@ measurement: "cup"
 id: 1188,
 name: "Velveeta",
 flavors: ["cheesy"],
-generalCuisine: ["global"],
 quantity: 8,
 measurement: "ounce"
 },
@@ -677,7 +631,6 @@ measurement: "ounce"
 id: 1129,
 name: "green onions",
 flavors: ["pungent"],
-generalCuisine: ["global"],
 quantity: 2,
 measurement: "whole"
 }
@@ -699,7 +652,6 @@ tid,
 id: 2001,
 name: "ground beef",
 flavors: ["savory"],
-generalCuisine: ["american"],
 quantity: 1,
 measurement: "pound"
 },
@@ -707,7 +659,6 @@ measurement: "pound"
 id: 2023,
 name: "onion powder",
 flavors: ["savory"],
-generalCuisine: ["global"],
 quantity: 1,
 measurement: "teaspoon"
 },
@@ -715,7 +666,6 @@ measurement: "teaspoon"
 id: 2010,
 name: "kosher salt",
 flavors: ["savory"],
-generalCuisine: ["global"],
 quantity: 0.5,
 measurement: "teaspoon"
 },
@@ -723,7 +673,6 @@ measurement: "teaspoon"
 id: 2005,
 name: "black pepper",
 flavors: ["savory"],
-generalCuisine: ["global"],
 quantity: 0.25,
 measurement: "teaspoon"
 },
@@ -731,7 +680,6 @@ measurement: "teaspoon"
 id: 1020,
 name: "cheddar cheese",
 flavors: ["cheesy"],
-generalCuisine: ["global"],
 quantity: 1,
 measurement: "cup"
 },
@@ -739,7 +687,6 @@ measurement: "cup"
 id: 1054,
 name: "mayonnaise",
 flavors: ["savory"],
-generalCuisine: ["global"],
 quantity: 0.5,
 measurement: "cup"
 },
@@ -747,7 +694,6 @@ measurement: "cup"
 id: 1127,
 name: "ketchup",
 flavors: ["sweet", "savory"],
-generalCuisine: ["global"],
 quantity: 0.25,
 measurement: "cup"
 },
@@ -755,7 +701,6 @@ measurement: "cup"
 id: 1189,
 name: "pickle juice",
 flavors: ["tangy", "savory"],
-generalCuisine: ["global"],
 quantity: 2,
 measurement: "teaspoon"
 },
@@ -763,7 +708,6 @@ measurement: "teaspoon"
 id: 1214,
 name: "hot sauce",
 flavors: ["spicy"],
-generalCuisine: ["global"],
 quantity: 0.25,
 measurement: "teaspoon"
 },
@@ -771,7 +715,6 @@ measurement: "teaspoon"
 id: 1253,
 name: "flour tortillas",
 flavors: ["bready"],
-generalCuisine: ["mexican"],
 quantity: 8,
 measurement: "whole"
 },
@@ -779,7 +722,6 @@ measurement: "whole"
 id: 1122,
 name: "lettuce",
 flavors: ["leafy", "bitter"],
-generalCuisine: ["global"],
 quantity: 1.25,
 measurement: "cup"
 },
@@ -787,7 +729,6 @@ measurement: "cup"
 id: 1061,
 name: "tomato",
 flavors: ["umami"],
-generalCuisine: ["global"],
 quantity: 1,
 measurement: "medium"
 },
@@ -795,7 +736,6 @@ measurement: "medium"
 id: 1199,
 name: "pickles",
 flavors: ["tangy", "savory"],
-generalCuisine: ["global"],
 quantity: 0.25,
 measurement: "cup"
 }
@@ -817,7 +757,6 @@ tid,
   id: 1001,
   name: "ramen noodles",
   flavors: ["savory", "umami"],
-  generalCuisine: ["asian"],
   quantity: 2,
   measurement: "package (3 oz)"
 },
@@ -825,7 +764,6 @@ tid,
   id: 2001,
   name: "cornstarch",
   flavors: [],
-  generalCuisine: [],
   quantity: 2,
   measurement: "tsp"
 },
@@ -833,7 +771,6 @@ tid,
   id: 2002,
   name: "soy sauce",
   flavors: ["salty", "umami"],
-  generalCuisine: ["asian"],
   quantity: 3,
   measurement: "tbsp"
 },
@@ -841,7 +778,6 @@ tid,
   id: 2003,
   name: "rice vinegar",
   flavors: ["sour"],
-  generalCuisine: ["asian"],
   quantity: 2,
   measurement: "tbsp"
 },
@@ -849,7 +785,6 @@ tid,
   id: 2004,
   name: "hoisin sauce",
   flavors: ["sweet", "salty"],
-  generalCuisine: ["asian"],
   quantity: 2,
   measurement: "tbsp"
 },
@@ -857,7 +792,6 @@ tid,
   id: 1121,
   name: "ginger",
   flavors: ["spicy"],
-  generalCuisine: ["asian"],
   quantity: 1,
   measurement: "tsp minced"
 },
@@ -865,7 +799,6 @@ tid,
   id: 1122,
   name: "garlic",
   flavors: ["spicy"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "tsp minced"
 },
@@ -873,7 +806,6 @@ tid,
   id: 5001,
   name: "salt",
   flavors: [],
-  generalCuisine: [],
   quantity: 0.25,
   measurement: "tsp"
 },
@@ -881,7 +813,6 @@ tid,
   id: 5002,
   name: "black pepper",
   flavors: ["spicy"],
-  generalCuisine: ["global"],
   quantity: 0.25,
   measurement: "tsp"
 },
@@ -889,7 +820,6 @@ tid,
   id: 2005,
   name: "sesame oil",
   flavors: ["nutty"],
-  generalCuisine: ["asian"],
   quantity: 2,
   measurement: "tbsp"
 },
@@ -897,7 +827,6 @@ tid,
   id: 1126,
   name: "broccoli",
   flavors: ["vegetal"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "cup fresh florets"
 },
@@ -905,7 +834,6 @@ tid,
   id: 1127,
   name: "sugar snap peas",
   flavors: ["vegetal"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "cup"
 },
@@ -913,7 +841,6 @@ tid,
   id: 1128,
   name: "carrot",
   flavors: ["sweet", "vegetal"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "whole"
 },
@@ -921,7 +848,6 @@ tid,
   id: 1129,
   name: "red bell pepper",
   flavors: ["sweet", "vegetal"],
-  generalCuisine: ["global"],
   quantity: 1,
   measurement: "whole"
 }],
@@ -944,7 +870,6 @@ const BuffaloChickenWraps = await recipesData.createRecipe(
           id: 1001,
           name: "rotisserie chicken",
           flavors: ["savory"],
-          generalCuisine: ["american"],
           quantity: 4,
           measurement: "cup"
       },
@@ -952,7 +877,6 @@ const BuffaloChickenWraps = await recipesData.createRecipe(
           id: 1041,
           name: "colby-monterey jack cheese",
           flavors: ["cheese"],
-          generalCuisine: ["global"],
           quantity: 1,
           measurement: "cup"
       },
@@ -960,7 +884,6 @@ const BuffaloChickenWraps = await recipesData.createRecipe(
           id: 1040,
           name: "cheddar cheese",
           flavors: ["cheese"],
-          generalCuisine: ["global"],
           quantity: 1,
           measurement: "cup"
       },
@@ -968,7 +891,6 @@ const BuffaloChickenWraps = await recipesData.createRecipe(
           id: 1125,
           name: "celery",
           flavors: ["vegetable"],
-          generalCuisine: ["global"],
           quantity: 0.67,
           measurement: "cup"
       },
@@ -976,7 +898,6 @@ const BuffaloChickenWraps = await recipesData.createRecipe(
           id: 1501,
           name: "blue cheese salad dressing",
           flavors: ["savory", "cheesy"],
-          generalCuisine: ["global"],
           quantity: 0.67,
           measurement: "cup"
       },
@@ -984,7 +905,6 @@ const BuffaloChickenWraps = await recipesData.createRecipe(
           id: 1523,
           name: "Buffalo wing sauce",
           flavors: ["spicy"],
-          generalCuisine: ["global"],
           quantity: 0.33,
           measurement: "cup"
       },
@@ -992,7 +912,6 @@ const BuffaloChickenWraps = await recipesData.createRecipe(
           id: 2000,
           name: "flour tortillas",
           flavors: ["bready"],
-          generalCuisine: ["mexican"],
           quantity: 6,
           measurement: "whole"
       }
@@ -1018,7 +937,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 2001,
           name: "spaghetti",
           flavors: ["neutral"],
-          generalCuisine: ["italian"],
           quantity: 12,
           measurement: "ounce"
       },
@@ -1026,7 +944,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 1012,
           name: "bacon",
           flavors: ["salty"],
-          generalCuisine: ["global"],
           quantity: 8,
           measurement: "slice"
       },
@@ -1034,7 +951,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 1054,
           name: "ground beef",
           flavors: ["meaty"],
-          generalCuisine: ["global"],
           quantity: 1.5,
           measurement: "pound"
       },
@@ -1042,7 +958,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 1004,
           name: "onion",
           flavors: ["savory"],
-          generalCuisine: ["global"],
           quantity: 1,
           measurement: "whole"
       },
@@ -1050,7 +965,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 1021,
           name: "kidney beans",
           flavors: ["earthy"],
-          generalCuisine: ["global"],
           quantity: 15,
           measurement: "ounce"
       },
@@ -1058,7 +972,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 1023,
           name: "tomato sauce",
           flavors: ["savory"],
-          generalCuisine: ["global"],
           quantity: 15,
           measurement: "ounce"
       },
@@ -1066,7 +979,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 1032,
           name: "diced tomatoes and green chiles",
           flavors: ["spicy"],
-          generalCuisine: ["global"],
           quantity: 10,
           measurement: "ounce"
       },
@@ -1074,7 +986,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 2003,
           name: "chili powder",
           flavors: ["spicy"],
-          generalCuisine: ["global"],
           quantity: 2,
           measurement: "tablespoon"
       },
@@ -1082,7 +993,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 2050,
           name: "Worcestershire sauce",
           flavors: ["savory"],
-          generalCuisine: ["global"],
           quantity: 2,
           measurement: "tablespoon"
       },
@@ -1090,7 +1000,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 2008,
           name: "ground cumin",
           flavors: ["spicy"],
-          generalCuisine: ["global"],
           quantity: 1,
           measurement: "teaspoon"
       },
@@ -1098,7 +1007,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 2020,
           name: "dried oregano",
           flavors: ["herbaceous"],
-          generalCuisine: ["global"],
           quantity: 1,
           measurement: "teaspoon"
       },
@@ -1106,7 +1014,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 2009,
           name: "garlic powder",
           flavors: ["savory"],
-          generalCuisine: ["global"],
           quantity: 0.5,
           measurement: "teaspoon"
       },
@@ -1114,7 +1021,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
           id: 1003,
           name: "pepper jack cheese",
           flavors: ["spicy", "cheesy"],
-          generalCuisine: ["global"],
           quantity: 3,
           measurement: "cup"
       }
@@ -1139,7 +1045,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
         id: 1004,
         name: "cream cheese",
         flavors: ["creamy"],
-        generalCuisine: ["global"],
         quantity: 4,
         measurement: "ounce"
       },
@@ -1147,7 +1052,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
         id: 1077,
         name: "sour cream",
         flavors: ["sour", "creamy"],
-        generalCuisine: ["global"],
         quantity: 0.5,
         measurement: "cup"
       },
@@ -1155,7 +1059,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
         id: 1095,
         name: "condensed cream of chicken soup",
         flavors: ["savory"],
-        generalCuisine: ["american"],
         quantity: 1,
         measurement: "can (10.5 oz)"
       },
@@ -1163,7 +1066,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
         id: 1129,
         name: "onion powder",
         flavors: ["savory"],
-        generalCuisine: ["global"],
         quantity: 0.5,
         measurement: "teaspoon"
       },
@@ -1171,7 +1073,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
         id: 1026,
         name: "garlic powder",
         flavors: ["savory"],
-        generalCuisine: ["global"],
         quantity: 0.5,
         measurement: "teaspoon"
       },
@@ -1179,7 +1080,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
         id: 5150,
         name: "shredded cooked chicken",
         flavors: ["savory"],
-        generalCuisine: ["global"],
         quantity: 4,
         measurement: "cup"
       },
@@ -1187,7 +1087,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
         id: 1036,
         name: "cottage cheese",
         flavors: ["creamy"],
-        generalCuisine: ["global"],
         quantity: 1,
         measurement: "cup"
       },
@@ -1195,7 +1094,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
         id: 18233,
         name: "Ritz crackers",
         flavors: ["salty"],
-        generalCuisine: ["global"],
         quantity: 25,
         measurement: "whole"
       },
@@ -1203,7 +1101,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
         id: 1001,
         name: "butter",
         flavors: ["buttery"],
-        generalCuisine: ["global"],
         quantity: 3,
         measurement: "tablespoon"
       },
@@ -1211,7 +1108,6 @@ const CowboySpaghetti = await recipesData.createRecipe(
         id: 11291,
         name: "green onions",
         flavors: ["herbaceous"],
-        generalCuisine: ["global"],
         quantity: 2,
         measurement: "whole"
       }
