@@ -1303,7 +1303,7 @@ for (const user in usersIngredients) {
   const ingredients = usersIngredients[user];
   for (const ingredientName of ingredients) {
     const ingredient = await ingredientsData.getIngredientByName(ingredientName);
-    await usersData.addIngredientToUser(user, ingredient.id, ingredient.name, ingredient.flavors, ingredient.quantity, ingredient.measurement);
+    await usersData.addIngredientToUser(user, ingredient.id);
   }
 }
 

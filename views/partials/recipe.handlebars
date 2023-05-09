@@ -1,30 +1,30 @@
 <li>{{this.title}}</li>
-      <li>flavors:
-        {{#each this.flavors}}
-          {{this}}
-        {{/each}}
-      </li>
+<li>flavors:
+  {{#each this.flavors}}
+    {{this}}
+  {{/each}}
+</li>
 
-      <li>Ingredients:
-        {{#each this.ingredients}}
-          {{> ingredient}}
-        {{/each}}
-      </li>
+<li>Ingredients:
+  {{#each this.ingredients}}
+    {{> ingredient}}
+  {{/each}}
+</li>
 
-      <li>Instructions: {{this.instructions}}</li>
-      <li>Servings: {{this.servings}}</li>
-      <li>Ready in: {{this.readyInMinutes}} minutes</li>
-      <li><a href={{this.imageURL}}>Source</a></li>
-      <li>Comments:
-        {{#each this.comments}}
-          {{this}}
-        {{/each}}
-      </li>
-      <li>Likes: {{this.likes}}</li>
-      <li>Dislikes: {{this.dislikes}}</li>
-      <li>Certified: {{this.certified}}</li>
-      {{#if (eq @root.user.role 'admin')}}
-        <form action="/recipes/delete/{{this._id}}" method="POST">
-          <input type="submit" value="Delete Recipe" id="deleteRecipeButton">
-        </form>
-      {{/if}}
+<li>Instructions: {{this.instructions}}</li>
+<li>Servings: {{this.servings}}</li>
+<li>Ready in: {{this.readyInMinutes}} minutes</li>
+<li><a href={{this.imageURL}}>Source</a></li>
+<li>Comments:
+  {{#each this.comments}}
+    {{this}}
+  {{/each}}
+</li>
+<li>Likes: {{this.likes}}</li>
+<li>Dislikes: {{this.dislikes}}</li>
+<li>Certified: {{this.certified}}</li>
+{{#if (eq @root.user.role 'admin')}}
+  <form action="/recipes/delete/{{this._id}}" method="POST">
+    <input type="submit" value="Delete Recipe" id="deleteRecipeButton">
+  </form>
+{{/if}}
