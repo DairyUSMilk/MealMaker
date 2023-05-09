@@ -214,3 +214,22 @@ body {
   input[type="checkbox"] {
     margin-right: 0.5rem;
   }
+
+  .add-ingredients-link {
+    display: block;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+  }
+  
+  .add-ingredients-link:hover {
+    background-color: #ddd;
+  }
+  

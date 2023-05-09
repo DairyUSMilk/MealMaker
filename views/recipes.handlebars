@@ -53,7 +53,7 @@
   <ul>
     {{#each recipes}}
       <li class="recipe-box">
-        <img src="{{image}}" alt="{{title}}">
+        <img src="{{this.imageURL}}" alt="{{this.title}}">
         <h2>{{title}}</h2>
         <h3>Flavors: {{this.flavors}}</h3>
         <a href="/recipes/{{this._id}}">Details</a>
