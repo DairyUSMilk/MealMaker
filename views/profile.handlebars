@@ -39,13 +39,18 @@
       <p>Role: {{user.role}}</p>
     </div>
     <div>
-      <h2>Your ingredients</h2>
-      <ul>
-        {{#each user.ingredients}}
-          {{> ingredient}}
-        {{/each}}
-      </ul>
-    </div>
+    <h2>Your ingredients</h2>
+    <ul id="profile-ingredients-list">
+      {{#each user.ingredients}}
+      <li id="profile-ingredient">
+        <div id="profile-ingredient-box">
+          <div id="profile-ingredient-category">{{this.category}}</div>
+          <div id="profile-ingredient-name">{{this.name}}</div>
+        </div>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
     <div>
       <h2>Recipes made by you:</h2>
       <ul>
