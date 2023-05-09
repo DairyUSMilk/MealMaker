@@ -285,11 +285,24 @@ router.post("/:id/dislike", async (req, res) => {
   try {
     const recipeId = req.params.id;
     const username = req.session.user.username;
-    await recipesData.dislikeRecipe(recipeId);
+    const dislikedRecipe = await recipesData.dislikeRecipe(recipeId);
+
+    console.log("-----------------------")
+    console.log(`Disliked Recipe: ${JSON.stringify(dislikedRecipe)}`);
+    const afterDisliking = await recipesData.getRecipeById(recipeId.toString());
+    console.log("  ")
+    console.log("  ")
+    console.log("  ")
+    console.log(`Retrieved Recipe after Disliking: ${JSON.stringify(afterDisliking)}`);
+    console.log("-----------------------")
+
     await usersData.removeRecipeFromLikedRecipes(username, recipeId);
     const recipes = await recipesData.getAllRecipes();
+
+    const user = await usersData.getUserById(req.session.user._id.toString());
+
     updateSessionData(req, res, () => {
-      res.status(200).render("recipes", { title: "Profile", recipes: recipes, user: req.session.user, success : "Recipe was successfully disliked"});
+      res.status(200).render("recipes", { title: "Profile", recipes: recipes, user: user, success : "Recipe was successfully disliked"});
     });
   } catch (error) {
     res.status(500).json({ error: error.toString() });
