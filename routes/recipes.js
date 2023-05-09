@@ -213,13 +213,15 @@ router.get("/:id", async (req, res) => {
   try{
     const recipe = await recipesData.getRecipeById(req.params.id);
     
-    if(!req.session.user || req.session.user.role !== 'admin' || req.session.user._id !== recipe.userId){
+    if(!req.session.user || (req.session.user.role !== 'admin' && req.session.user._id !== recipe.userId)){
       res.redirect('/recipes/${req.params.id}');
     }
-
     const deletedRecipe = await recipesData.deleteRecipe(req.params.id);
-    return res.render("recipes", {title: "Recipes", message : deletedRecipe + " was successfully deleted", user: req.session.user});
+    const recipes = await recipesData.getAllRecipes();
+    return res.render("recipes", {title: "Recipes", recipes : recipes, message : deletedRecipe + " was successfully deleted", user: req.session.user});
   }catch(e){
+    console.log("Delete failed!")
+    console.log(e);
     res.status(500).json({ error: e });
   }
 });
