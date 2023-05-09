@@ -224,17 +224,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/:id/like", isLoggedInMiddleware, async (req, res) => {
-  try{
-    const recipe = await recipesData.getRecipeById(req.params.id);
-    const user = await usersData.getUserById(req.session.user._id);
-    const updatedRecipe = await recipesData.likeRecipe(recipe, user);
-    return res.redirect(`/recipes/${updatedRecipe._id}`);
-  }catch(e){
-    res.status(500).json({ error: e });
-  }
-});
-
 router.post("/:id/comment", isLoggedInMiddleware, async (req, res) => {
   try{
     const recipe = await recipesData.getRecipeById(req.params.id);
@@ -260,5 +249,34 @@ router.post("/:id/comment", isLoggedInMiddleware, async (req, res) => {
   }
 });
 
+router.post("/:id/like", async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+    const username = req.session.user.username;
+    await recipesData.likeRecipe(recipeId);
+    await usersData.addRecipeToLikedRecipes(username, recipeId);
+    const recipes = await recipesData.getAllRecipes();
+    updateSessionData(req, res, () => {
+      res.status(200).render("profile", { title: "Profile", recipes: recipes, user: req.session.user, success : "Recipe was successfully liked"});
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+  }
+});
+
+router.post("/:id/dislike", async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+    const username = req.session.user.username;
+    recipesData.dislikeRecipe(recipeId);
+    await usersData.removeRecipeFromLikedRecipes(username, recipeId);
+    const recipes = await recipesData.getAllRecipes();
+    updateSessionData(req, res, () => {
+      res.status(200).render("profile", { title: "Profile", recipes: recipes, user: req.session.user, success : "Recipe was successfully disliked"});
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+  }
+});
 
 export default router;
