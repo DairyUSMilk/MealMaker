@@ -44,8 +44,14 @@
       {{#each user.ingredients}}
       <li id="profile-ingredient">
         <div id="profile-ingredient-box">
-          <div id="profile-ingredient-category">{{this.category}}</div>
+          <div id="profile-ingredient-category">Name</div>
           <div id="profile-ingredient-name">{{this.name}}</div>
+          <div id="profile-ingredient-category">Flavors</div>
+          <div id="profile-ingredient-name">{{this.flavors}}</div>
+          <div id="profile-ingredient-category">Quantity</div>
+          <div id="profile-ingredient-name">{{this.quantity}}</div>
+          <div id="profile-ingredient-category">Measurement</div>
+          <div id="profile-ingredient-name">{{this.measurement}}</div>          
         </div>
       </li>
       {{/each}}
