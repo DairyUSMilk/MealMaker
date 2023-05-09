@@ -37,8 +37,6 @@ router.get('/add', async (req, res) => {
         if(!ingredientInfo.flavors) ingredientInfo.flavors = [];
         else ingredientInfo.flavors = verification.checkOnlyWordsStringArray(ingredientInfo.flavors.split(',').map(s => s.trim()), "ingredient flavors");
         
-
-        
         ingredientInfo.quantity = verification.checkNumber(Number(ingredientInfo.quantity), "quantity");
         if(Number.isNaN(ingredientInfo.quantity)) throw 'Error: ingredient quantity must be a number!';
 
@@ -67,7 +65,7 @@ router.get('/add', async (req, res) => {
         
         console.log("FF");
 
-        if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo);
+        if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo._id.toString());
         res.redirect('/ingredients'); //need a way to pass the message that a new thing is added
     } catch (e) {
         console.log(e);
