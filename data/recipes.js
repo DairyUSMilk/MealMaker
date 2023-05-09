@@ -109,7 +109,7 @@ const recipesMethods = {
         return recipeList;
     },
 
-    async updateRecipe(id, userId, title, flavors, imageURL, ingredients, instructions, servings, readyInMinutes, sourceUrl){
+    async updateRecipe(id, userId, title, flavors, imageURL, ingredients, instructions, servings, readyInMinutes, sourceUrl, certified){
         id = backendVerification.checkId(id, 'id');
         const recipeCollection = await recipes();
         const currentRecipe = await this.getRecipeById(id);
@@ -126,6 +126,7 @@ const recipesMethods = {
         if (servings) updatedRecipeData.servings = verification.checkNumber(servings, 'servings');
         if (readyInMinutes) updatedRecipeData.readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
         if (sourceUrl) updatedRecipeData.sourceUrl = await backendVerification.checkURL(sourceUrl, 'sourceUrl');
+        if (certified) updatedRecipeData.certified = verification.checkBoolean(certified, 'certified');
 
         let query = {_id : id};
         let updateCommand = {$set : updatedRecipeData};

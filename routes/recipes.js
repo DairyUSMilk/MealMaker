@@ -137,107 +137,12 @@ router
         recipeInfo.sourceURL,
         recipeInfo.certified
       );
-      updateSessionData(req, res, () => {
-        res.json(newRecipe);
-      });
+
+      return res.redirect("/recipes/${newRecipe._id}");
     } catch (e) {
       res.status(500).json({ error: e });
     }
   });
-  
-
-router
-  .get("/add/:id", isLoggedInMiddleware, async (req, res) => {
-    try {
-      const recipe = await recipesData.get(req.params.id);
-      res.json(recipe);
-    } catch (e) {
-      res.status(404).render("recipes", { title: "Get Recipe", user: req.session.user, error: "Recipe not found"})
-    }
-  })
-  .post("/add/:id", isLoggedInMiddleware, async (req, res) => {
-    const recipeInfo = req.body;
-    if (!recipeInfo) {
-      res.status(400).render("recipes", { title: "Add Recipe", user: req.session.user, error: "You must provide data to create a recipe"});
-      return;
-    }
-    try {
-      recipeInfo.title = verification.checkOnlyWordsString(recipeInfo.title);
-      recipeInfo.userId = backendVerification.checkId(recipeInfo.userId);
-      recipeInfo.flavors = verification.checkOnlyWordsStringArray(
-        recipeInfo.flavors
-      );
-      recipeInfo.servings = verification.checkNumber(recipeInfo.servings);
-
-      if (recipeInfo.imageURL)
-        recipeInfo = await backendVerification.checkImgURL(recipeInfo.imageURL);
-      recipeInfo.ingredients = verification.checkStringArray(
-        recipeInfo.ingredients
-      );
-      recipeInfo.instructions = verification.checkOnlyWordsStringArray(
-        recipeInfo.instructions
-      );
-      recipeInfo.readyInMinutes = verification.checkNumber(
-        recipeInfo.readyInMinutes
-      );
-      if (recipeInfo.sourceURL)
-        recipeInfo.sourceURL = await backendVerification.checkURL(recipeInfo.sourceURL);
-        //no certified check since this is update
-
-      const newRecipe = await recipesData.createRecipe(
-        recipeInfo.userId,
-        recipeInfo.title,
-        recipeInfo.flavors,
-        recipeInfo.imageURL,
-        recipeInfo.ingredients,
-        recipeInfo.instructions,
-        recipeInfo.servings,
-        recipeInfo.readyInMinutes,
-        recipeInfo.sourceURL
-      );
-      updateSessionData(req, res, () => {
-        res.json(newRecipe);
-      });
-    } catch (e) {
-      res.status(500).json({ error: e });
-    }
-  });
-
-router.get("/delete", isLoggedInMiddleware, isAdminMiddleware, async (req, res) => {
-  let recipes = [];
-  try {
-    recipes = await recipesData.getAllRecipes();
-
-    if (recipes.length === 0) {
-      return res.status(400).render("recipes", { title: "Recipes", recipes: recipes, error: "No recipes to delete"});
-    }
-
-  } catch (e) {
-    return res.status(400).render("recipes", { title: "Recipes", recipes: recipes, error: "No recipes id provided"});
-  }
-
-  return res.status(400).render("recipes", { title: "Recipes", recipes: recipes, error: "No recipes id provided"});
-})
-
-router.all("/delete/:id", isLoggedInMiddleware, isAdminMiddleware, async (req, res) => {
-  let recipes = [];
-  try {
-    recipes = await recipesData.getAllRecipes();
-
-    if (recipes.length === 0) {
-      return res.status(400).render("recipes", { title: "Recipes", recipes: recipes, error: "No recipes to delete"});
-    }
-
-    let deletedRecipe = await recipesData.deleteRecipe(req.params.id);
-    recipes = await recipesData.getAllRecipes();
-
-    updateSessionData(req, res, () => {
-      res.status(200).render("recipes", { title: "Recipes", recipes: recipes, success: `Recipe: '${deletedRecipe.recipeName}' successfully deleted`});
-    });
-  } catch (e) {
-    return res.status(500).json({ error: e });
-  }
-});
 
 router.get("/:id", async (req, res) => {
   try{
@@ -246,6 +151,76 @@ router.get("/:id", async (req, res) => {
   }catch(e){
     res.status(500).json({ error: e });
   }
+}).post("/:id", async (req, res) => {
+  try{
+    const recipe = await recipesData.getRecipeById(req.params.id);
+    const recipeInfo = req.body;
+
+    if(!recipeInfo) throw 'You must provide data to update a recipe';
+
+    if(recipeInfo.title){
+      recipeInfo.title = verification.checkOnlyWordsString(recipeInfo.title, 'title');
+    }
+
+    if(recipeInfo.userId){
+      recipeInfo.userId = backendVerification.checkId(recipeInfo.userId);
+    }
+
+    if(recipeInfo.flavors){
+      if(typeof recipeInfo.flavors !== 'string') throw 'flavors must be a string';
+      recipeInfo.flavors = verification.checkOnlyWordsStringArray(recipeInfo.flavors.split(','), 'flavors');
+    }
+
+    if(recipeInfo.servings){
+      recipeInfo.servings = verification.checkNumber(Number(recipeInfo.servings), 'servings');
+    }
+
+    if(recipeInfo.imageURL){
+      recipeInfo.imageURL = await backendVerification.checkImgURL(recipeInfo.imageURL, 'imageURL');
+    }
+
+    if(recipeInfo.ingredients){
+      if(typeof recipeInfo.ingredients !== 'string') throw 'ingredients must be a string';
+      recipeInfo.ingredients = verification.checkOnlyWordsStringArray(recipeInfo.ingredients.split(','), 'ingredients');
+    }
+
+    if(recipeInfo.instructions){
+      if(typeof recipeInfo.instructions !== 'string') throw 'instructions must be a string';
+      recipeInfo.instructions = verification.checkOnlyWordsStringArray(recipeInfo.instructions.split(','), 'instructions');
+    }
+
+    if(recipeInfo.readyInMinutes){
+      recipeInfo.readyInMinutes = verification.checkNumber(Number(recipeInfo.readyInMinutes), 'readyInMinutes');
+    }
+
+    if(recipeInfo.sourceURL){
+      recipeInfo.sourceURL = await backendVerification.checkURL(recipeInfo.sourceURL, 'sourceURL');
+    }
+
+    if(req.session.user.role === 'admin' && recipeInfo.certified) recipeInfo.certified = true;
+    else certified = false;
+
+    const updatedRecipe = await recipesData.updateRecipe(req.params.id, recipeInfo.userId, recipeInfo.title, recipeInfo.flavors, recipeInfo.imageURL, recipeInfo.ingredients, recipeInfo.instructions, recipeInfo.servings, recipeInfo.readyInMinutes, recipeInfo.sourceURL, recipeInfo.certified);
+    
+    return res.redirect("/recipes/${updatedRecipe._id}");
+  }catch(e){
+    res.status(500).json({ error: e });
+  }
+}).delete("/:id", async (req, res) => {
+  try{
+    const recipe = await recipesData.getRecipeById(req.params.id);
+    
+    if(!req.session.user || req.session.user.role !== 'admin' || req.session.user._id !== recipe.userId){
+      res.redirect('/recipes/${req.params.id}');
+    }
+
+    const deletedRecipe = await recipesData.deleteRecipe(req.params.id);
+    return res.render("recipes", {title: "Recipes", message : deletedRecipe + " was successfully deleted"});
+  }catch(e){
+    res.status(500).json({ error: e });
+  }
 });
+
+
 
 export default router;
