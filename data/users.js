@@ -146,8 +146,9 @@ const usersMethods = {
 
   async addRecipeToCreatedRecipes (username, recipeId) {
     username = verification.checkUsername(username, 'username');
-    const recipe = await recipesData.getRecipeById(recipeId);
+    const recipe = await recipesData.getRecipeById(recipeId); 
     if(!recipe) throw 'Error: no recipe with that id';
+    recipe._id = recipe._id.toString()
     const userCollection = await users();
 
     const user = await userCollection.findOne({username: username});

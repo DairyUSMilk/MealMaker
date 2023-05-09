@@ -60,9 +60,11 @@
       <h2>Recipes made by you:</h2>
       <ul>
         {{#each user.recipesCreated}}
-          <li>
-            <a href={{this.sourceUrl}}>
-            {{> recipe}}
+          <li class="profile-recipes">
+            <div id="recipe-created-box">
+              <a href="recipes/{{this._id}}">{{this.title}}</a>
+            </div>
+            
           </li>
         {{/each}}
       </ul>
@@ -71,10 +73,11 @@
       <h2>Liked Recipes:</h2>
       <ul>
         {{#each user.likedRecipes}}
-          <li>
-            <a href={{this.sourceUrl}}>
-            {{> recipe}}
-          </li>
+          <li class="profile-recipes">
+            <div id="recipe-created-box">
+              <a href="recipes/{{this._id}}">{{this.title}}</a>
+            </div>
+            </li>
         {{/each}}
       </ul>
     </div>

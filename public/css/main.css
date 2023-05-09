@@ -161,7 +161,7 @@ body {
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 20px;
-  }
+    }
 
   .recipe-box img {
     width: 100%;
@@ -262,4 +262,11 @@ body {
     border: 1px solid #000;
     padding: 10px;
     text-align: center;
+  }
+  .profile-recipes {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: center;
+    width: 30%;
+    margin:auto;
   }
