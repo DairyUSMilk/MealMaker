@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 
 router.get('/add', async (req, res) => {
     try {
-        res.render('ingredientInput', {title : 'Create Ingredient'});
+        res.render('ingredientInput', {title : 'Create Ingredient', user: req.session.user});
     } catch (e) {
         res.status(500).send();
     }
