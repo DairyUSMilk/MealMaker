@@ -119,10 +119,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         verification.checkOnlyWordsString(nameInput, "recipe name");
         verification.checkOnlyWordsStringArray(flavorsInputArray, "recipe flavors");
-        verification.checkNumber(servingsInput, "recipe servings");
+        verification.checkNumber(Number(servingsInput), "recipe servings");
         verification.checkStringArray(ingredientsInputArray, "recipe ingredients");
         verification.checkOnlyWordsStringArray(instructionsInputArray, "recipe instructions");
-        verification.checkNumber(readyInput, "recipe ready in");
+        verification.checkNumber(Number(readyInput), "recipe ready in");
         if(certifiedInput !== true && certifiedInput !== false) throw 'Error: certified must be a boolean!';
       } catch (e) {
         error.innerText = `${e}`;
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const readyInput = document.getElementById('readyInput').value;
       const certifiedInput = document.getElementById('certifiedInput').checked;
       const usernameInput = document.getElementById('usernameInput').value;
-      const minMatchPercentage = document.getElementById('minMatchPercentage').value;
+      const minMatchPercentage = document.getElementById('minMatchPercentageInput').value;
       const error = document.getElementById('error');
 
       if(typeof flavorsInput !== 'string') throw 'Error: flavors must be a string!';
