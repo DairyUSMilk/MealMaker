@@ -232,13 +232,20 @@ const recipesMethods = {
         return await this.getRecipeById(recipeId);
     },
 
-    async getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified){
+    async getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified, userIngredients){
         let query = {};
 
         if(userId) query.userId = backendVerification.checkId(userId, 'userId');
         if(title) query.title = {$regex : verification.checkOnlyWordsString(title, 'title'), $options : 'i'};
         if(flavors) query.flavors = {$all : verification.checkOnlyWordsStringArray(flavors, 'flavors')};
+        //if(ingredients) query.ingredients = {$all : verification.checkOnlyWordsStringArray(ingredients, 'ingredients')};
         if(ingredients) query.ingredients = {$gte: [{ $divide: [ { $size: { $setIntersection: [ "$ingredients", verification.checkOnlyWordsStringArray(ingredients, 'ingredients') ] } }, { $size: "$ingredients" } ] }, verification.checkNumber(minMatchPercentage, 'minMatchPercentage')]};
+        if (userIngredients && minMatchPercentage) {
+            const minMatchCount = Math.round(minMatchPercentage / 100 * userIngredients.length);
+            query.ingredients = {
+              $elemMatch: {name: {$in: userIngredients}}};
+            query.$where = `this.ingredients.filter(ingredient => ingredient.name && userIngredients.includes(ingredient.name)).length >= ${minMatchCount}`;
+        }
         if(readyInMinutes) query.readyInMinutes = {$lte : verification.checkNumber(readyInMinutes, 'readyInMinutes')};
         if(likes) query.likes = {$gte : verification.checkNumber(likes, 'likes')};
         if(totalScore) query.dislikes = {$lte : verification.checkNumber(likes - totalScore, 'totalScore')};

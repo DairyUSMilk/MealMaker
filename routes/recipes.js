@@ -24,7 +24,11 @@ router
     try {
       const filter = req.body;
       let userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, certified, minMatchPercentage;
-  
+
+      console.log(JSON.stringify(filter));
+      console.log(filter.nameInput, filter.flavorsInput, filter.ingredientsInput, filter.readyInput, filter.likesInput, filter.totalScoreInput, filter.minMatchPercentageInput, filter.certifiedInput, filter.usernameInput)
+      console.log("BOOGER\n");
+
       if(filter.nameInput) title = verification.checkOnlyWordsString(filter.nameInput, 'title');
 
       if(filter.flavorsInput){
@@ -38,7 +42,7 @@ router
       } 
 
       if(filter.readyInput) {
-        filter.readInput = Number(filter.readyInput);
+        filter.readyInput = Number(filter.readyInput);
         readyInMinutes = verification.checkNumber(filter.readyInput, 'readyInMinutes');
       }
 
