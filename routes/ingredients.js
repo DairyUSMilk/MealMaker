@@ -50,7 +50,6 @@ router.get('/add', async (req, res) => {
             ingredientInfo._id = updatedIngredient._id;
             ingredientInfo.flavors = updatedIngredient.flavors;
         }
-        console.log("EE");
         if(req.session.ingredients.some(ingredient => ingredient.name === ingredientInfo.name)){
             req.session.ingredients = req.session.ingredients.map(
                 (ingredient) => {
@@ -62,8 +61,6 @@ router.get('/add', async (req, res) => {
             );
         } 
         else req.session.ingredients.push(ingredientInfo);
-        
-        console.log("FF");
 
         if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo._id.toString());
         res.redirect('/ingredients'); //need a way to pass the message that a new thing is added

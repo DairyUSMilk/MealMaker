@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(readyInput !== '') verification.checkNumber(Number(readyInput), "recipe ready in");
         if(minMatchPercentage !== '') verification.checkNumber(Number(minMatchPercentage), "min match percentage");
         if(certifiedInput !== true && certifiedInput !== false) throw 'Error: certified must be a boolean!'; 
-        if(usernameInput !== '') verification.checkOnlyWordsString(usernameInput, "username");
+        if(usernameInput !== '') verification.checkUsername(usernameInput, "username");
       } catch (e) {
         error.innerText = `${e}`;
         return;

@@ -25,10 +25,6 @@ router
       const filter = req.body;
       let userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, certified, minMatchPercentage;
 
-      console.log(JSON.stringify(filter));
-      console.log(filter.nameInput, filter.flavorsInput, filter.ingredientsInput, filter.readyInput, filter.likesInput, filter.totalScoreInput, filter.minMatchPercentageInput, filter.certifiedInput, filter.usernameInput)
-      console.log("BOOGER\n");
-
       if(filter.nameInput) title = verification.checkOnlyWordsString(filter.nameInput, 'title');
 
       if(filter.flavorsInput){
@@ -59,15 +55,16 @@ router
       if(filter.certifiedInput === true) certified = true;
       else if(filter.certifiedInput === false) certified = false;
 
-      if(filter.username){
+      if(filter.usernameInput){
         const user = await usersData.getUserByUsername(filter.usernameInput);
-        userId = user._id;
+        userId = user._id.toString();
       }
-      console.log(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified)
-      const recipes = await recipesData.getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified);
+      
+      const recipes = await recipesData.getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified, req.session.ingredients);
 
       return res.render("recipes", { title: "Recipes", recipes: recipes, user: req.session.user});
     } catch (e) {
+      console.log(e);
       res.status(500).json({ error: e });
     }
   });
