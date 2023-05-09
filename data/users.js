@@ -136,7 +136,7 @@ const usersMethods = {
 
     const user = await userCollection.findOne({username: username});
     if(!user) throw 'Error: no user with that username';
-    if (user.likedRecipes.some((recipe) => recipe._id.toString() === recipeId)) throw 'Error: recipe already in liked recipes';
+    if (user.likedRecipes.some((recipe) => recipe._id.toString() === recipeId.toString())) throw 'Error: recipe already in liked recipes';
 
     const updatedUser = await userCollection.findOneAndUpdate({username: username}, {$addToSet: {likedRecipes: recipe}});
     if(!updatedUser) throw 'Error: could not add recipe to liked recipes';
@@ -172,7 +172,7 @@ const usersMethods = {
     const user = await userCollection.findOne({username: username});
     if(!user) throw 'Error: no user with that username';
 
-    if (!user.likedRecipes.some((recipe) => recipe._id.toString() === recipeId)) throw 'Error: recipe not in liked recipes';
+    if (!user.likedRecipes.some((recipe) => recipe._id.toString() === recipeId.toString())) throw 'Error: recipe not in liked recipes';
 
     const updatedUser = await userCollection.findOneAndUpdate({username: username}, {$pull: {likedRecipes: recipe}});
     if(!updatedUser) throw 'Error: could not remove recipe from liked recipes';

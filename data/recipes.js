@@ -202,7 +202,7 @@ const recipesMethods = {
         recipeId = backendVerification.checkId(recipeId, 'recipeId');
         let recipe = await this.getRecipeById(recipeId);
         let recipeCollection = await recipes();
-        recipe.dislikes++;
+        recipe.likes--;
         let query = {_id : new ObjectId(recipeId)};
         let updateCommand = {$set : recipe};
         await recipeCollection.updateOne(query, updateCommand);
