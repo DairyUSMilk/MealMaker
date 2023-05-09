@@ -123,27 +123,17 @@ const usersMethods = {
   },
 
   async addRecipeToLikedRecipes (username, recipeId) {
-    console.log(-1)
     username = verification.checkUsername(username, 'username').toLowerCase();
-    console.log(-2)
     const recipe = await recipesData.getRecipeById(recipeId);
-    console.log(-3)
     if(!recipe) throw 'Error: no recipe with that id';
-    console.log(-4)
     const userCollection = await users();
-    console.log(-5)
 
     const user = await userCollection.findOne({username: username});
-    console.log(-6)
     if(!user) throw 'Error: no user with that username';
-    console.log(-7)
     if (user.likedRecipes.some((recipe) => recipe._id.toString() === recipeId.toString())) throw 'Error: recipe already in liked recipes';
-    console.log(-8)
 
     const updatedUser = await userCollection.findOneAndUpdate({username: username}, {$addToSet: {likedRecipes: recipe}});
-    console.log(-9)
     if(!updatedUser) throw 'Error: could not add recipe to liked recipes';
-    console.log(-10)
 
     //const updatedRecipe = await recipesData.likeRecipe(recipeId);
 
