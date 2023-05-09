@@ -174,6 +174,33 @@ const recipesMethods = {
         return await this.getRecipeById(recipeId);
     },
 
+    async updateComment(recipeId, userId, comment){
+        recipeId = backendVerification.checkId(recipeId, 'recipeId');
+        userId = backendVerification.checkId(userId, 'userId');
+        comment = verification.checkString(comment, 'comment');
+        const recipe = await this.getRecipeById(recipeId);
+        const user = await usersData.getUserById(userId);
+        let username = user.firstName + " " + user.lastName;
+        if(user.showUsername){
+            username = user.username;
+        }
+
+        let newComment = {
+            userId : userId,
+            username : username,
+            comment : comment
+        };
+        for(let x of recipe.comments){
+            if(x.userId === userId) x.comment = comment
+        }
+        let query = {_id : new ObjectId(recipeId)};
+        let updateCommand = {$set : recipe};
+        let recipeCollection = await recipes();
+        const updatedRecipe = await recipeCollection.updateOne(query, updateCommand);
+        if(updatedRecipe.modifiedCount === 0) throw 'Could not add comment';
+        return await this.getRecipeById(recipeId);
+    },
+
     async deleteComment(recipeId, commentId){
         recipeId = backendVerification.checkId(recipeId, 'recipeId');
         commentId = backendVerification.checkId(commentId, 'commentId');

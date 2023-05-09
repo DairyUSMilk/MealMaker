@@ -238,10 +238,21 @@ router.post("/:id/comment", isLoggedInMiddleware, async (req, res) => {
     if(!commentInfo) throw 'You must provide data to create a comment';
     
     commentInfo.commentInput = verification.checkString(commentInfo.commentInput, 'comment');
-    
-    const updatedRecipe = await recipesData.addComment(req.params.id, req.session.user._id, commentInfo.commentInput);
-    if(!updatedRecipe) throw 'Comment was not added';
-    return res.redirect(`/recipes/${updatedRecipe._id}`);
+
+    let update = false;
+    for(let x of recipe.comments){
+      if(x.userId === req.session.user._id) update = true;
+    }
+    console.log(update);
+    if (!update){
+      const updatedRecipe = await recipesData.addComment(req.params.id, req.session.user._id, commentInfo.commentInput);
+      if(!updatedRecipe) throw 'Comment was not added';
+      return res.redirect(`/recipes/${updatedRecipe._id}`);
+    }else{
+      const updatedRecipe = await recipesData.updateComment(req.params.id, req.session.user._id, commentInfo.commentInput);
+      if(!updatedRecipe) throw 'Comment was not added';
+      return res.redirect(`/recipes/${updatedRecipe._id}`);
+    }
   }catch(e){
     const recipe = await recipesData.getRecipeById(req.params.id);
     if(!recipe){ 
