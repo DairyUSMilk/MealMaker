@@ -52,9 +52,6 @@ const usersMethods = {
   },
 
   async checkUserByEmail (email, password) {
-    email = verification.checkEmail(email, 'email');
-    password = verification.checkPassword(password, 'password');
-    
     const userCollection = await users();
     if(!userCollection) throw 'Error: could not access user collection';
 
@@ -65,9 +62,6 @@ const usersMethods = {
   },
 
   async checkUserByUsername (username, password) {
-    username = verification.checkUsername(username, 'username');
-    password = verification.checkPassword(password, 'password');
-
     const userCollection = await users();
     if(!userCollection) throw 'Error: could not access user collection';
 

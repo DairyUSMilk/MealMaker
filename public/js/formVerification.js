@@ -43,25 +43,27 @@ document.addEventListener('DOMContentLoaded', () => {
           const passwordInput = document.getElementById('passwordInput').value;
           const error = document.getElementById('error');
 
-          if (!emailOrUserInput || !passwordInput) {
+          console.log(emailOrUserInput);
+          console.log(passwordInput);
+          if (emailOrUserInput === "" || passwordInput === "") {
             error.innerText = 'Both email address or username, and a password are required';
             return;
           }
       
-          try {
-            if(typeof(emailOrUserInput) !== 'string') throw 'Error: email or user must be a string!';
+          // try {
+          //   if(typeof(emailOrUserInput) !== 'string') throw 'Error: email or user must be a string!';
 
-            verification.checkPassword(passwordInput, 'password');
+          //   verification.checkPassword(passwordInput, 'password');
             
-            if(verification.isEmail(emailOrUserInput)) {
-              verification.checkEmail(emailOrUserInput, 'email address');
-            } else {
-              verification.checkUsername(emailOrUserInput, 'username')
-            }
-          } catch (e) {
-              error.innerText = `${e}`;
-              return;
-          }  
+          //   if(verification.isEmail(emailOrUserInput)) {
+          //     verification.checkEmail(emailOrUserInput, 'email address');
+          //   } else {
+          //     verification.checkUsername(emailOrUserInput, 'username')
+          //   }
+          // } catch (e) {
+          //     error.innerText = `${e}`;
+          //     return;
+          // }  
           loginForm.submit();
       })
   }
