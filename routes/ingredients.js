@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     try {
         let message = '';
         if(req.body.message) message = req.body.message;
-        res.render('ingredients', {ingredients : req.session.ingredients, title : 'Your Ingredients Stash!', message : message});
+        res.render('ingredients', {ingredients : req.session.ingredients, user: req.session.user, title : 'Your Ingredients Stash!', message : message});
     } catch (e) {
         res.status(500).send();
     }
