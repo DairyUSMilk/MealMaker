@@ -32,7 +32,7 @@ Handlebars.registerHelper('eq', function(a, b) {
 
 Handlebars.registerHelper("userHasLiked", (recipeId, likedRecipes) => {
     const isLiked = likedRecipes.some((likedRecipe) => {
-      return likedRecipe._id === recipeId;
+      return likedRecipe._id.toString() === recipeId.toString();
     });
   
     return isLiked;

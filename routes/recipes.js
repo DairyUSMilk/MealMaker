@@ -277,7 +277,7 @@ router.post("/:id/dislike", async (req, res) => {
     await usersData.removeRecipeFromLikedRecipes(username, recipeId);
     const recipes = await recipesData.getAllRecipes();
     updateSessionData(req, res, () => {
-      res.status(200).render("detailedRecipe", { title: "Profile", recipes: recipes, user: req.session.user, success : "Recipe was successfully disliked"});
+      res.status(200).render("recipes", { title: "Profile", recipes: recipes, user: req.session.user, success : "Recipe was successfully disliked"});
     });
   } catch (error) {
     res.status(500).json({ error: error.toString() });
