@@ -1232,19 +1232,39 @@ const CowboySpaghetti = await recipesData.createRecipe(
   
 
 
-//Adding Liked Recipes
+//Liking and adding Liked Recipes
+await recipesData.likeRecipe(SpaghettiBolognese._id.toString());
 await usersData.addRecipeToLikedRecipes("miltonz0628", SpaghettiBolognese._id.toString())
+
+await recipesData.likeRecipe(cheeseburgerTacos._id.toString());
 await usersData.addRecipeToLikedRecipes("miltonz0628", cheeseburgerTacos._id.toString())
 
+await recipesData.likeRecipe(CaesarSalad._id.toString());
 await usersData.addRecipeToLikedRecipes("trentZ123", CaesarSalad._id.toString())
+
+await recipesData.likeRecipe(FettuccineAlfredo._id.toString());
 await usersData.addRecipeToLikedRecipes("trentZ123", FettuccineAlfredo._id.toString())
+
+await recipesData.likeRecipe(cheeseburgerTacos._id.toString());
 await usersData.addRecipeToLikedRecipes("trentZ123", cheeseburgerTacos._id.toString())
 
+
+
+await recipesData.likeRecipe(BuffaloChickenDip._id.toString());
 await usersData.addRecipeToLikedRecipes("Darius154", BuffaloChickenDip._id.toString())
+
+await recipesData.likeRecipe(BuffaloChickenWraps._id.toString());
 await usersData.addRecipeToLikedRecipes("Darius154", BuffaloChickenWraps._id.toString())
 
+
+
+await recipesData.likeRecipe(RamenStirFry._id.toString());
 await usersData.addRecipeToLikedRecipes("AdamB", RamenStirFry._id.toString())
+
+await recipesData.likeRecipe(PeanutButterCookies._id.toString());
 await usersData.addRecipeToLikedRecipes("AdamB", PeanutButterCookies._id.toString())
+
+await recipesData.likeRecipe(BananaBread._id.toString());
 await usersData.addRecipeToLikedRecipes("AdamB", BananaBread._id.toString())
 
 
