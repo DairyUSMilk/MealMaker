@@ -47,8 +47,8 @@ const usersMethods = {
   
   async checkUser (emailOrUser, password) {
     if(typeof(emailOrUser) !== 'string') throw 'Error: email or user must be a string!';
-    if(verification.isEmail(emailOrUser)) return await this.checkUserByEmail(emailOrUser.toLowerCase(), password.toLowerCase());
-    else return await this.checkUserByUsername(emailOrUser.toLowerCase(), password.toLowerCase());
+    if(verification.isEmail(emailOrUser)) return await this.checkUserByEmail(emailOrUser.toLowerCase(), password);
+    else return await this.checkUserByUsername(emailOrUser.toLowerCase(), password);
   },
 
   async checkUserByEmail (email, password) {
