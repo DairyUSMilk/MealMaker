@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const ingredientForm = document.getElementById('ingredient-form');
   const recipesForm = document.getElementById('recipes-form');
   const filterForm = document.getElementById('filter-form');
+  const commentForm = document.getElementById('comment-form');
 
   if (registerForm) {
       registerForm.addEventListener('submit', event => {
@@ -164,6 +165,23 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       filterForm.submit();
+    })
+  }
+
+  if(commentForm){
+    commentForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      const input = document.getElementById("commentInput").value;
+      const error = document.getElementById("error");
+      if (typeof input !== 'string') throw "Error: comment must be a string";
+
+      try{
+        if(input !== '') verification.checkString(input, "comment");
+      } catch(e){
+        error.innerText = `${e}`;
+        return;
+      }
+      commentForm.submit();
     })
   }
 });

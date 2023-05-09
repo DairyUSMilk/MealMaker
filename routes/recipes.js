@@ -197,12 +197,17 @@ router.get("/:id", async (req, res) => {
       recipeInfo.sourceURL = await backendVerification.checkURL(recipeInfo.sourceURL, 'sourceURL');
     }
 
-    if(req.session.user.role === 'admin' && recipeInfo.certified) recipeInfo.certified = true;
-    else certified = false;
+    if(recipeInfo.commentInput){
+      recipeInfo.commentInput = verification.checkString(recipeInfo.commentInput, 'comments');
+    }
+ 
+    // if(req.session.user && req.session.user.role === 'admin' && recipeInfo.certified) recipeInfo.certified = true;
+    // else certified = false;
 
-    const updatedRecipe = await recipesData.updateRecipe(req.params.id, recipeInfo.userId, recipeInfo.title, recipeInfo.flavors, recipeInfo.imageURL, recipeInfo.ingredients, recipeInfo.instructions, recipeInfo.servings, recipeInfo.readyInMinutes, recipeInfo.sourceURL, recipeInfo.certified);
+
+    const updatedRecipe = await recipesData.updateRecipe(req.params.id, recipeInfo.userId, recipeInfo.title, recipeInfo.flavors, recipeInfo.imageURL, recipeInfo.ingredients, recipeInfo.instructions, recipeInfo.servings, recipeInfo.readyInMinutes, recipeInfo.sourceURL, recipeInfo.certified, recipeInfo.commentInput);
     
-    return res.redirect("/recipes/${updatedRecipe._id}");
+    return res.redirect(`/recipes/${updatedRecipe._id}`);
   }catch(e){
     res.status(500).json({ error: e });
   }
