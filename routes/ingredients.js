@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     try {
         let message = '';
         if(req.body.message) message = req.body.message;
-        res.render('ingredients', {ingredients : req.session.ingredients, user: req.session.user, title : 'Your Ingredients Stash!', message : message});
+        res.render('ingredients', {ingredients : req.session.ingredients, user: req.session.user, title : 'Your Ingredients Stash!', success : message});
     } catch (e) {
         res.status(500).send();
     }
@@ -95,7 +95,7 @@ router.post('/:id', async (req, res) => {   //update a specific ingredient
 
         const updatedIngredient = await ingredientsData.updateIngredient(req.params.id, ingredientInfo.name, ingredientInfo.flavors, ingredientInfo.quantity, ingredientInfo.measurement);
         updateSessionData(req, res, () => {
-            res.render('ingredients', {message: '' + updatedIngredient.name + ' has been updated!'});
+            res.render('ingredients', {success: '' + updatedIngredient.name + ' has been updated!'});
         });
     } catch (e) {
         res.status(500).json({ error: e });

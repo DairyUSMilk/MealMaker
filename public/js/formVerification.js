@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const passwordInput = document.getElementById('passwordInput').value;
           const confirmPasswordInput = document.getElementById('confirmPasswordInput').value;
           const error = document.getElementById('error');
+          console.log(`error element: ${error}`);
 
           try {
             verification.checkName(firstNameInput, 'first name');
