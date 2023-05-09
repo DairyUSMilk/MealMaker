@@ -240,23 +240,38 @@ body {
     padding: 0;
   }
   
-  #profile-ingredient {
+  .profile-ingredient {
     margin: 10px;
   }
   
-  #profile-ingredient-box {
+  .profile-ingredient-box {
     border: 1px solid #000;
     padding: 10px;
     text-align: center;
   }
   
-  #profile-ingredient-category {
+  .profile-ingredient-box:before,
+  .profile-ingredient-box:after {
+    content: "";
+    display: table;
+  }
+  
+  .profile-ingredient-box:after {
+    clear: both;
+  }
+  
+  .profile-ingredient-box {
+    *zoom: 1;
+  }
+  
+  .profile-ingredient-category {
     font-weight: bold;
   }
   
   #profile-ingredient-name {
     margin-top: 10px;
   }
+  
 
   #profile-info-box {
     border: 1px solid #000;

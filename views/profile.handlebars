@@ -56,20 +56,20 @@
 </div>
 <div>
   <h2>Recipes made by you:</h2>
-  <ul>
+  <ul class = "profile-recipes">
     {{#each user.recipesCreated}}
       <li>
-        {{> recipe}}
+        <a href="/recipes/{{this._id}}">{{this.title}}</a>
       </li>
     {{/each}}
   </ul>
 </div>
 <div>
   <h2>Liked Recipes:</h2>
-  <ul>
+  <ul class = "profile-recipes">
     {{#each user.likedRecipes}}
       <li>
-        {{> recipe}}
+        <a href="/recipes/{{this._id}}">{{this.title}}</a>
       </li>
     {{/each}}
   </ul>
