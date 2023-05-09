@@ -111,7 +111,10 @@ const ingredientsMethods = {
         const ingredientCollection = await ingredients();
         let ingredient = await ingredientCollection.findOne({name: ingredientName.toUpperCase()});
 
+        if (!ingredient) return null;
+
         return {
+            _id : ingredient._id,
             id : ingredient._id.toString(),
             name : ingredient.name,
             flavors : ingredient.flavors,

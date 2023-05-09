@@ -36,6 +36,8 @@ router.get('/add', async (req, res) => {
         if(!ingredientInfo.flavors) ingredientInfo.flavors = [];
         else ingredientInfo.flavors = verification.checkOnlyWordsStringArray(ingredientInfo.flavors.split(',').map(s => s.trim()), "ingredient flavors");
         
+
+        
         ingredientInfo.quantity = verification.checkNumber(Number(ingredientInfo.quantity), "quantity");
         if(Number.isNaN(ingredientInfo.quantity)) throw 'Error: ingredient quantity must be a number!';
 
@@ -49,22 +51,18 @@ router.get('/add', async (req, res) => {
             ingredientInfo._id = updatedIngredient._id;
             ingredientInfo.flavors = updatedIngredient.flavors;
         }
-        try{
-            if(req.session.ingredients.some(ingredient => ingredient.name === ingredientInfo.name)){
-                req.session.ingredients = req.session.ingredients.map(
-                  (ingredient) => {
-                    if (ingredient.name === ingredientInfo.name){
-                        return ingredientInfo;
-                    }
-                    else return ingredient;
-                  }
-                );
-            } 
-            else req.session.ingredients.push(ingredientInfo);
-        } catch (e) {
-            console.log(e);
-            console.log(req.session.ingredients);
-        }
+        if(req.session.ingredients.some(ingredient => ingredient.name === ingredientInfo.name)){
+            req.session.ingredients = req.session.ingredients.map(
+                (ingredient) => {
+                if (ingredient.name === ingredientInfo.name){
+                    return ingredientInfo;
+                }
+                else return ingredient;
+                }
+            );
+        } 
+        else req.session.ingredients.push(ingredientInfo);
+
         if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo._id);
         res.redirect('/ingredients'); //need a way to pass the message that a new thing is added
     } catch (e) {
