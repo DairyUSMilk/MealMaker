@@ -257,3 +257,9 @@ body {
   #profile-ingredient-name {
     margin-top: 10px;
   }
+
+  #profile-info-box {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: center;
+  }
