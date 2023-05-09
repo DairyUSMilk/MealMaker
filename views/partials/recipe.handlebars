@@ -1,20 +1,49 @@
-<h3>{{this.title}}</h3>
-<h4>Flavors:</h4>
-{{#each this.flavors}}
-  <h5>{{this}}</h5>
-{{/each}}
+<h2>Flavors:</h2>
+<div class="flavors-box">
+  {{#each this.flavors}}
+    <h5>{{this}},</h5>
+  {{/each}}
+</div>
 
-<h4>Ingredients:</h4>
-{{#each this.ingredients}}
-  {{> ingredient}}
-{{/each}}
+<div>
+<h2>Ingredients</h2>
+<ul id="profile-ingredients-list">
+  {{#each this.ingredients}}
+  <li class="profile-ingredient">
+    <div class="profile-ingredient-box">
+      <div class="profile-ingredient-category">Name</div>
+      <div class="profile-ingredient-name">{{this.name}}</div>
+      <div class="profile-ingredient-category">Flavors</div>
+      <div class="profile-ingredient-name">{{this.flavors}}</div>
+      <div class="profile-ingredient-category">Quantity</div>
+      <div class="profile-ingredient-name">{{this.quantity}}</div>
+      <div class="profile-ingredient-category">Measurement</div>
+      <div class="profile-ingredient-name">{{this.measurement}}</div>          
+    </div>
+  </li>
+  {{/each}}
+</ul>
+</div>
 
-<h4>Instructions:</h4>
-<h5>{{this.instructions}}</h5>
-<h4>Servings:</h4>
-<h5>{{this.servings}}</h5>
-<h4>Ready in:</h4>
-<h5>{{this.readyInMinutes}} minutes</h5>
+  <h2>Instructions:</h2>
+<div class="instruction-box">
+  <ol>
+    {{#each this.instructions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+</div>
+
+<h2>Servings:</h2>
+<div class="section-box">
+  <h5>{{this.servings}}</h5>
+</div>
+
+<h2>Ready in:</h2>
+<div class="section-box">
+  <h5>{{this.readyInMinutes}} minutes</h5>
+</div>
+
 {{!-- Why do we need to show image to user? <li><a href={{this.imageURL}}>Source</a></li> --}}
 <h4>Likes:</h4> 
 <h5>{{this.likes}}</h5>
