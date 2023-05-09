@@ -22,43 +22,40 @@
     </div>
   </nav>
 </header>
-<body class="recipes">
-  {{!-- TODO -- add search options in a form here to 
-  rerender the page with different recipes that follow the filter criteria--}}
-  <p id="error">{{error}}</p>
-  <p id="message">{{message}}</p>
-  <form id="filter-form" action="/recipes" method="POST">
-    <label for="nameInput">Recipe Name:</label>
-    <input type="text" name="nameInput" id="nameInput">
+{{!-- TODO -- add search options in a form here to 
+rerender the page with different recipes that follow the filter criteria--}}
+<p id="error">{{error}}</p>
+<form id="filter-form" action="/recipes" method="POST">
+  <label for="nameInput">Recipe Name:</label>
+  <input type="text" name="nameInput" id="nameInput">
 
-    <label for="flavorsInput">Flavors(separated by commas):</label>
-    <input type="text" name="flavorsInput" id="flavorsInput">
+  <label for="flavorsInput">Flavors(separated by commas):</label>
+  <input type="text" name="flavorsInput" id="flavorsInput">
 
-    <label for="ingredientsInput">Ingredients(separated by a comma):</label>
-    <input type="text" name="ingredientsInput" id="ingredientsInput">
+  <label for="ingredientsInput">Ingredients(separated by a comma):</label>
+  <input type="text" name="ingredientsInput" id="ingredientsInput">
 
-    <label for="readyInput">Ready in(minutes):</label>
-    <input type="number" name="readyInput" id="readyInput">
+  <label for="readyInput">Ready in(minutes):</label>
+  <input type="number" name="readyInput" id="readyInput">
 
-    <label for="usernameInput">Username of creator:</label>
-    <input type="text" name="usernameInput" id="usernameInput">
+  <label for="usernameInput">Username of creator:</label>
+  <input type="text" name="usernameInput" id="usernameInput">
 
-    <label for="minMatchPercentageInput">% of ingredients in your stash:</label>
-    <input type="number" name="minMatchPercentageInput" id="minMatchPercentageInput">
+  <label for="minMatchPercentageInput">% of ingredients in your stash:</label>
+  <input type="number" name="minMatchPercentageInput" id="minMatchPercentageInput">
 
-    <label for="certifiedInput">Certified:</label>
-    <input type="checkbox" name="certifiedInput" id="certifiedInput">
+  <label for="certifiedInput">Certified:</label>
+  <input type="checkbox" name="certifiedInput" id="certifiedInput">
 
-    <button type="submit">Submit</button>
-  </form>
-  <ul>
-    {{#each recipes}}
-      <li class="recipe-box">
-        <img src="{{this.imageURL}}" alt="{{this.title}}">
-        <h2>{{title}}</h2>
-        <h3>Flavors: {{this.flavors}}</h3>
-        <a href="/recipes/{{this._id}}">Details</a>
-      </li>
-    {{/each}}
-  </ul>
-</body>
+  <button type="submit">Submit</button>
+</form>
+<ul>
+  {{#each recipes}}
+    <li class="recipe-box">
+      <img src="{{this.imageURL}}" alt="{{this.title}}">
+      <h2>{{title}}</h2>
+      <h3>Flavors: {{this.flavors}}</h3>
+      <a href="/recipes/{{this._id}}">Details</a>
+    </li>
+  {{/each}}
+</ul>

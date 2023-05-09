@@ -1,4 +1,4 @@
- <header>
+<header>
   <nav>
     <div class="left-links">
       <a href="/" class="meal-maker-link">MealMaker</a>
@@ -22,12 +22,10 @@
     </div>
   </nav>
 </header>
-<body>
- <ul>
-      <li class="recipe-box">
-        <img src="{{recipe.imageURL}}" alt="{{recipe.title}}">
-        <h2>{{recipe.title}}</h2>
-        {{> recipe recipe}}
-      </li>
-  </ul>
-</body>
+<ul>
+  <li class="recipe-box">
+    <img src="{{recipe.imageURL}}" alt="{{recipe.title}}">
+    <h2>{{recipe.title}}</h2>
+    {{> recipe recipe}}
+  </li>
+</ul>

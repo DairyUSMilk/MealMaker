@@ -1,9 +1,7 @@
-<li>{{this.name}}</li>
-<ul>
-    <li>Flavors:
-        {{#each this.flavors}}
-            {{this}}
-        {{/each}}
-    </li>
-    <li>Quantity: {{this.quantity}} {{this.measurement}}</li>
-</ul>
+<h5>{{this.name}}</h5>
+<h6>Flavors:</h6>
+{{#each this.flavors}}
+    <h6>{{this}}</h6>
+{{/each}}
+<h6>Quantity:</h6>
+<h6>{{this.quantity}} {{this.measurement}}</h6>

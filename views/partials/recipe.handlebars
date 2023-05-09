@@ -1,28 +1,31 @@
-<li>{{this.title}}</li>
-<li>flavors:
-  {{#each this.flavors}}
-    {{this}}
-  {{/each}}
-</li>
+<h3>{{this.title}}</h3>
+<h4>Flavors:</h4>
+{{#each this.flavors}}
+  <h5>{{this}}</h5>
+{{/each}}
 
-<li>Ingredients:
-  {{#each this.ingredients}}
-    {{> ingredient}}
-  {{/each}}
-</li>
+<h4>Ingredients:</h4>
+{{#each this.ingredients}}
+  {{> ingredient}}
+{{/each}}
 
-<li>Instructions: {{this.instructions}}</li>
-<li>Servings: {{this.servings}}</li>
-<li>Ready in: {{this.readyInMinutes}} minutes</li>
-<li><a href={{this.imageURL}}>Source</a></li>
-<li>Comments:
-  {{#each this.comments}}
-    {{this}}
-  {{/each}}
-</li>
-<li>Likes: {{this.likes}}</li>
-<li>Dislikes: {{this.dislikes}}</li>
-<li>Certified: {{this.certified}}</li>
+<h4>Instructions:</h4>
+<h5>{{this.instructions}}</h5>
+<h4>Servings:</h4>
+<h5>{{this.servings}}</h5>
+<h4>Ready in:</h4>
+<h5>{{this.readyInMinutes}} minutes</h5>
+{{!-- Why do we need to show image to user? <li><a href={{this.imageURL}}>Source</a></li> --}}
+<h4>Comments:</h4>
+{{#each this.comments}}
+  {{this}}
+{{/each}}
+<h4>Likes:</h4> 
+<h5>{{this.likes}}</h5>
+<h4>Dislikes:</h4>
+<h5>{{this.dislikes}}</h5>
+<h4>Certified:</h4>
+<h5>{{this.certified}}</h5>
 {{#if (eq @root.user.role 'admin')}}
   <form action="/recipes/delete/{{this._id}}" method="POST">
     <input type="submit" value="Delete Recipe" id="deleteRecipeButton">

@@ -4,7 +4,7 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    res.render('login');
+    res.status(200).render('login', { title: 'Login' });
 }).post('/', async (req, res) => {
     let emailOrUserInput = req.body.emailOrUserInput;
     let passwordInput = req.body.passwordInput;

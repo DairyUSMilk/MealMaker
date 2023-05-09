@@ -450,8 +450,8 @@ aid,
   name: "toothpick",
   flavors: ["none"],
   generalCuisine: ["none"],
-  quantity: null,
-  measurement: null
+  quantity: 1,
+  measurement: "whole"
 }
 ],
 [

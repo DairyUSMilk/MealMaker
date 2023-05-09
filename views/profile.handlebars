@@ -19,66 +19,58 @@
     <div class="right-links">
       <a href="/recipes">Recipes</a>
       <a href="/ingredients">Ingredients</a>
-    
     </div>
   </nav>
 </header>
-<body>
-    <div>
-      <h2>Welcome {{user.firstName}}!</h2>
-      <p style="text-align: center;">Here, you can view your profile, liked recipes, and your ingredients</p>
+<div>
+  <h2>Welcome {{user.firstName}}!</h2>
+  <p style="text-align: center;">Here, you can view your profile, liked recipes, and your ingredients</p>
+</div>
+<div id="profile-info-box">
+  <h2>Profile</h2>
+  <p>First Name: {{user.firstName}}</p>
+  <p>Last Name: {{user.lastName}}</p>
+  <p>Username: {{user.username}}</p>
+  <p>Display Username: {{user.showUsername}}</p>
+  <p>Email: {{user.email}}</p>
+  <p>Role: {{user.role}}</p>
+</div>
+<div>
+<h2>Your ingredients</h2>
+<ul id="profile-ingredients-list">
+  {{#each user.ingredients}}
+  <li class="profile-ingredient">
+    <div class="profile-ingredient-box">
+      <div class="profile-ingredient-category">Name</div>
+      <div class="profile-ingredient-name">{{this.name}}</div>
+      <div class="profile-ingredient-category">Flavors</div>
+      <div class="profile-ingredient-name">{{this.flavors}}</div>
+      <div class="profile-ingredient-category">Quantity</div>
+      <div class="profile-ingredient-name">{{this.quantity}}</div>
+      <div class="profile-ingredient-category">Measurement</div>
+      <div class="profile-ingredient-name">{{this.measurement}}</div>          
     </div>
-    <div id="profile-info-box">
-      <h2>Profile</h2>
-      <p>First Name: {{user.firstName}}</p>
-      <p>Last Name: {{user.lastName}}</p>
-      <p>Username: {{user.username}}</p>
-      <p>Display Username: {{user.showUsername}}</p>
-      <p>Email: {{user.email}}</p>
-      <p>Role: {{user.role}}</p>
-    </div>
-    <div>
-    <h2>Your ingredients</h2>
-    <ul id="profile-ingredients-list">
-      {{#each user.ingredients}}
-      <li id="profile-ingredient">
-        <div id="profile-ingredient-box">
-          <div id="profile-ingredient-category">Name</div>
-          <div id="profile-ingredient-name">{{this.name}}</div>
-          <div id="profile-ingredient-category">Flavors</div>
-          <div id="profile-ingredient-name">{{this.flavors}}</div>
-          <div id="profile-ingredient-category">Quantity</div>
-          <div id="profile-ingredient-name">{{this.quantity}}</div>
-          <div id="profile-ingredient-category">Measurement</div>
-          <div id="profile-ingredient-name">{{this.measurement}}</div>          
-        </div>
+  </li>
+  {{/each}}
+</ul>
+</div>
+<div>
+  <h2>Recipes made by you:</h2>
+  <ul>
+    {{#each user.recipesCreated}}
+      <li>
+        {{> recipe}}
       </li>
-      {{/each}}
-    </ul>
-  </div>
-    <div>
-      <h2>Recipes made by you:</h2>
-      <ul>
-        {{#each user.recipesCreated}}
-          <li class="profile-recipes">
-            <div id="recipe-created-box">
-              <a href="recipes/{{this._id}}">{{this.title}}</a>
-            </div>
-            
-          </li>
-        {{/each}}
-      </ul>
-    </div>
-    <div>
-      <h2>Liked Recipes:</h2>
-      <ul>
-        {{#each user.likedRecipes}}
-          <li class="profile-recipes">
-            <div id="recipe-created-box">
-              <a href="recipes/{{this._id}}">{{this.title}}</a>
-            </div>
-            </li>
-        {{/each}}
-      </ul>
-    </div>
-</body>
+    {{/each}}
+  </ul>
+</div>
+<div>
+  <h2>Liked Recipes:</h2>
+  <ul>
+    {{#each user.likedRecipes}}
+      <li>
+        {{> recipe}}
+      </li>
+    {{/each}}
+  </ul>
+</div>

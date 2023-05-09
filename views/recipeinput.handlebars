@@ -28,33 +28,33 @@
   <p id="error">{{error}}</p>
   <form id="recipes-form" action="/recipes/add" method="POST">
     <label for="nameInput">Recipe Name:</label>
-    <input type="text" name="nameInput" id="nameInput" />
+    <input type="text" name="nameInput" id="nameInput">
 
     <label for="flavorsInput">Flavors(separated by commas):</label>
-    <input type="text" name="flavorsInput" id="flavorsInput" />
+    <input type="text" name="flavorsInput" id="flavorsInput">
 
     <label for="imageInput">Image:</label>
-    <input type="file" name="imageInput" id="imageInput" accept="image/*" />
+    <input type="file" name="imageInput" id="imageInput" accept="image/*">
 
     <label for="ingredientsInput">Ingredients(separated by a comma; add
       measurements after in form of (amount unit)):</label>
-    <input type="text" name="ingredientsInput" id="ingredientsInput" />
+    <input type="text" name="ingredientsInput" id="ingredientsInput">
 
     <label for="instructionsInput">Instructions (separate steps with commas):</label>
-    <input type="text" name="instructionsInput" id="instructionsInput" />
+    <input type="text" name="instructionsInput" id="instructionsInput">
 
     <label for="servingsInput">Servings:</label>
-    <input type="number" name="servingsInput" id="servingsInput" />
+    <input type="number" name="servingsInput" id="servingsInput">
 
     <label for="readyInput">Ready in(minutes):</label>
-    <input type="number" name="readyInput" id="readyInput" />
+    <input type="number" name="readyInput" id="readyInput">
 
     <label for="sourceInput">Source:</label>
-    <input type="url" name="sourceInput" id="sourceInput" />
+    <input type="url" name="sourceInput" id="sourceInput">
 
     {{#if (eq user.role "admin")}}
       <label for="certifiedInput">Certified:</label>
-      <input type="checkbox" name="certifiedInput" id="certifiedInput" />
+      <input type="checkbox" name="certifiedInput" id="certifiedInput">
     {{/if}}
 
     <button type="submit">Submit</button>
