@@ -66,15 +66,6 @@ router
       res.status(500).json({ error: e });
     }
   });
-  
-router.get("/:id", async (req, res) => {
-  try{
-    const recipe = await recipesData.getRecipeById(req.params.id);
-    return res.render("detailedRecipe", {recipe: recipe});
-  }catch(e){
-    res.status(500).json({ error: e });
-  }
-});
 
   router.get("/add", isLoggedInMiddleware, async (req, res) => {
     try {
@@ -245,6 +236,15 @@ router.all("/delete/:id", isLoggedInMiddleware, isAdminMiddleware, async (req, r
     });
   } catch (e) {
     return res.status(500).json({ error: e });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try{
+    const recipe = await recipesData.getRecipeById(req.params.id);
+    return res.render("detailedRecipe", {recipe: recipe});
+  }catch(e){
+    res.status(500).json({ error: e });
   }
 });
 
