@@ -1,7 +1,7 @@
 <h2>Flavors:</h2>
 <div class="flavors-box">
   {{#each this.flavors}}
-    <h5>{{this}},</h5>
+    <h3>{{this}},</h3>
   {{/each}}
 </div>
 
@@ -36,19 +36,19 @@
 
 <h2>Servings:</h2>
 <div class="section-box">
-  <h5>{{this.servings}}</h5>
+  <h3>{{this.servings}}</h3>
 </div>
 
 <h2>Ready in:</h2>
 <div class="section-box">
-  <h5>{{this.readyInMinutes}} minutes</h5>
+  <h3>{{this.readyInMinutes}} minutes</h3>
 </div>
 
 {{!-- Why do we need to show image to user? <li><a href={{this.imageURL}}>Source</a></li> --}}
-<h4>Likes:</h4> 
-<h5>{{this.likes}}</h5>
-<h4>Certified:</h4>
-<h5>{{this.certified}}</h5>
+<h2>Likes:</h2> 
+<h3>{{this.likes}}</h3>
+<h2>Certified:</h2>
+<h3>{{this.certified}}</h3>
 {{#if (eq @root.user.role 'admin')}}
   <form action="/recipes/{{this._id}}" method="POST">
     <input type="hidden" name="_method" value="DELETE" />

@@ -22,10 +22,22 @@
   </nav>
 </header>
 <a href="/ingredients/add" class="add-ingredients-link">Add Ingredients Here!</a>
-<ul>
-  {{#each ingredients}}
-    <li>
-      {{> ingredient}}
-    </li>
+<div>
+<h2>Your ingredients</h2>
+<ul id="profile-ingredients-list">
+  {{#each user.ingredients}}
+  <li class="profile-ingredient">
+    <div class="profile-ingredient-box">
+      <div class="profile-ingredient-category">Name</div>
+      <div class="profile-ingredient-name">{{this.name}}</div>
+      <div class="profile-ingredient-category">Flavors</div>
+      <div class="profile-ingredient-name">{{this.flavors}}</div>
+      <div class="profile-ingredient-category">Quantity</div>
+      <div class="profile-ingredient-name">{{this.quantity}}</div>
+      <div class="profile-ingredient-category">Measurement</div>
+      <div class="profile-ingredient-name">{{this.measurement}}</div>          
+    </div>
+  </li>
   {{/each}}
 </ul>
+</div>
