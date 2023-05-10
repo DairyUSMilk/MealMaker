@@ -234,31 +234,46 @@ const recipesMethods = {
 
     async getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified, userIngredients){
         let query = {};
-
+        
         if(userId) query.userId = backendVerification.checkId(userId, 'userId');
         if(title) query.title = {$regex : verification.checkOnlyWordsString(title, 'title'), $options : 'i'};
         if(flavors) query.flavors = {$all : verification.checkOnlyWordsStringArray(flavors, 'flavors')};
 
-        if(ingredients){
-            console.log("AAA");
+        if (ingredients) {
             let ingredientNames = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
-            query.ingredients = {$all : {$elemMatch: {name: { $in: ingredientNames }}}};
-        }        
+            query.ingredients = { $expr: { $setIsSubset: [ingredientNames, '$ingredients.name'] } };
+        } 
 
         if (userIngredients && minMatchPercentage) {
-            let userIngredientsNames = verification.checkOnlyWordsStringArray(userIngredients, 'userIngredients').map(ingredient => ingredient.name.toLowerCase());
+            let userIngredientsNames = verification.checkOnlyWordsStringArray(userIngredients.map(ingredient => ingredient.name.toLowerCase()), 'userIngredients');
+            console.log(userIngredientsNames);
 
-            const minMatchCount = Math.round(minMatchPercentage / 100 * userIngredients.length);
-            if(query.ingredients) query.ingredients.$elemMatch.name.$in = userIngredientsNames;
-            query.ingredients = {
-              $elemMatch: {name: {$in: userIngredients}}};
-            query.$where = `this.ingredients.filter(ingredient => ingredient.name && userIngredients.includes(ingredient.name)).length >= ${minMatchCount}`;
+            const minMatchCount = Math.ceil((minMatchPercentage / 100) * userIngredientsNames.length);
+            console.log(minMatchCount);
+
+            // query.ingredients = {
+            //     $elemMatch: { name: { $in: userIngredientsNames } }
+            // };
+            // query.$expr = { $gte: [{ $size: { $setIntersection: ['$ingredients.name', userIngredientsNames] } }, minMatchCount] };
+            let userIngredientsQuery = {
+                $elemMatch: { name: { $in: userIngredientsNames } }
+            };
+            let matchCountQuery = {
+                $expr: { $gte: [{ $size: { $setIntersection: ['$ingredients.name', userIngredientsNames] } }, minMatchCount] }
+            };
+            
+            if (query.ingredients) {
+                query.ingredients = {$and : [query.ingredients,userIngredientsQuery, matchCountQuery]};
+            } else {
+                query.ingredients = { $and : [userIngredientsQuery, matchCountQuery] };
+            }
         }
 
         if(readyInMinutes) query.readyInMinutes = {$lte : verification.checkNumber(readyInMinutes, 'readyInMinutes')};
         if(likes) query.likes = {$gte : verification.checkNumber(likes, 'likes')};
         if(totalScore) query.dislikes = {$lte : verification.checkNumber(likes - totalScore, 'totalScore')};
         if(certified === true) query.certified = true;
+        
 
         const recipeCollection = await recipes();
         const recipeList = await recipeCollection.find(query).toArray();

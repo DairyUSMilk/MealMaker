@@ -32,9 +32,10 @@ router
         filter.flavorsInput = filter.flavorsInput.split(',');
         flavors = verification.checkOnlyWordsStringArray(filter.flavorsInput, 'flavors');
       }
-      if(filter.ingredients){
+      if(filter.ingredientsInput){
         if(typeof filter.ingredientsInput !== 'string') throw `Error: ingredients must be a string`;
         ingredients = verification.checkOnlyWordsStringArray(filter.ingredientsInput.split(','));
+        console.log(ingredients);
       } 
 
       if(filter.readyInput) {
@@ -49,11 +50,11 @@ router
       if(filter.totalScoreInput) totalScore = verification.checkNumber(Number(filter.totalScoreInput), "totalScore");
         
       if(filter.minMatchPercentageInput) {
-        minMatchPercentage = verification.checkNumber(Number(filter.minMatchPercentageInput)) / 100;
+        minMatchPercentage = verification.checkNumber(Number(filter.minMatchPercentageInput));
       }
 
-      if(filter.certifiedInput === true) certified = true;
-      else if(filter.certifiedInput === false) certified = false;
+      if(filter.certifiedInput === 'on') certified = true;
+      else certified = undefined;
 
       if(filter.usernameInput){
         const user = await usersData.getUserByUsername(filter.usernameInput);
