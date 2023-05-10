@@ -60,7 +60,9 @@ router.get('/add', async (req, res) => {
                 }
             );
         } 
-        else req.session.ingredients.push(ingredientInfo);
+        else req.session.ingredients = [...req.session.ingredients, ingredientInfo];
+
+        console.log(req.session.ingredients)
 
         if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo._id.toString());
         res.status(200).redirect('/ingredients'); //need a way to pass the message that a new thing is added

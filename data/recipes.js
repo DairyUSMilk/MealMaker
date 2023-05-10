@@ -240,7 +240,7 @@ const recipesMethods = {
         if(flavors) query.flavors = {$all : verification.checkOnlyWordsStringArray(flavors, 'flavors')};
 
         if (ingredients) {
-            let ingredientNames = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
+            let ingredientNames = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');   
             query.ingredients = {$elemMatch: {name: { $in: ingredientNames }}};
         } 
 
@@ -255,29 +255,8 @@ const recipesMethods = {
                 $elemMatch: { name: { $in: userIngredientsNames } }
             };
             query.$expr = { $gte: [{$divide : [{ $size: { $setIntersection: ['$ingredients.name', userIngredientsNames] } }, {$size : '$ingredients'}]}, minMatchCount] };
-            
-            // const matchQuery = {
-            //   $gte: [
-            //     {$divide: [
-            //         {$size: {
-            //             $setIntersection: [
-            //             "$ingredients.name",
-            //             userIngredientsNames,
-            //             ],
-            //         }},
-            //         {$size: "$ingredients.name"}
-            //     ]},
-            //     minMatchCount,
-            //   ],
-            // };
-
-            // if(query.ingredients) {
-            //     query.ingredients = {$and : [query.ingredients, matchQuery]};
-            // } else {
-            //     query.ingredients = matchQuery;
-            // }
-            // console.log(query.ingredients);
         }
+        
 
         if(readyInMinutes) query.readyInMinutes = {$lte : verification.checkNumber(readyInMinutes, 'readyInMinutes')};
         if(likes) query.likes = {$gte : verification.checkNumber(likes, 'likes')};

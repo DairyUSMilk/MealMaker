@@ -164,8 +164,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if(nameInput !== '') verification.checkOnlyWordsString(nameInput, "recipe name");
         if(flavorsInput !== '') verification.checkOnlyWordsStringArray(flavorsInputArray, "recipe flavors");
         if(ingredientsInput !== '') verification.checkStringArray(ingredientsInputArray, "recipe ingredients");
-        if(readyInput !== '') verification.checkNumber(Number(readyInput), "recipe ready in");
-        if(minMatchPercentage !== '') verification.checkNumber(Number(minMatchPercentage), "min match percentage");
+        if(readyInput !== '') {
+          verification.checkNumber(Number(readyInput), "recipe ready in");
+          if(Number(readyInput) < 0) throw 'Error: ready in must be a positive number!';
+        }
+        
+        if(minMatchPercentage !== '') {
+          verification.checkNumber(Number(minMatchPercentage), "min match percentage");
+          if(Number(minMatchPercentage) < 0 || Number(minMatchPercentage) > 100) throw 'Error: min match percentage must be between 0 and 100!';
+        }
+        
         if(certifiedInput !== true && certifiedInput !== false) throw 'Error: certified must be a boolean!'; 
         if(usernameInput !== '') verification.checkUsername(usernameInput, "username");
       } catch (e) {
