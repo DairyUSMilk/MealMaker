@@ -22,7 +22,7 @@
     </div>
   </nav>
 </header>
-<h2>Welcome {{user.firstName}}!</h2>
+<h1>Welcome {{user.firstName}}!</h1>
 <div class= "box">
   {{#if user}}
     <p>As {{#if (eq user.role 'admin')}}an{{else}}a{{/if}} {{user.role}} user, you can:</p>

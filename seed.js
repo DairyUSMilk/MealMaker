@@ -69,7 +69,7 @@ await ingredientsData.createIngredient("celery seed", ["herbaceous"], 0, "any");
 await ingredientsData.createIngredient("chicken broth", ["salty"], 0, "any");
 await ingredientsData.createIngredient("all purpose flour", ["neutral"], 0, "any");
 await ingredientsData.createIngredient("milk", ["creamy"], 0, "any");
-await ingredientsData.createIngredient("velveeta", ["cheesy"], 0, "any");
+await ingredientsData.createIngredient("Velveeta", ["cheesy"], 0, "any");
 await ingredientsData.createIngredient("green onions", ["pungent"], 0, "any");
 await ingredientsData.createIngredient("onion powder", ["savory"], 0, "any");
 await ingredientsData.createIngredient("kosher salt", ["savory"], 0, "any");
@@ -1215,6 +1215,7 @@ const usersIngredients = {
   ]
 };
 
+
 for (const user in usersIngredients) {
   const ingredients = usersIngredients[user];
   for (const ingredientName of ingredients) {
@@ -1222,6 +1223,7 @@ for (const user in usersIngredients) {
     await usersData.addIngredientToUser(user, ingredient.id);
   }
 }
+
 
 // await populateIngredients(SpaghettiBolognese.ingredients)
 // await populateIngredients(CaesarSalad.ingredients)
