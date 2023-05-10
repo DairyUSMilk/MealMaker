@@ -107,7 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const instructionsInput = document.getElementById('instructionsInput').value;
         const servingsInput = document.getElementById('servingsInput').value;
         const readyInput = document.getElementById('readyInput').value;
-        const certifiedInput = document.getElementById('certifiedInput').checked;
+        let certifiedInput = document.getElementById('certifiedInput')
+        if (certifiedInput) {
+          certifiedInput = certifiedInput.checked; 
+        } else {  
+          certifiedInput = false;
+        }
         const error = document.getElementById('error');
 
         if(typeof flavorsInput !== 'string') throw 'Error: flavors must be a string!';
