@@ -73,7 +73,7 @@ router.get('/add', async (req, res) => {
 router.get('/:id', async (req, res) => {    //change to render page
     try {
         const ingredient = await ingredientsData.getIngredientById(req.params.id);
-        res.status(200).render('ingredients', {ingredients : [ingredient], title : ingredient.name});
+        res.status(200).render('ingredients', {ingredients : [ingredient], title : `${ingredient.name}`});
     } catch (e) {
         res.status(404).json({ error: 'Ingredient not found' });
     }
@@ -92,7 +92,7 @@ router.post('/:id', async (req, res) => {   //update a specific ingredient
 
         const updatedIngredient = await ingredientsData.updateIngredient(req.params.id, ingredientInfo.name, ingredientInfo.flavors, ingredientInfo.quantity, ingredientInfo.measurement);
         updateSessionData(req, res, () => {
-            res.render('ingredients', {success: '' + updatedIngredient.name + ' has been updated!'});
+            res.render('ingredients', {title: `${ingredientInfo.name}`, success: `'${updatedIngredient.name}' has been updated!`});
         });
     } catch (e) {
         res.status(500).json({ error: e });
@@ -110,7 +110,7 @@ router.delete('/:id', async (req, res) => {
     try {
         await ingredientsData.deleteIngredient(req.params.id);
         updateSessionData(req, res, () => {
-            res.status(200).render('ingredients', { title: "Ingredients", success: ingredient.name + ' has been deleted!'});
+            res.status(200).render('ingredients', { title: "Ingredients", success: `'${ingredient.name}' has been deleted!`});
         });
     } catch (e) {
         res.status(500).json({ error: e });

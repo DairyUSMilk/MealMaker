@@ -146,7 +146,7 @@ router
 router.get("/:id", async (req, res) => {
   try{
     const recipe = await recipesData.getRecipeById(req.params.id);
-    return res.status(200).render("detailedRecipe", {recipe: recipe, user: req.session.user});
+    return res.status(200).render("detailedRecipe", { title: `${recipe.title}`, recipe: recipe, user: req.session.user});
   }catch(e){
     res.status(500).json({ error: e });
   }
@@ -256,7 +256,7 @@ router.post("/:id/comment", isLoggedInMiddleware, async (req, res) => {
   }catch(e){
     const recipe = await recipesData.getRecipeById(req.params.id);
     if(!recipe){ 
-      return res.status(404).render("recipes", {title: "Recipes", error: e, user: req.session.user});
+      return res.status(404).render("recipes", {title: "Recipes", error: `${e}`, user: req.session.user});
     }
     res.status(500).json({ error: e.toString() });
   }
@@ -273,7 +273,7 @@ router.post("/:id/like", async (req, res) => {
     const likedRecipe = await recipesData.likeRecipe(req.params.id);
     await usersData.addRecipeToLikedRecipes(req.session.user.username, req.params.id);
     updateSessionData(req, res, () => {
-      res.status(200).render("detailedRecipe", { title: likedRecipe.title, recipe: likedRecipe, user: req.session.user, success : "Recipe was successfully liked"});
+      res.status(200).render("detailedRecipe", { title: `${likedRecipe.title}`, recipe: likedRecipe, user: req.session.user, success : `Recipe: '${likedRecipe.title}' was successfully liked`});
     });
   } catch (error) {
     res.status(500).json({ error: error.toString() });

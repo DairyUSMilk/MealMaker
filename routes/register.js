@@ -29,7 +29,7 @@ router
       roleInput = verification.checkRole(roleInput, "role");
       verification.checkPasswordMatch(passwordInput, confirmPasswordInput);
     } catch (e) {
-      res.status(400).render("register", { title: "Register", error: e });
+      res.status(400).render("register", { title: "Register", error: `${e}` });
     }
 
     try {
