@@ -241,32 +241,42 @@ const recipesMethods = {
 
         if (ingredients) {
             let ingredientNames = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
-            query.ingredients = { $expr: { $setIsSubset: [ingredientNames, '$ingredients.name'] } };
+            query.ingredients = {$elemMatch: {name: { $in: ingredientNames }}};
         } 
 
         if (userIngredients && minMatchPercentage) {
             let userIngredientsNames = verification.checkOnlyWordsStringArray(userIngredients.map(ingredient => ingredient.name.toLowerCase()), 'userIngredients');
             console.log(userIngredientsNames);
 
-            const minMatchCount = Math.ceil((minMatchPercentage / 100) * userIngredientsNames.length);
+            const minMatchCount = minMatchPercentage / 100;
             console.log(minMatchCount);
 
-            // query.ingredients = {
-            //     $elemMatch: { name: { $in: userIngredientsNames } }
-            // };
-            // query.$expr = { $gte: [{ $size: { $setIntersection: ['$ingredients.name', userIngredientsNames] } }, minMatchCount] };
-            let userIngredientsQuery = {
+            query.ingredients = {
                 $elemMatch: { name: { $in: userIngredientsNames } }
             };
-            let matchCountQuery = {
-                $expr: { $gte: [{ $size: { $setIntersection: ['$ingredients.name', userIngredientsNames] } }, minMatchCount] }
-            };
+            query.$expr = { $gte: [{$divide : [{ $size: { $setIntersection: ['$ingredients.name', userIngredientsNames] } }, {$size : '$ingredients'}]}, minMatchCount] };
             
-            if (query.ingredients) {
-                query.ingredients = {$and : [query.ingredients,userIngredientsQuery, matchCountQuery]};
-            } else {
-                query.ingredients = { $and : [userIngredientsQuery, matchCountQuery] };
-            }
+            // const matchQuery = {
+            //   $gte: [
+            //     {$divide: [
+            //         {$size: {
+            //             $setIntersection: [
+            //             "$ingredients.name",
+            //             userIngredientsNames,
+            //             ],
+            //         }},
+            //         {$size: "$ingredients.name"}
+            //     ]},
+            //     minMatchCount,
+            //   ],
+            // };
+
+            // if(query.ingredients) {
+            //     query.ingredients = {$and : [query.ingredients, matchQuery]};
+            // } else {
+            //     query.ingredients = matchQuery;
+            // }
+            // console.log(query.ingredients);
         }
 
         if(readyInMinutes) query.readyInMinutes = {$lte : verification.checkNumber(readyInMinutes, 'readyInMinutes')};
