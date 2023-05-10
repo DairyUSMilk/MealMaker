@@ -220,10 +220,8 @@ router.get("/:id", async (req, res) => {
     }
     const deletedRecipe = await recipesData.deleteRecipe(req.params.id);
     const recipes = await recipesData.getAllRecipes();
-    return res.render("recipes", {title: "Recipes", recipes : recipes, message : deletedRecipe + " was successfully deleted", user: req.session.user});
+    return res.status(200).render("recipes", {title: "Recipes", recipes : recipes, success : `Recipe: '${deletedRecipe.recipeName}' was successfully deleted`, user: req.session.user});
   }catch(e){
-    console.log("Delete failed!")
-    console.log(e);
     res.status(500).json({ error: e });
   }
 });
