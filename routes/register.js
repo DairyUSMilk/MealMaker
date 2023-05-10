@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
   .get("/", async (req, res) => {
-    res.render("register", { title: "Register" });
+    res.status(200).render("register", { title: "Register" });
   })
   .post("/", async (req, res) => {
     let {
@@ -44,7 +44,7 @@ router
       );
       console.log(JSON.stringify(newUser));
       if (newUser.insertInfo !== 0) {
-        return res.redirect("/login");
+        return res.status(200).redirect("/login");
       } else {
         return res
           .status(500)

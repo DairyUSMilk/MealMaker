@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     try {
         let message = '';
         if(req.body.message) message = req.body.message;
-        res.render('ingredients', {ingredients : req.session.ingredients, user: req.session.user, title : 'Your Ingredients Stash!', success : message});
+        res.status(200).render('ingredients', {ingredients : req.session.ingredients, user: req.session.user, title : 'Your Ingredients Stash!', success : message});
     } catch (e) {
         res.status(500).send();
     }
@@ -63,7 +63,7 @@ router.get('/add', async (req, res) => {
         else req.session.ingredients.push(ingredientInfo);
 
         if(req.session.user) await usersData.addIngredientToUser(req.session.user.username, ingredientInfo._id.toString());
-        res.redirect('/ingredients'); //need a way to pass the message that a new thing is added
+        res.status(200).redirect('/ingredients'); //need a way to pass the message that a new thing is added
     } catch (e) {
         console.log(e);
         res.status(500).json({ error: e });
@@ -73,7 +73,7 @@ router.get('/add', async (req, res) => {
 router.get('/:id', async (req, res) => {    //change to render page
     try {
         const ingredient = await ingredientsData.getIngredientById(req.params.id);
-        res.render('ingredients', {ingredients : [ingredient], title : ingredient.name});
+        res.status(200).render('ingredients', {ingredients : [ingredient], title : ingredient.name});
     } catch (e) {
         res.status(404).json({ error: 'Ingredient not found' });
     }
@@ -110,7 +110,7 @@ router.delete('/:id', async (req, res) => {
     try {
         await ingredientsData.deleteIngredient(req.params.id);
         updateSessionData(req, res, () => {
-            res.status(200).render('ingredients', {message: ingredient.name + ' has been deleted!'});
+            res.status(200).render('ingredients', { title: "Ingredients", success: ingredient.name + ' has been deleted!'});
         });
     } catch (e) {
         res.status(500).json({ error: e });

@@ -63,7 +63,7 @@ router
       
       const recipes = await recipesData.getRecipesByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage, certified, req.session.ingredients);
 
-      return res.render("recipes", { title: "Recipes", recipes: recipes, user: req.session.user});
+      return res.status(200).render("recipes", { title: "Recipes", recipes: recipes, user: req.session.user});
     } catch (e) {
       console.log(e);
       res.status(500).json({ error: e });
@@ -75,7 +75,7 @@ router
       if(!req.session.user){
         return res.render('login', {title: 'Login', error: 'You must be logged in to add a recipe'});
       }
-      return res.render('recipeInput', {title: 'Recipe Filter Input', user: req.session.user});
+      return res.status(200).render('recipeInput', {title: 'Recipe Filter Input', user: req.session.user});
     } catch (e) {
       res.status(500).json({ error: e });
     }
@@ -137,7 +137,7 @@ router
         recipeInfo.certified
       );
 
-      return res.redirect("/recipes/${newRecipe._id}");
+      return res.status(200).redirect("/recipes/${newRecipe._id}");
     } catch (e) {
       res.status(500).json({ error: e });
     }
@@ -146,7 +146,7 @@ router
 router.get("/:id", async (req, res) => {
   try{
     const recipe = await recipesData.getRecipeById(req.params.id);
-    return res.render("detailedRecipe", {recipe: recipe, user: req.session.user});
+    return res.status(200).render("detailedRecipe", {recipe: recipe, user: req.session.user});
   }catch(e){
     res.status(500).json({ error: e });
   }
@@ -207,7 +207,7 @@ router.get("/:id", async (req, res) => {
 
     const updatedRecipe = await recipesData.updateRecipe(req.params.id, recipeInfo.userId, recipeInfo.title, recipeInfo.flavors, recipeInfo.imageURL, recipeInfo.ingredients, recipeInfo.instructions, recipeInfo.servings, recipeInfo.readyInMinutes, recipeInfo.sourceURL, recipeInfo.certified, recipeInfo.commentInput);
     
-    return res.redirect(`/recipes/${req.params.id}`);
+    return res.status(200).redirect(`/recipes/${req.params.id}`);
   }catch(e){
     res.status(500).json({ error: e });
   }
@@ -256,7 +256,7 @@ router.post("/:id/comment", isLoggedInMiddleware, async (req, res) => {
   }catch(e){
     const recipe = await recipesData.getRecipeById(req.params.id);
     if(!recipe){ 
-      return res.render("recipes", {title: "Recipes", error: e, user: req.session.user});
+      return res.status(404).render("recipes", {title: "Recipes", error: e, user: req.session.user});
     }
     res.status(500).json({ error: e.toString() });
   }

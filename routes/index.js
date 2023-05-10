@@ -12,7 +12,7 @@ const constructorMethod = (app) => {
   
   app.get("/", (req, res) => {
     /* Render /home differently based on Guest, Community, Admin */
-    res.render("home", { title: "Home", user: req.session.user });
+    res.status(200).render("home", { title: "Home", user: req.session.user });
   });
 
   app.use("/ingredients", ingredientsRoutes);
@@ -43,7 +43,7 @@ const constructorMethod = (app) => {
   /* If user already logged out, redirect to /login, with error stating you are already logged out */
   app.get("/logout", redirectMiddleware, (req, res) => {
     req.session.destroy();
-    res.render("logout", { title: "Logout" });
+    res.status(200).render("logout", { title: "Logout" });
   });
 
   app.use("*", (req, res) => {

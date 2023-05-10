@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
         req.session.ingredients = user.ingredients;
 
         /* Redirect to /recipes whether admin or community */
-        res.redirect('/recipes');
+        res.status(200).redirect('/recipes');
     } catch (e) {
       res.status(500).render('login', { title: 'Login', error: `Failed to login: ${e}` });
     }
