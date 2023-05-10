@@ -285,7 +285,7 @@ router.post("/:id/dislike", async (req, res) => {
   try {
     const recipeId = req.params.id;
     const username = req.session.user.username;
-
+    await recipesData.dislikeRecipe(recipeId);
     await usersData.removeRecipeFromLikedRecipes(username, recipeId);
     const recipes = await recipesData.getAllRecipes();
 
