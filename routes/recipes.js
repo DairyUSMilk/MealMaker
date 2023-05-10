@@ -259,7 +259,7 @@ router.post("/:id/comment", isLoggedInMiddleware, async (req, res) => {
     if(!recipe){ 
       return res.render("recipes", {title: "Recipes", error: e, user: req.session.user});
     }
-    res.status(500).json({ error: error.toString() });
+    res.status(500).json({ error: e.toString() });
   }
 });
 

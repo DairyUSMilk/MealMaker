@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault();
       const input = document.getElementById("commentInput").value;
       const error = document.getElementById("error");
-      if (typeof input !== 'string') throw "Error: comment must be a string";
+      if (typeof input !== 'string' || input.trim().length === 0) throw "Error: comment must be a non-empty string";
 
       try{
         if(input !== '') verification.checkString(input, "comment");
