@@ -260,7 +260,7 @@ router.post("/:id/comment", isLoggedInMiddleware, async (req, res) => {
     if(!recipe){ 
       return res.render("recipes", {title: "Recipes", error: e, user: req.session.user});
     }
-    res.status(500).json({ error: error.toString() });
+    res.status(500).json({ error: e.toString() });
   }
 });
 
@@ -289,8 +289,11 @@ router.post("/:id/dislike", async (req, res) => {
     await recipesData.dislikeRecipe(recipeId);
     await usersData.removeRecipeFromLikedRecipes(username, recipeId);
     const recipes = await recipesData.getAllRecipes();
+
+    const user = await usersData.getUserById(req.session.user._id.toString());
+
     updateSessionData(req, res, () => {
-      res.status(200).render("recipes", { title: "Profile", recipes: recipes, user: req.session.user, success : "Recipe was successfully disliked"});
+      res.status(200).render("recipes", { title: "Profile", recipes: recipes, user: user, success : "Recipe was successfully disliked"});
     });
   } catch (error) {
     res.status(500).json({ error: error.toString() });
