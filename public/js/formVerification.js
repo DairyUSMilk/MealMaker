@@ -154,16 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const minMatchPercentage = document.getElementById('minMatchPercentageInput').value;
       const error = document.getElementById('error');
 
-      if(typeof flavorsInput !== 'string') throw 'Error: flavors must be a string!';
-      if(typeof ingredientsInput !== 'string') throw 'Error: ingredients must be a string!';
       
-      const flavorsInputArray = flavorsInput.split(',').map(s => s.trim());
-      const ingredientsInputArray = ingredientsInput.split(',').map(s => s.trim());
+      
       
       try {
         if(nameInput !== '') verification.checkOnlyWordsString(nameInput, "recipe name");
-        if(flavorsInput !== '') verification.checkOnlyWordsStringArray(flavorsInputArray, "recipe flavors");
-        if(ingredientsInput !== '') verification.checkStringArray(ingredientsInputArray, "recipe ingredients");
+        if(flavorsInput !== ''){ 
+          if(typeof flavorsInput !== 'string') throw 'Error: flavors must be a string!';
+          const flavorsInputArray = flavorsInput.split(',').map(s => s.trim());
+          verification.checkOnlyWordsStringArray(flavorsInputArray, "recipe flavors");
+        }
+        if(ingredientsInput !== ''){
+          if(typeof ingredientsInput !== 'string') throw 'Error: ingredients must be a string!';
+          const ingredientsInputArray = ingredientsInput.split(',').map(s => s.trim());
+          verification.checkStringArray(ingredientsInputArray, "recipe ingredients");
+        }
         if(readyInput !== '') {
           verification.checkNumber(Number(readyInput), "recipe ready in");
           if(Number(readyInput) < 0) throw 'Error: ready in must be a positive number!';
