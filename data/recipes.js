@@ -270,40 +270,6 @@ const recipesMethods = {
         return recipeList;
     }
 
-    //PROTOTYPE:
-    // async getRecipeByFilter(userId, title, flavors, ingredients, readyInMinutes, likes, totalScore, minMatchPercentage){
-        
-    //     let query_userId, query_title, query_flavors, query_ingredients, query_readyInMinutes, query_likes, query_totalScore, query_minMatchPercentage;
-        
-    //     if(userId) query_userId = backendVerification.checkId(userId, 'userId');
-    //     if(title) query_title = verification.checkOnlyWordsString(title, 'title');
-    //     if(flavors) query_flavors = verification.checkOnlyWordsStringArray(flavors, 'flavors');
-    //     if(ingredients) query_ingredients = verification.checkOnlyWordsStringArray(ingredients, 'ingredients');
-    //     if(readyInMinutes) query_readyInMinutes = verification.checkNumber(readyInMinutes, 'readyInMinutes');
-    //     if(likes) query_likes = verification.checkNumber(likes, 'likes');
-    //     if(totalScore) query_totalScore = verification.checkNumber(totalScore, 'totalScore');
-    //     if(minMatchPercentage && (minMatchPercentage > 1 || minMatchPercentage <= 0)){
-    //         query_minMatchPercentage = verification.checkNumber(minMatchPercentage, 'minMatchPercentage');
-    //     }
-        
-    //     let queryV2 = {
-    //         $and : [
-    //             {title : {$regex : query_title, $options : 'i'}},
-    //             {userId : query_userId},
-    //             {flavors : {$all : query_flavors}},
-    //             {ingredients : {$gte: [{ $divide: [ { $size: { $setIntersection: [ "$ingredients", query_ingredients ] } }, { $size: "$ingredients" } ] }, query_minMatchPercentage]}},
-    //             {readyInMinutes : {$lte : query_readyInMinutes}},
-    //             {likes : {$gte : query_likes}},
-    //             {dislikes : {$lte : query_likes - query_totalScore}}
-    //         ]
-    //     }
-
-    //     const recipeCollection = await recipes();
-    //     const recipeList = await recipeCollection.find(queryV2).toArray();
-
-    //     return recipeList;
-    // }
-
 
 }
 
