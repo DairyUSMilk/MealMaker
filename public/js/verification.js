@@ -20,13 +20,13 @@ const exportedMethods = {
     strVal = this.checkString(strVal, varName);
     if (strVal.length > 26 || strVal.length < 2) throw `Error: ${varName} must be between 2 to 25 characters long`;
     if (strVal.includes(' ')) throw `Error: ${varName} cannot contain spaces`;
-    if (strVal.match(/^[0-9]+$/) != null) throw `Error: ${varName} cannot contain numbers`;
+    if (strVal.match(/^[a-zA-Z][a-zA-Z\\s]+$/) != null) throw `Error: ${varName} cannot contain numbers or special characters`;
     return strVal;
   },
 
   checkEmail(email, varName) {
     email = this.checkString(email, varName);
-    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let emailRegex = /^[^\s]+@[^\s]+\.[^\s]+$/;
     if (email.match(emailRegex) === null) throw `Error: ${varName} must be a valid email address`;
     if (email.slice(-4).toLowerCase() !== '.com') throw `Error: ${varName} must be a valid .com email address`;
     email = email.toLowerCase();
